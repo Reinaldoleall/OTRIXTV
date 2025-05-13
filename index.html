@@ -1,0 +1,4713 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📺 IPTV Ultra Player Pro - Suporte Completo</title>
+    <!-- Bibliotecas para suporte a todos os formatos -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flv.js/1.6.2/flv.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      :root {
+  /* Cores base */
+  --primary: #6c5ce7;
+  --primary-dark: #5649c0;
+  --primary-light: #a29bfe;
+  --secondary: #00b894;
+  --accent: #fd79a8;
+  --danger: #d63031;
+  --warning: #fdcb6e;
+  --info: #0984e3;
+  --success: #00b894;
+  
+  /* Tons de cinza */
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+  
+  /* Cores de tema */
+  --bg-color: var(--gray-900);
+  --text-color: var(--gray-100);
+  --card-bg: var(--gray-800);
+  --border-color: var(--gray-700);
+  --hover-color: rgba(255, 255, 255, 0.05);
+  --active-color: rgba(108, 92, 231, 0.2);
+  
+  /* Espaçamentos */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  
+  /* Bordas */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+  
+  /* Transições */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.45s ease;
+  
+  /* Tipografia */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-xxl: 1.5rem;
+  
+  /* Breakpoints */
+  --screen-sm: 576px;
+  --screen-md: 768px;
+  --screen-lg: 992px;
+  --screen-xl: 1200px;
+  --screen-xxl: 1400px;
+}
+
+/* Reset e Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.5;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Tipografia melhorada */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: var(--space-md);
+}
+
+h1 { font-size: var(--font-size-xxl); }
+h2 { font-size: var(--font-size-xl); }
+h3 { font-size: var(--font-size-lg); }
+
+p {
+  margin-bottom: var(--space-md);
+}
+
+a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--primary);
+}
+
+/* Layout Container */
+.container {
+  width: 100%;
+  max-width: var(--screen-xxl);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  padding: var(--space-lg) 0;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  z-index: 10;
+}
+
+.header__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-sm);
+}
+
+.header__title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  background: linear-gradient(90deg, white, #e0e0e0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0;
+}
+
+.header__subtitle {
+  font-size: var(--font-size-sm);
+  opacity: 0.9;
+}
+
+.version-badge {
+  z-index: 1000;
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-md);
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 20px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Layout Principal */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-lg) 0;
+  flex: 1;
+}
+
+@media (min-width: 992px) {
+  .main-content {
+    flex-direction: row;
+  }
+  
+  .player-section {
+    flex: 2;
+    min-width: 0;
+  }
+  
+  .playlist-section {
+    flex: 1;
+    min-width: 350px;
+    max-width: 400px;
+  }
+}
+
+/* Player de Vídeo */
+.player-container {
+  width: 100%;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+#video-player {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: black;
+  display: block;
+  outline: none;
+}
+
+.player-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: var(--card-bg);
+  border-top: 1px solid var(--border-color);
+}
+
+.player-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius-sm);
+  border: none;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex: 1 1 auto;
+  min-width: 100px;
+  background: var(--primary);
+  color: white;
+}
+
+.player-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.player-btn:active {
+  transform: translateY(0);
+}
+
+.player-btn:disabled {
+  background: var(--gray-600);
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none !important;
+}
+
+.player-btn.secondary {
+  background: var(--gray-700);
+}
+
+.player-btn.warning {
+  background: var(--warning);
+  color: var(--gray-900);
+}
+
+.player-btn.success {
+  background: var(--success);
+}
+
+.player-btn.danger {
+  background: var(--danger);
+}
+
+/* Barra de Progresso */
+.progress-container {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--card-bg);
+  border-top: 1px solid var(--border-color);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--gray-700);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#load-progress {
+  height: 100%;
+  width: 0%;
+  background: var(--success);
+  transition: width var(--transition-normal);
+}
+
+.progress-text {
+  font-size: var(--font-size-xs);
+  text-align: center;
+  margin-top: var(--space-xs);
+  color: var(--gray-400);
+}
+
+/* Seção da Playlist */
+.playlist-section {
+  background: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-md);
+  height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.section-title {
+  font-size: var(--font-size-lg);
+  color: var(--primary-light);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.action-buttons {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  border: none;
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--gray-700);
+  color: white;
+}
+
+.action-btn:hover {
+  background: var(--gray-600);
+  transform: translateY(-1px);
+}
+
+.action-btn.secondary {
+  background: var(--gray-700);
+}
+
+.action-btn.warning {
+  background: var(--warning);
+  color: var(--gray-900);
+}
+
+.action-btn.success {
+  background: var(--success);
+}
+
+.action-btn.danger {
+  background: var(--danger);
+}
+
+/* Barra de Busca */
+.search-box {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-md);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--gray-800);
+  color: white;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+}
+
+.search-box:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+}
+
+/* Lista de Canais */
+.channel-list {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--gray-800);
+  padding-right: var(--space-xs);
+}
+
+.channel-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.channel-list::-webkit-scrollbar-track {
+  background: var(--gray-800);
+  border-radius: var(--border-radius-md);
+}
+
+.channel-list::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: var(--border-radius-md);
+}
+
+/* Categorias */
+.category {
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--primary);
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  position: sticky;
+  top: 0;
+  background: var(--card-bg);
+  z-index: 1;
+  transition: all var(--transition-fast);
+}
+
+.category:hover {
+  background: var(--hover-color);
+}
+
+.category .toggle {
+  font-size: var(--font-size-xs);
+  color: var(--gray-500);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 2px var(--space-sm);
+  border-radius: var(--border-radius-sm);
+}
+
+.category-content {
+  display: block;
+  padding: var(--space-xs) 0;
+}
+
+.category-content.collapsed {
+  display: none;
+}
+
+/* Canais */
+.channel {
+  padding: var(--space-sm) var(--space-md);
+  margin: var(--space-xs) 0;
+  background: var(--gray-700);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 3px solid transparent;
+}
+
+.channel:hover {
+  background: var(--gray-600);
+  transform: translateX(3px);
+  border-left-color: var(--primary);
+}
+
+.channel.active {
+  background: linear-gradient(90deg, rgba(108, 92, 231, 0.2), rgba(0, 184, 148, 0.1));
+  border-left-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.2);
+}
+
+.channel-fav {
+  color: gold;
+  margin-left: var(--space-xs);
+}
+
+.channel-actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.channel-btn {
+  background: transparent;
+  border: none;
+  color: var(--gray-400);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-sm);
+}
+
+.channel-btn:hover {
+  color: white;
+  background: var(--hover-color);
+}
+
+.channel-info {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.channel-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--gray-600);
+  flex-shrink: 0;
+}
+
+.channel-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--font-size-sm);
+}
+
+.channel-type {
+  font-size: var(--font-size-xs);
+  color: var(--gray-400);
+  margin-left: var(--space-xs);
+  background: var(--gray-600);
+  padding: 2px var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  flex-shrink: 0;
+}
+
+.channel-quality {
+  font-size: var(--font-size-xs);
+  color: var(--gray-400);
+  background: var(--gray-600);
+  padding: 2px var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  flex-shrink: 0;
+}
+
+/* Modais */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  animation: fadeIn var(--transition-normal) ease-out;
+}
+
+.modal-content {
+  background: var(--card-bg);
+  padding: var(--space-lg);
+  border-radius: var(--border-radius-lg);
+  width: 90%;
+  max-width: 650px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+  animation: modalFadeIn var(--transition-normal) ease-out;
+  position: relative;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-title {
+  margin-bottom: var(--space-lg);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: var(--font-size-lg);
+}
+
+.close-modal {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--gray-400);
+}
+
+.close-modal:hover {
+  color: var(--primary);
+  background: var(--hover-color);
+  transform: rotate(90deg);
+}
+
+/* Inputs e Formulários */
+.input-group {
+  margin-bottom: var(--space-md);
+}
+
+.input-label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-size: var(--font-size-sm);
+  color: var(--gray-300);
+}
+
+.input-field {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--gray-700);
+  color: white;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+}
+
+.select-field {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--gray-700);
+  color: white;
+  font-size: var(--font-size-sm);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right var(--space-sm) center;
+  background-size: 16px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  margin-bottom: var(--space-lg);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border-color);
+  gap: var(--space-xs);
+}
+
+.tab {
+  padding: var(--space-sm) var(--space-md);
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  border-bottom: 3px solid transparent;
+  font-size: var(--font-size-sm);
+}
+
+.tab:hover {
+  background: var(--hover-color);
+}
+
+.tab.active {
+  border-bottom: 3px solid var(--primary);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Loader */
+.loader {
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top: 3px solid var(--primary);
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: var(--space-sm);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Status Messages */
+.status {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  border-left: 4px solid transparent;
+}
+
+.status.success {
+  background: rgba(0, 184, 148, 0.15);
+  color: var(--success);
+  border-left-color: var(--success);
+}
+
+.status.error {
+  background: rgba(214, 48, 49, 0.15);
+  color: var(--danger);
+  border-left-color: var(--danger);
+}
+
+.status.warning {
+  background: rgba(253, 203, 110, 0.15);
+  color: var(--warning);
+  border-left-color: var(--warning);
+}
+
+.status.info {
+  background: rgba(9, 132, 227, 0.15);
+  color: var(--info);
+  border-left-color: var(--info);
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+}
+
+.toast-container.bottom-right { bottom: var(--space-lg); right: var(--space-lg); align-items: flex-end; }
+.toast-container.top-right { top: var(--space-lg); right: var(--space-lg); align-items: flex-end; }
+.toast-container.top-left { top: var(--space-lg); left: var(--space-lg); align-items: flex-start; }
+.toast-container.bottom-left { bottom: var(--space-lg); left: var(--space-lg); align-items: flex-start; }
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--card-bg);
+  color: white;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-md);
+  font-family: sans-serif;
+  min-width: 250px;
+  max-width: 350px;
+  opacity: 1;
+  transition: opacity var(--transition-normal) ease, transform var(--transition-normal) ease;
+  border-left: 4px solid;
+  animation: slideIn var(--transition-normal) ease-out;
+}
+
+.toast.success {
+  border-left-color: var(--success);
+}
+
+.toast.error {
+  border-left-color: var(--danger);
+}
+
+.toast.warning {
+  border-left-color: var(--warning);
+}
+
+.toast.info {
+  border-left-color: var(--info);
+}
+
+.toast.fade-out {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes slideIn {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Progresso de Verificação */
+.verification-progress {
+  background: var(--card-bg);
+  padding: var(--space-md);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--space-md);
+  border-left: 4px solid var(--info);
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--gray-700);
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--success);
+  transition: width var(--transition-normal);
+}
+
+.progress-text {
+  font-size: var(--font-size-xs);
+  color: var(--gray-400);
+  min-width: 50px;
+  text-align: right;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+  color: var(--gray-400);
+}
+
+.working-count { color: var(--success); }
+.non-working-count { color: var(--danger); }
+.speed { color: var(--info); }
+
+/* Configurações */
+.settings-section {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border-color);
+}
+
+.settings-title {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-md);
+  color: var(--primary-light);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.settings-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+  padding: var(--space-xs) 0;
+}
+
+.settings-label {
+  font-size: var(--font-size-sm);
+  color: var(--gray-300);
+}
+
+.settings-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.settings-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.settings-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--gray-600);
+  transition: var(--transition-fast);
+  border-radius: 34px;
+}
+
+.settings-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: var(--transition-fast);
+  border-radius: 50%;
+}
+
+input:checked + .settings-slider {
+  background-color: var(--primary);
+}
+
+input:checked + .settings-slider:before {
+  transform: translateX(24px);
+}
+
+/* Seletor de Qualidade */
+.quality-selector {
+  display: flex;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.quality-btn {
+  background: var(--gray-600);
+  border: none;
+  color: white;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quality-btn:hover {
+  background: var(--gray-500);
+  transform: translateY(-2px);
+}
+
+.quality-btn.active {
+  background: var(--primary);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 2px 5px rgba(108, 92, 231, 0.3);
+}
+
+/* Informações EPG */
+.epg-info {
+  margin-top: var(--space-md);
+  padding: var(--space-md);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius-md);
+  border-left: 4px solid var(--primary);
+}
+
+.epg-current {
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+  font-size: var(--font-size-sm);
+}
+
+.epg-next {
+  font-size: var(--font-size-xs);
+  color: var(--gray-400);
+}
+
+/* Presets Rápidos */
+.presets-container {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.preset-btn {
+  background: var(--gray-600);
+  border: none;
+  color: white;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.preset-btn:hover {
+  background: var(--primary);
+  transform: translateY(-2px);
+}
+
+/* Estatísticas */
+.stats-container {
+  margin-top: var(--space-lg);
+  font-size: var(--font-size-xs);
+  color: var(--gray-400);
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-xs);
+  padding: var(--space-xs) 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+/* Context Menu */
+.context-menu {
+  position: absolute;
+  background: var(--card-bg);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 1001;
+  display: none;
+  min-width: 180px;
+  overflow: hidden;
+}
+
+.context-menu-item {
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-size-sm);
+}
+
+.context-menu-item:hover {
+  background: var(--hover-color);
+}
+
+/* Atalhos de Teclado */
+.shortcuts-help {
+  position: fixed;
+  bottom: var(--space-lg);
+  right: var(--space-lg);
+  background: var(--primary);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+  transition: all var(--transition-fast);
+  color: white;
+}
+
+.shortcuts-help:hover {
+  background: var(--primary-dark);
+  transform: scale(1.1);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .player-controls {
+    gap: var(--space-xs);
+  }
+  
+  .player-btn {
+    min-width: 80px;
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-xs);
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .action-buttons {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .modal-content {
+    padding: var(--space-md) var(--space-sm);
+    width: 95%;
+  }
+  
+  .tabs {
+    gap: 2px;
+  }
+  
+  .tab {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Animações */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.pulse {
+  animation: pulse 1.5s infinite;
+}
+
+/* Tooltips */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: var(--gray-700);
+  color: white;
+  text-align: center;
+  border-radius: var(--border-radius-sm);
+  padding: var(--space-xs);
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  font-size: var(--font-size-xs);
+  box-shadow: var(--shadow-md);
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Melhorias de Acessibilidade */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Dark Mode Toggle (opcional) */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: var(--space-lg);
+  left: var(--space-lg);
+  background: var(--gray-700);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+  transition: all var(--transition-fast);
+  color: var(--gray-300);
+}
+
+.dark-mode-toggle:hover {
+  background: var(--gray-600);
+  color: white;
+}
+
+.action-btn.append-mode {
+    background-color: var(--primary);
+    color: white;
+}
+
+.action-btn.append-mode:hover {
+    background-color: var(--primary-dark);
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="version-badge">OTRIXTECH IPTV</span>
+        <div class="main-content">
+            <!-- Player Section -->
+            <div class="player-section">
+                <!-- Player de Vídeo -->
+                <div class="player-container">
+                    <video id="video-player" controls playsinline></video>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div id="load-progress"></div>
+                        </div>
+                        <div class="progress-text" id="progress-text">0% carregado</div>
+                    </div>
+                    <div class="player-controls">
+                        <button id="play-btn" class="player-btn" title="Reproduzir (Espaço)">
+                            <i class="fas fa-play"></i> Play
+                        </button>
+                        <button id="pause-btn" class="player-btn" title="Pausar (Espaço)">
+                            <i class="fas fa-pause"></i> Pause
+                        </button>
+                        <button id="stop-btn" class="player-btn" title="Parar">
+                            <i class="fas fa-stop"></i> Stop
+                        </button>
+                        <button id="fullscreen-btn" class="player-btn" title="Tela cheia (F)">
+                            <i class="fas fa-expand"></i> Tela Cheia
+                        </button>
+                        <button id="info-btn" class="player-btn secondary" title="Informações do canal">
+                            <i class="fas fa-info-circle"></i> Info
+                        </button>
+                        <button id="settings-btn" class="player-btn secondary" title="Configurações">
+                            <i class="fas fa-cog"></i> Config
+                        </button>
+                    </div>
+                </div>
+                
+                        <p>Player avançado para transmissão de conteúdo IPTV</p>
+        </header>
+
+                <!-- EPG Info -->
+                <div id="epg-info" class="epg-info" style="display: none;">
+                    <div class="epg-current" id="epg-current"></div>
+                    <div class="epg-next" id="epg-next"></div>
+                </div>
+
+                <!-- Status -->
+                <div id="status-message" class="status" style="display: none;"></div>
+
+                <!-- Quick Presets -->
+                <div class="presets-container" id="quick-presets">
+                    <button class="preset-btn" data-preset="teambr" title="Carregar lista TeamBR">
+                        <i class="fas fa-bolt"></i> TeamBR Live
+                    </button>
+                    <button class="preset-btn" data-preset="xtream" title="Carregar lista Xtream Codes">
+                        <i class="fas fa-server"></i> Xtream Codes
+                    </button>
+                    <button class="preset-btn" data-preset="m3u" title="Carregar lista M3U padrão">
+                        <i class="fas fa-list"></i> M3U Padrão
+                    </button>
+                </div>
+            </div>
+
+            <!-- Playlist Section -->
+            <div class="playlist-section">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-list"></i> Lista de Canais</h2>
+                    <div class="action-buttons">
+                        <button id="refresh-btn" class="action-btn secondary" title="Recarregar lista">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button id="check-channels-btn" class="action-btn warning" title="Verificar canais">
+                            <i class="fas fa-check-circle"></i> Verificar
+                        </button>
+                        <button id="import-playlist-btn" class="action-btn" title="Importar playlist">
+                            <i class="fas fa-file-import"></i> Importar
+                        </button>
+                        <button id="add-channel-btn" class="action-btn" title="Adicionar canal manualmente">
+                            <i class="fas fa-plus"></i> Adicionar
+                        </button>
+                        <button id="export-playlist-btn" class="action-btn success" title="Exportar playlist">
+                            <i class="fas fa-file-export"></i> Exportar
+                        </button>
+                        <button id="add-playlist-btn" class="action-btn" title="Adicionar playlist (não substitui)">
+    <i class="fas fa-plus-circle"></i> Add
+</button>
+                    </div>
+                </div>
+                
+                <div class="verification-progress" style="display: none;">
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="progress-text">0%</div>
+                    </div>
+                    <div class="progress-stats">
+                        <span class="working-count">0 funcionando</span>
+                        <span class="non-working-count">0 não funcionando</span>
+                        <span class="speed">0 canais/seg</span>
+                    </div>
+                </div>
+
+                <div class="channel-filters">
+                    <input type="text" id="search-channel" class="search-box" placeholder="🔍 Buscar canal..." title="Digite para filtrar canais">
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <select id="category-filter" class="select-field" style="flex: 1;" title="Filtrar por categoria">
+                            <option value="">Todas as categorias</option>
+                        </select>
+                        <select id="type-filter" class="select-field" style="flex: 0 0 120px;" title="Filtrar por tipo">
+                            <option value="">Todos os tipos</option>
+                            <option value="hls">HLS</option>
+                            <option value="mp4">MP4</option>
+                            <option value="dash">DASH</option>
+                            <option value="flv">FLV</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="channel-list" id="channel-list">
+                    <!-- Canais serão carregados aqui dinamicamente -->
+                    <div class="category"><i class="fas fa-tv"></i> Canais de Exemplo <span class="toggle">[-]</span></div>
+                    <div class="category-content">
+                        <div class="channel active" data-url="" data-type="hls">
+                            <div class="channel-info">
+                                <img src="https://via.placeholder.com/24" class="channel-logo" alt="Logo">
+                                <span class="channel-name">Exemplo HLS (Mux)</span>
+                                <span class="channel-type">HLS</span>
+                                <span class="channel-quality">720p</span>
+                            </div>
+                            <div class="channel-actions">
+                                <button class="channel-btn fav-btn" title="Favorito">☆</button>
+                            </div>
+                        </div>
+                        <div class="channel" data-url="" data-type="hls">
+                            <div class="channel-info">
+                                <img src="https://via.placeholder.com/24" class="channel-logo" alt="Logo">
+                                <span class="channel-name">Exemplo HLS (JWPlayer)</span>
+                                <span class="channel-type">HLS</span>
+                                <span class="channel-quality">1080p</span>
+                            </div>
+                            <div class="channel-actions">
+                                <button class="channel-btn fav-btn" title="Favorito">☆</button>
+                            </div>
+                        </div>
+                        <div class="channel" data-url="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" data-type="mp4">
+                            <div class="channel-info">
+                                <img src="https://via.placeholder.com/24" class="channel-logo" alt="Logo">
+                                <span class="channel-name">Exemplo MP4</span>
+                                <span class="channel-type">MP4</span>
+                                <span class="channel-quality">720p</span>
+                            </div>
+                            <div class="channel-actions">
+                                <button class="channel-btn fav-btn" title="Favorito">☆</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Importar Playlist -->
+    <div class="modal" id="import-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title"><i class="fas fa-file-import"></i> Importar Lista IPTV</h2>
+            
+            <div class="tabs">
+                <button class="tab active" data-tab="m3uplus-tab"><i class="fas fa-bolt"></i> M3U Plus</button>
+                <button class="tab" data-tab="xtream-tab"><i class="fas fa-server"></i> Xtream Codes</button>
+                <button class="tab" data-tab="url-tab"><i class="fas fa-link"></i> URL</button>
+                <button class="tab" data-tab="file-tab"><i class="fas fa-file-upload"></i> Arquivo</button>
+            </div>
+
+            <div id="m3uplus-tab" class="tab-content active">
+                <div class="input-group">
+                    <label class="input-label">URL Base:</label>
+                    <input type="text" id="m3uplus-url" class="input-field" 
+                           placeholder="https://exemplo.com/get.php" 
+                           value="">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Username:</label>
+                    <input type="text" id="m3uplus-username" class="input-field" 
+                           placeholder="Seu usuário" 
+                           value="">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Password:</label>
+                    <input type="text" id="m3uplus-password" class="input-field" 
+                           placeholder="Sua senha" 
+                           value="">
+                </div>
+                <div class="settings-section">
+                    <div class="settings-option">
+                        <span class="settings-label">Atualização automática:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="m3uplus-auto-update" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="input-group" id="m3uplus-update-interval-container">
+                        <label class="input-label">Intervalo de atualização (horas):</label>
+                        <input type="number" id="m3uplus-update-interval" class="input-field" value="12" min="1">
+                    </div>
+                </div>
+                <button id="load-m3uplus-btn" class="player-btn">
+                    <i class="fas fa-download"></i> Carregar Lista
+                </button>
+            </div>
+
+            <div id="xtream-tab" class="tab-content">
+                <div class="input-group">
+                    <label class="input-label">URL do Servidor:</label>
+                    <input type="text" id="xtream-url" class="input-field" placeholder="http://exemplo.com:8080">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Username:</label>
+                    <input type="text" id="xtream-username" class="input-field" placeholder="usuario">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Password:</label>
+                    <input type="text" id="xtream-password" class="input-field" placeholder="senha">
+                </div>
+                <div class="settings-section">
+                    <div class="settings-option">
+                        <span class="settings-label">Atualização automática:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="xtream-auto-update">
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="input-group" id="xtream-update-interval-container" style="display: none;">
+                        <label class="input-label">Intervalo de atualização (horas):</label>
+                        <input type="number" id="xtream-update-interval" class="input-field" value="12" min="1">
+                    </div>
+                </div>
+                <button id="load-xtream-btn" class="player-btn">
+                    <i class="fas fa-download"></i> Carregar Lista
+                </button>
+            </div>
+
+            <div id="url-tab" class="tab-content">
+                <div class="input-group">
+                    <label class="input-label">Cole a URL da sua lista (M3U/M3U8):</label>
+                    <input type="text" id="playlist-url" class="input-field" placeholder="https://exemplo.com/lista.m3u">
+                </div>
+                <div class="settings-section">
+                    <div class="settings-option">
+                        <span class="settings-label">Atualização automática:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="auto-update">
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="input-group" id="update-interval-container" style="display: none;">
+                        <label class="input-label">Intervalo de atualização (horas):</label>
+                        <input type="number" id="update-interval" class="input-field" value="12" min="1">
+                    </div>
+                </div>
+                <button id="load-url-btn" class="player-btn">
+                    <i class="fas fa-download"></i> Carregar Lista
+                </button>
+            </div>
+
+            <div id="file-tab" class="tab-content">
+                <div class="input-group">
+                    <label class="input-label">Selecione o arquivo (M3U/M3U8):</label>
+                    <input type="file" id="playlist-file" class="input-field" accept=".m3u,.m3u8,.txt">
+                </div>
+                <button id="load-file-btn" class="player-btn">
+                    <i class="fas fa-upload"></i> Carregar Lista
+                </button>
+            </div>
+
+            <div id="load-status" style="margin-top: 15px; color: #aaa; font-size: 0.9rem;"></div>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Canal -->
+    <div class="modal" id="channel-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title"><i class="fas fa-plus-circle"></i> Adicionar Canal</h2>
+            
+            <div class="input-group">
+                <label class="input-label">Nome do Canal:</label>
+                <input type="text" id="channel-name" class="input-field" placeholder="Ex: Globo HD">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">URL do Canal:</label>
+                <input type="text" id="channel-url" class="input-field" placeholder="http://exemplo.com/stream.m3u8">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Tipo de Stream:</label>
+                <select id="channel-type" class="select-field">
+                    <option value="auto">Detectar automaticamente</option>
+                    <option value="hls">HLS (.m3u8)</option>
+                    <option value="mp4">MP4/Directo</option>
+                    <option value="dash">MPEG-DASH</option>
+                    <option value="flv">FLV</option>
+                    <option value="rtmp">RTMP</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Categoria:</label>
+                <input type="text" id="channel-category" class="input-field" placeholder="Ex: Filmes, Esportes...">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Logo (URL):</label>
+                <input type="text" id="channel-logo" class="input-field" placeholder="https://exemplo.com/logo.png">
+            </div>
+
+            <button id="save-channel-btn" class="player-btn success">
+                <i class="fas fa-save"></i> Salvar Canal
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Informações -->
+    <div class="modal" id="info-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title"><i class="fas fa-info-circle"></i> Informações do Canal</h2>
+            
+            <div id="channel-info-content">
+                <p>Nenhum canal selecionado.</p>
+            </div>
+
+            <div id="quality-selector" class="quality-selector" style="display: none; margin-top: 15px;">
+                <!-- Qualidades serão adicionadas dinamicamente -->
+            </div>
+
+            <div class="stats-container" id="stream-stats" style="display: none; margin-top: 15px;">
+                <h4><i class="fas fa-chart-line"></i> Estatísticas do Stream</h4>
+                <div class="stat-item">
+                    <span>Buffer:</span>
+                    <span id="stat-buffer">0 MB</span>
+                </div>
+                <div class="stat-item">
+                    <span>Bitrate:</span>
+                    <span id="stat-bitrate">0 kbps</span>
+                </div>
+                <div class="stat-item">
+                    <span>Latência:</span>
+                    <span id="stat-latency">0 ms</span>
+                </div>
+                <div class="stat-item">
+                    <span>Resolução:</span>
+                    <span id="stat-resolution">0x0</span>
+                </div>
+                <div class="stat-item">
+                    <span>FPS:</span>
+                    <span id="stat-fps">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Configurações -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title"><i class="fas fa-cog"></i> Configurações</h2>
+            
+            <div class="tabs">
+                <button class="tab active" data-tab="player-tab"><i class="fas fa-play"></i> Player</button>
+                <button class="tab" data-tab="interface-tab"><i class="fas fa-desktop"></i> Interface</button>
+                <button class="tab" data-tab="playlist-tab"><i class="fas fa-list"></i> Lista</button>
+                <button class="tab" data-tab="advanced-tab"><i class="fas fa-sliders-h"></i> Avançado</button>
+            </div>
+
+            <div id="player-tab" class="tab-content active">
+                <div class="settings-section">
+                    <div class="settings-option">
+                        <span class="settings-label">Reprodução automática:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-autoplay" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Buffer HLS (segundos):</span>
+                        <input type="number" id="setting-hls-buffer" class="input-field" value="30" min="1" style="width: 80px;">
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Tentar alternar qualidade automaticamente:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-auto-quality" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Tentar recuperar falhas automaticamente:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-auto-recover" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Aceleração por hardware:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-hardware-accel" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Modo baixa latência:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-low-latency">
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="interface-tab" class="tab-content">
+                <div class="settings-section">
+                    <div class="settings-option">
+                        <span class="settings-label">Tema escuro:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-dark-mode" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Mostrar tipo do canal:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-show-type" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Mostrar qualidade do canal:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-show-quality" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Mostrar logos dos canais:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-show-logos" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Posição das notificações:</span>
+                        <select id="setting-toast-position" class="select-field">
+                            <option value="bottom-right">Canto inferior direito</option>
+                            <option value="top-right">Canto superior direito</option>
+                            <option value="bottom-left">Canto inferior esquerdo</option>
+                            <option value="top-left">Canto superior esquerdo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="playlist-tab" class="tab-content">
+                <div class="settings-section">
+                    <div class="settings-option">
+                        <span class="settings-label">Manter favoritos no topo:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-pin-favorites" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Lembrar estado das categorias:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-remember-categories" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Mostrar informações EPG quando disponível:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-show-epg" checked>
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Limite de histórico de canais:</span>
+                        <input type="number" id="setting-history-limit" class="input-field" value="50" min="10" max="100" style="width: 80px;">
+                    </div>
+                </div>
+            </div>
+
+            <div id="advanced-tab" class="tab-content">
+                <div class="settings-section">
+                    <div class="settings-option">
+                        <span class="settings-label">Habilitar logs detalhados:</span>
+                        <label class="settings-switch">
+                            <input type="checkbox" id="setting-verbose-logs">
+                            <span class="settings-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Estratégia de buffer:</span>
+                        <select id="setting-buffer-strategy" class="select-field">
+                            <option value="aggressive">Agressiva (maior buffer)</option>
+                            <option value="balanced">Balanceada</option>
+                            <option value="low-latency">Baixa latência</option>
+                        </select>
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Tempo máximo de buffer (segundos):</span>
+                        <input type="number" id="setting-max-buffer" class="input-field" value="60" min="10" max="300" style="width: 80px;">
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Tempo de timeout (segundos):</span>
+                        <input type="number" id="setting-timeout" class="input-field" value="15" min="5" max="60" style="width: 80px;">
+                    </div>
+                    <div class="settings-option">
+                        <span class="settings-label">Tentativas de reconexão:</span>
+                        <input type="number" id="setting-retries" class="input-field" value="3" min="0" max="10" style="width: 80px;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <button id="save-settings-btn" class="player-btn success">
+                    <i class="fas fa-save"></i> Salvar Configurações
+                </button>
+                <button id="reset-settings-btn" class="player-btn secondary">
+                    <i class="fas fa-undo"></i> Restaurar Padrões
+                </button>
+                <button id="clear-data-btn" class="player-btn warning" style="margin-top: 10px;">
+                    <i class="fas fa-trash"></i> Limpar Todos os Dados
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Context Menu -->
+    <div class="context-menu" id="context-menu">
+        <div class="context-menu-item" id="ctx-play"><i class="fas fa-play"></i> Reproduzir</div>
+        <div class="context-menu-item" id="ctx-add-fav"><i class="far fa-star"></i> Adicionar aos favoritos</div>
+        <div class="context-menu-item" id="ctx-remove-fav"><i class="fas fa-star"></i> Remover dos favoritos</div>
+        <div class="context-menu-item" id="ctx-copy-url"><i class="fas fa-copy"></i> Copiar URL</div>
+        <div class="context-menu-item" id="ctx-channel-info"><i class="fas fa-info-circle"></i> Informações</div>
+    </div>
+    
+    <!-- Shortcuts Help -->
+    <div class="shortcuts-help" id="shortcuts-help" title="Atalhos do teclado">
+        <i class="fas fa-keyboard"></i>
+    </div>
+    
+    <!-- Shortcuts Modal -->
+    <div class="modal" id="shortcuts-modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title"><i class="fas fa-keyboard"></i> Atalhos do Teclado</h2>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span><kbd>Espaço</kbd></span>
+                    <span>Play/Pause</span>
+                </div>
+                <div class="stat-item">
+                    <span><kbd>F</kbd></span>
+                    <span>Tela cheia</span>
+                </div>
+                <div class="stat-item">
+                    <span><kbd>Seta ↑</kbd></span>
+                    <span>Aumentar volume</span>
+                </div>
+                <div class="stat-item">
+                    <span><kbd>Seta ↓</kbd></span>
+                    <span>Diminuir volume</span>
+                </div>
+                <div class="stat-item">
+                    <span><kbd>Seta ←</kbd></span>
+                    <span>Retroceder 10 segundos</span>
+                </div>
+                <div class="stat-item">
+                    <span><kbd>Seta →</kbd></span>
+                    <span>Avançar 10 segundos</span>
+                </div>
+                <div class="stat-item">
+                    <span><kbd>I</kbd></span>
+                    <span>Informações do canal</span>
+                </div>
+                <div class="stat-item">
+                    <span><kbd>M</kbd></span>
+                    <span>Mutar/Desmutar</span>
+                </div>
+            </div>
+            
+            <button class="player-btn" style="margin-top: 20px;" onclick="document.getElementById('shortcuts-modal').style.display='none'">
+                <i class="fas fa-times"></i> Fechar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ====== ELEMENTOS DO DOM ======
+        const videoPlayer = document.getElementById('video-player');
+        const playBtn = document.getElementById('play-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const infoBtn = document.getElementById('info-btn');
+        const settingsBtn = document.getElementById('settings-btn');
+        const progressBar = document.getElementById('load-progress');
+        const progressText = document.getElementById('progress-text');
+        const channelList = document.getElementById('channel-list');
+        const searchChannel = document.getElementById('search-channel');
+        const categoryFilter = document.getElementById('category-filter');
+        const typeFilter = document.getElementById('type-filter');
+        const importPlaylistBtn = document.getElementById('import-playlist-btn');
+        const addChannelBtn = document.getElementById('add-channel-btn');
+        const refreshBtn = document.getElementById('refresh-btn');
+        const checkChannelsBtn = document.getElementById('check-channels-btn');
+        const exportPlaylistBtn = document.getElementById('export-playlist-btn');
+        const importModal = document.getElementById('import-modal');
+        const channelModal = document.getElementById('channel-modal');
+        const infoModal = document.getElementById('info-modal');
+        const settingsModal = document.getElementById('settings-modal');
+        const shortcutsModal = document.getElementById('shortcuts-modal');
+        const shortcutsHelp = document.getElementById('shortcuts-help');
+        const closeModals = document.querySelectorAll('.close-modal');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const statusMessage = document.getElementById('status-message');
+        const quickPresets = document.getElementById('quick-presets');
+        const epgInfo = document.getElementById('epg-info');
+        const epgCurrent = document.getElementById('epg-current');
+        const epgNext = document.getElementById('epg-next');
+        const contextMenu = document.getElementById('context-menu');
+        const ctxPlay = document.getElementById('ctx-play');
+        const ctxAddFav = document.getElementById('ctx-add-fav');
+        const ctxRemoveFav = document.getElementById('ctx-remove-fav');
+        const ctxCopyUrl = document.getElementById('ctx-copy-url');
+        const ctxChannelInfo = document.getElementById('ctx-channel-info');
+
+        // ====== VARIÁVEIS GLOBAIS ======
+        let currentChannel = null;
+        let hls = null;
+        let dashPlayer = null;
+        let flvPlayer = null;
+        let channels = [];
+        let favorites = JSON.parse(localStorage.getItem('iptv-favorites')) || [];
+        let history = JSON.parse(localStorage.getItem('iptv-history')) || [];
+        let collapsedCategories = JSON.parse(localStorage.getItem('iptv-collapsed-categories')) || {};
+        let settings = JSON.parse(localStorage.getItem('iptv-settings')) || {
+            autoplay: true,
+            hlsBuffer: 30,
+            autoQuality: true,
+            autoRecover: true,
+            darkMode: true,
+            showType: true,
+            showQuality: true,
+            showLogos: true,
+            pinFavorites: true,
+            rememberCategories: true,
+            showEpg: true,
+            historyLimit: 50,
+            verboseLogs: false,
+            maxBuffer: 60,
+            timeout: 15,
+            retries: 3,
+            hardwareAcceleration: true,
+            lowLatencyMode: false,
+            bufferStrategy: 'aggressive',
+            toastPosition: 'bottom-right'
+        };
+        let autoUpdateIntervals = {};
+        let currentPlaylistSource = JSON.parse(localStorage.getItem('iptv-current-source')) || null;
+        let statsInterval = null;
+        let retryCount = 0;
+        let channelCheckInterval;
+        let currentCheckIndex = 0;
+        let workingChannels = [];
+        let nonWorkingChannels = [];
+        let performanceMonitor = {
+            fps: 0,
+            droppedFrames: 0,
+            bufferLength: 0,
+            bitrate: 0,
+            latency: 0,
+            resolution: '0x0'
+        };
+        let contextMenuChannel = null;
+        
+        // Adicionar no início do script (após as variáveis globais)
+const dbName = 'IPTVStreamCache';
+const storeName = 'streamCache';
+let db;
+
+// Inicializar o banco de dados
+function initCacheDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, 1);
+        
+        request.onerror = (event) => {
+            console.error("Erro ao abrir IndexedDB:", event.target.error);
+            reject(event.target.error);
+        };
+        
+        request.onsuccess = (event) => {
+            db = event.target.result;
+            resolve(db);
+        };
+        
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(storeName)) {
+                const store = db.createObjectStore(storeName, { keyPath: 'url' });
+                store.createIndex('timestamp', 'timestamp', { unique: false });
+            }
+        };
+    });
+}
+
+// Função para armazenar stream em cache
+async function cacheStream(url, data) {
+    if (!db) await initCacheDB();
+    
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(storeName, 'readwrite');
+        const store = transaction.objectStore(storeName);
+        
+        const item = {
+            url: url,
+            data: data,
+            timestamp: Date.now()
+        };
+        
+        const request = store.put(item);
+        
+        request.onsuccess = () => resolve();
+        request.onerror = (event) => reject(event.target.error);
+    });
+}
+
+// Função para recuperar stream do cache
+async function getCachedStream(url, maxAge = 3600000) { // 1 hora padrão
+    if (!db) await initDB();
+    
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(storeName, 'readonly');
+        const store = transaction.objectStore(storeName);
+        
+        const request = store.get(url);
+        
+        request.onsuccess = (event) => {
+            const result = event.target.result;
+            if (result && (Date.now() - result.timestamp < maxAge)) {
+                resolve(result.data);
+            } else {
+                resolve(null);
+            }
+        };
+        
+        request.onerror = (event) => reject(event.target.error);
+    });
+}
+
+// Função para limpar cache antigo
+async function cleanOldCache(maxAge = 86400000) { // 24 horas padrão
+    if (!db) await initDB();
+    
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(storeName, 'readwrite');
+        const store = transaction.objectStore(storeName);
+        const index = store.index('timestamp');
+        const range = IDBKeyRange.upperBound(Date.now() - maxAge);
+        
+        const request = index.openCursor(range);
+        
+        request.onsuccess = (event) => {
+            const cursor = event.target.result;
+            if (cursor) {
+                cursor.delete();
+                cursor.continue();
+            } else {
+                resolve();
+            }
+        };
+        
+        request.onerror = (event) => reject(event.target.error);
+    });
+}
+
+// Adicionar após as funções de cache
+let preloadController = new AbortController();
+
+async function preloadNextChannels(currentChannel, count = 3) {
+    // Cancelar pré-carregamentos anteriores
+    preloadController.abort();
+    preloadController = new AbortController();
+    
+    const currentIndex = channels.findIndex(c => c.url === currentChannel.url);
+    if (currentIndex === -1) return;
+    
+    // Limpar pré-carregamentos anteriores
+    document.querySelectorAll('link[rel="prefetch"]').forEach(el => el.remove());
+    
+    // Selecionar os próximos canais para pré-carregar
+    const nextChannels = [];
+    for (let i = 1; i <= count; i++) {
+        const nextIndex = (currentIndex + i) % channels.length;
+        nextChannels.push(channels[nextIndex]);
+    }
+    
+    // Pré-carregar os canais selecionados
+    for (const channel of nextChannels) {
+        try {
+            // Verificar se já está em cache
+            const cached = await getCachedStream(channel.url);
+            if (cached) continue;
+            
+            // Criar link de pré-carregamento
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = channel.url;
+            link.as = 'fetch';
+            link.crossOrigin = 'anonymous';
+            document.head.appendChild(link);
+            
+            // Fazer pré-busca dos dados
+            const response = await fetchWithTimeout(channel.url, {
+                signal: preloadController.signal,
+                timeout: 5000 // 5 segundos por canal
+            });
+            
+            if (response.ok) {
+                const data = await response.arrayBuffer();
+                await cacheStream(channel.url, data);
+            }
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                console.warn(`Falha ao pré-carregar ${channel.name}:`, error);
+            }
+        }
+    }
+}
+
+// Adicionar após as funções de pré-carregamento
+class ChannelVirtualList {
+    constructor(container, channels, renderItem, itemHeight = 60, buffer = 10) {
+        this.container = container;
+        this.channels = channels;
+        this.renderItem = renderItem;
+        this.itemHeight = itemHeight;
+        this.buffer = buffer;
+        this.visibleItems = [];
+        this.scrollTop = 0;
+        
+        this.init();
+    }
+    
+    init() {
+        // Configurar container
+        this.container.style.overflowY = 'auto';
+        this.container.style.position = 'relative';
+        this.container.style.height = '100%';
+        
+        // Criar elemento de conteúdo virtual
+        this.virtualContent = document.createElement('div');
+        this.virtualContent.style.position = 'absolute';
+        this.virtualContent.style.top = '0';
+        this.virtualContent.style.left = '0';
+        this.virtualContent.style.right = '0';
+        this.virtualContent.style.height = `${this.channels.length * this.itemHeight}px`;
+        this.container.appendChild(this.virtualContent);
+        
+        // Configurar rolagem
+        this.container.addEventListener('scroll', this.handleScroll.bind(this));
+        
+        // Renderizar itens iniciais
+        this.updateVisibleItems();
+    }
+    
+    handleScroll() {
+        this.scrollTop = this.container.scrollTop;
+        this.updateVisibleItems();
+    }
+    
+    updateVisibleItems() {
+        const startIdx = Math.max(0, Math.floor(this.scrollTop / this.itemHeight) - this.buffer);
+        const endIdx = Math.min(
+            this.channels.length,
+            Math.ceil((this.scrollTop + this.container.clientHeight) / this.itemHeight) + this.buffer
+        );
+        
+        // Remover itens não mais visíveis
+        this.visibleItems.forEach(item => {
+            if (item.index < startIdx || item.index >= endIdx) {
+                item.element.remove();
+            }
+        });
+        
+        // Filtrar itens visíveis atuais
+        this.visibleItems = this.visibleItems.filter(item => 
+            item.index >= startIdx && item.index < endIdx
+        );
+        
+        // Adicionar novos itens visíveis
+        for (let i = startIdx; i < endIdx; i++) {
+            if (!this.visibleItems.some(item => item.index === i)) {
+                const element = this.renderItem(this.channels[i], i);
+                element.style.position = 'absolute';
+                element.style.top = `${i * this.itemHeight}px`;
+                element.style.left = '0';
+                element.style.right = '0';
+                element.style.height = `${this.itemHeight}px`;
+                
+                this.virtualContent.appendChild(element);
+                this.visibleItems.push({ index: i, element });
+            }
+        }
+    }
+    
+    updateChannels(newChannels) {
+        this.channels = newChannels;
+        this.virtualContent.style.height = `${this.channels.length * this.itemHeight}px`;
+        this.updateVisibleItems();
+    }
+}
+
+function displayPlaylistMetadata() {
+    const metadata = getPlaylistMetadata(defaultM3UPlaylist);
+    document.getElementById('playlist-title').textContent = metadata.header;
+    
+    let metaText = '';
+    if (metadata.editor) metaText += metadata.editor + ' | ';
+    if (metadata.updateDate) metaText += metadata.updateDate;
+    
+    document.getElementById('playlist-meta').textContent = metaText;
+}
+
+
+
+        // ====== INICIALIZAÇÃO ======
+        document.addEventListener('DOMContentLoaded', () => {
+            checkDependencies();
+            loadSettings();
+            loadDefaultChannels();
+            setupEventListeners();
+            configureVideoElement();
+            
+                // Inicializar novos sistemas
+    initCacheDB().then(() => cleanOldCache());
+    const playbackQueue = new PlaybackQueue();
+    playbackQueue.loadQueue();
+    
+    let qualityManager;
+            
+            // Verifica se há uma lista salva
+            if (currentPlaylistSource) {
+                showStatus(`Carregando lista salva...`, 'warning');
+                loadPlaylistFromSource(currentPlaylistSource);
+            } else if (channels.length > 0) {
+                // Reproduz o primeiro canal automaticamente se autoplay estiver ativado
+                if (settings.autoplay) {
+                    setTimeout(() => {
+                        const firstChannel = document.querySelector('.channel');
+                        if (firstChannel) {
+                            const channelName = firstChannel.querySelector('.channel-name').textContent;
+                            const channel = channels.find(c => c.name === channelName);
+                            if (channel) {
+                                selectChannel(channel);
+                                playVideo();
+                            }
+                        }
+                    }, 500);
+                }
+            }
+            
+            // Inicia o monitoramento de performance
+            displayPlaylistMetadata();
+            startPerformanceMonitor();
+        });
+
+        // ====== FUNÇÕES PRINCIPAIS ======
+        function checkDependencies() {
+            if (typeof Hls === 'undefined') {
+                showStatus("Aviso: Hls.js não carregado - alguns streams podem não funcionar", 'warning');
+            }
+            if (typeof dashjs === 'undefined') {
+                showStatus("Aviso: Dash.js não carregado - streams MPEG-DASH não funcionarão", 'warning');
+            }
+            if (typeof flvjs === 'undefined') {
+                showStatus("Aviso: FLV.js não carregado - streams FLV não funcionarão", 'warning');
+            }
+        }
+        
+        function configureVideoElement() {
+            // Força aceleração por hardware
+            videoPlayer.setAttribute('playsinline', '');
+            videoPlayer.setAttribute('webkit-playsinline', '');
+            videoPlayer.setAttribute('x-webkit-airplay', 'allow');
+            videoPlayer.setAttribute('x5-video-player-type', 'h5');
+            videoPlayer.setAttribute('x5-video-player-fullscreen', 'true');
+            videoPlayer.setAttribute('preload', 'auto');
+            videoPlayer.style.transform = 'translateZ(0)';
+            videoPlayer.style.backfaceVisibility = 'hidden';
+            videoPlayer.style.perspective = '1000';
+            videoPlayer.style.willChange = 'transform';
+            
+            if (settings.hardwareAcceleration) {
+                videoPlayer.style.transform = 'translateZ(0)';
+            }
+        }
+        
+        function startPerformanceMonitor() {
+            let lastTime = performance.now();
+            let frames = 0;
+            
+            const monitor = () => {
+                const now = performance.now();
+                frames++;
+                
+                if (now - lastTime >= 1000) {
+                    performanceMonitor.fps = Math.round((frames * 1000) / (now - lastTime));
+                    frames = 0;
+                    lastTime = now;
+                    
+                    if (hls) {
+                        const hlsStats = hls.stats;
+                        performanceMonitor.droppedFrames = hlsStats.droppedFrames || 0;
+                        performanceMonitor.bufferLength = hlsStats.bufferEnd - hlsStats.bufferStart;
+                        performanceMonitor.bitrate = hlsStats.bwEstimate;
+                        performanceMonitor.latency = hlsStats.latency;
+                        performanceMonitor.resolution = `${videoPlayer.videoWidth}x${videoPlayer.videoHeight}`;
+                        
+                        // Ajusta qualidade com base no desempenho
+                        if (performanceMonitor.fps < 20 && hls && hls.levels && hls.levels.length > 1) {
+                            hls.currentLevel = Math.max(0, hls.currentLevel - 1);
+                        }
+                    }
+                }
+                
+                requestAnimationFrame(monitor);
+            };
+            
+            monitor();
+        }
+        
+        async function startChannelVerification() {
+            if (channels.length === 0) {
+                showStatus("Nenhum canal para verificar", 'warning');
+                return;
+            }
+
+            // Resetar estados
+            workingChannels = [];
+            nonWorkingChannels = [];
+            
+            showStatus(`Iniciando verificação de ${channels.length} canais...`, 'info');
+            
+            // Desabilitar botão durante a verificação
+            checkChannelsBtn.disabled = true;
+            checkChannelsBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
+            
+            // Mostrar barra de progresso
+            const progressContainer = document.querySelector('.verification-progress');
+            progressContainer.style.display = 'block';
+            const progressFill = progressContainer.querySelector('.progress-fill');
+            const progressText = progressContainer.querySelector('.progress-text');
+            const workingCount = progressContainer.querySelector('.working-count');
+            const nonWorkingCount = progressContainer.querySelector('.non-working-count');
+            const speedElement = progressContainer.querySelector('.speed');
+            
+            // Configuração de paralelismo (aumente este número para mais verificações simultâneas)
+            const MAX_PARALLEL = 5;
+            let startTime = Date.now();
+            let channelsChecked = 0;
+            
+            // Função para atualizar estatísticas
+            function updateStats() {
+                const progress = Math.round((channelsChecked / channels.length) * 100);
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `${progress}%`;
+                workingCount.textContent = `${workingChannels.length} funcionando`;
+                nonWorkingCount.textContent = `${nonWorkingChannels.length} não funcionando`;
+                
+                const elapsedSeconds = (Date.now() - startTime) / 1000;
+                const speed = channelsChecked / elapsedSeconds;
+                speedElement.textContent = `${speed.toFixed(2)} canais/seg`;
+            }
+            
+            // Processa os canais em lotes
+            try {
+                for (let i = 0; i < channels.length; i += MAX_PARALLEL) {
+                    const batch = channels.slice(i, i + MAX_PARALLEL);
+                    
+                    // Executa verificações em paralelo
+                    const results = await Promise.allSettled(
+                        batch.map(channel => testChannel(channel))
+                    );
+                    
+                    // Processa resultados
+                    results.forEach((result, idx) => {
+                        const channel = batch[idx];
+                        if (result.status === 'fulfilled' && result.value) {
+                            workingChannels.push(channel);
+                        } else {
+                            nonWorkingChannels.push(channel);
+                        }
+                        channelsChecked++;
+                        updateStats();
+                    });
+                    
+                    // Pequena pausa para evitar sobrecarregar
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+                
+                finishChannelVerification();
+            } catch (error) {
+                showStatus(`Erro durante a verificação: ${error.message}`, 'error');
+            } finally {
+                checkChannelsBtn.disabled = false;
+                checkChannelsBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verificar';
+            }
+        }
+
+        async function testChannel(channel) {
+            // Primeiro faz uma verificação HEAD rápida para descartar URLs obviamente inválidas
+            try {
+                const headResponse = await fetchWithTimeout(channel.url, {
+                    method: 'HEAD',
+                    timeout: 2000 // Tempo curto para verificação inicial
+                });
+                
+                if (!headResponse.ok) {
+                    return false;
+                }
+            } catch (e) {
+                return false;
+            }
+
+            // Se passou na verificação HEAD, faz teste mais completo
+            return new Promise((resolve) => {
+                const timeout = setTimeout(() => {
+                    cleanupTest();
+                    resolve(false);
+                }, settings.timeout * 1000);
+                
+                function cleanupTest() {
+                    if (hls) hls.destroy();
+                    if (dashPlayer) dashPlayer.reset();
+                    if (flvPlayer) flvPlayer.destroy();
+                    if (tempVideo) {
+                        tempVideo.src = '';
+                        tempVideo.remove();
+                    }
+                    clearTimeout(timeout);
+                }
+                
+                const tempVideo = document.createElement('video');
+                tempVideo.preload = 'auto';
+                tempVideo.muted = true; // Mudo para acelerar
+                tempVideo.style.display = 'none'; // Esconder o elemento
+                document.body.appendChild(tempVideo);
+                
+                let tempPlayer;
+                const streamType = channel.type || detectStreamType(channel.url);
+                
+                // Configurações otimizadas para teste rápido
+                const testConfig = {
+                    hls: {
+                        maxMaxBufferLength: 2, // Buffer muito curto para teste
+                        maxBufferSize: 2 * 1000 * 1000,
+                        maxBufferHole: 0.5,
+                        lowLatencyMode: true,
+                        startLevel: -1, // Começa com a qualidade mais baixa
+                        testBandwidth: false // Não testa largura de banda
+                    },
+                    dash: {
+                        buffer: {
+                            bufferTimeAtTopQuality: 2
+                        },
+                        streaming: {
+                            abr: {
+                                autoSwitchBitrate: {
+                                    video: false
+                                }
+                            }
+                        }
+                    },
+                    flv: {
+                        enableStashBuffer: false,
+                        lazyLoad: true
+                    }
+                };
+                
+                const errorHandler = () => {
+                    cleanupTest();
+                    resolve(false);
+                };
+                
+                switch (streamType) {
+                    case 'hls':
+                        if (Hls.isSupported()) {
+                            tempPlayer = new Hls(testConfig.hls);
+                            tempPlayer.loadSource(channel.url);
+                            tempPlayer.attachMedia(tempVideo);
+                            
+                            tempPlayer.on(Hls.Events.ERROR, errorHandler);
+                            
+                            tempPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
+                                cleanupTest();
+                                resolve(true);
+                            });
+                        } else {
+                            tempVideo.src = channel.url;
+                            tempVideo.addEventListener('loadedmetadata', () => {
+                                cleanupTest();
+                                resolve(true);
+                            });
+                            tempVideo.addEventListener('error', errorHandler);
+                        }
+                        break;
+                        
+                    case 'dash':
+                        if (typeof dashjs !== 'undefined') {
+                            tempPlayer = dashjs.MediaPlayer().create();
+                            tempPlayer.updateSettings(testConfig.dash);
+                            tempPlayer.initialize(tempVideo, channel.url, true);
+                            
+                            tempPlayer.on('playbackPlaying', () => {
+                                cleanupTest();
+                                resolve(true);
+                            });
+                            
+                            tempPlayer.on('error', errorHandler);
+                        } else {
+                            resolve(false);
+                        }
+                        break;
+                        
+                    case 'flv':
+                        if (flvjs.isSupported()) {
+                            tempPlayer = flvjs.createPlayer({
+                                type: 'flv',
+                                url: channel.url,
+                                isLive: true,
+                                ...testConfig.flv
+                            });
+                            tempPlayer.attachMediaElement(tempVideo);
+                            tempPlayer.load();
+                            
+                            tempPlayer.on('statistics_report', () => {
+                                cleanupTest();
+                                resolve(true);
+                            });
+                            
+                            tempPlayer.on('error', errorHandler);
+                        } else {
+                            resolve(false);
+                        }
+                        break;
+                        
+                    default:
+                        tempVideo.src = channel.url;
+                        tempVideo.addEventListener('loadedmetadata', () => {
+                            cleanupTest();
+                            resolve(true);
+                        });
+                        tempVideo.addEventListener('error', errorHandler);
+                }
+            });
+        }
+
+        function finishChannelVerification() {
+            // Atualiza a lista de canais com apenas os que funcionam
+            channels = workingChannels;
+            renderChannels();
+            updateCategoryFilter();
+
+            const message = `Verificação concluída: ${workingChannels.length} canais funcionais. ${nonWorkingChannels.length} foram removidos.`;
+            showStatus(message, 'success');
+
+            // Esconde a barra de progresso
+            const progressContainer = document.querySelector('.verification-progress');
+            progressContainer.style.display = 'none';
+
+            // Adiciona botão de exportação no relatório
+            if (nonWorkingChannels.length > 0) {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.style.display = 'flex';
+
+                const content = document.createElement('div');
+                content.className = 'modal-content';
+                content.innerHTML = `
+                    <span class="close-modal">&times;</span>
+                    <h2 class="modal-title"><i class="fas fa-clipboard-list"></i> Relatório de Verificação</h2>
+                    <div class="status ${nonWorkingChannels.length > 0 ? 'warning' : 'success'}">
+                        ${message}
+                    </div>
+                    <button id="export-working-btn" class="player-btn success" style="margin-top: 20px;">
+                        <i class="fas fa-file-export"></i> Exportar Playlist Funcional
+                    </button>
+                    <button id="export-failed-btn" class="player-btn warning" style="margin-top: 10px;">
+                        <i class="fas fa-file-export"></i> Exportar Lista de Falhas
+                    </button>
+                    <button class="player-btn" onclick="this.closest('.modal').remove()" style="margin-top: 10px;">
+                        <i class="fas fa-times"></i> Fechar
+                    </button>
+                `;
+
+                modal.appendChild(content);
+                document.body.appendChild(modal);
+
+                document.getElementById('export-working-btn').addEventListener('click', () => {
+                    exportWorkingChannelsToM3U();
+                    modal.remove();
+                });
+
+                document.getElementById('export-failed-btn').addEventListener('click', () => {
+                    exportFailedChannelsToTxt();
+                    modal.remove();
+                });
+            }
+        }
+
+        function exportWorkingChannelsToM3U() {
+            if (workingChannels.length === 0 && channels.length > 0) {
+                if (confirm("Nenhuma verificação foi realizada. Deseja testar todos os canais antes de exportar?")) {
+                    startChannelVerification();
+                    return;
+                }
+            }
+
+            const validChannels = workingChannels.length > 0 ? workingChannels : channels;
+            
+            // Cabeçalho M3U
+            let m3uContent = "#EXTM3U\n";
+            
+            // Adiciona cada canal válido
+            validChannels.forEach(channel => {
+                m3uContent += `#EXTINF:-1 tvg-id="${channel.tvgId}" tvg-name="${channel.tvgName}" tvg-logo="${channel.tvgLogo}" group-title="${channel.groupTitle}",${channel.name}\n`;
+                m3uContent += `${channel.url}\n`;
+            });
+
+            // Cria o arquivo e força o download
+            const blob = new Blob([m3uContent], { type: "application/x-mpegurl" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `playlist_funcionando_${new Date().toISOString().split('T')[0]}.m3u`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast(`Playlist exportada com ${validChannels.length} canais!`, 'success');
+        }
+
+        function exportFailedChannelsToTxt() {
+            if (nonWorkingChannels.length === 0) {
+                showToast("Nenhum canal com falha para exportar", 'warning');
+                return;
+            }
+
+            let content = "Canais que falharam na verificação:\n\n";
+            nonWorkingChannels.forEach(channel => {
+                content += `Nome: ${channel.name}\n`;
+                content += `URL: ${channel.url}\n`;
+                content += `Tipo: ${channel.type}\n`;
+                content += `Categoria: ${channel.category}\n`;
+                content += `---\n`;
+            });
+
+            // Cria o arquivo e força o download
+            const blob = new Blob([content], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `canais_falhos_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast(`Lista de falhas exportada com ${nonWorkingChannels.length} canais!`, 'success');
+        }
+
+        function loadSettings() {
+            // Aplica as configurações salvas
+            document.getElementById('setting-autoplay').checked = settings.autoplay;
+            document.getElementById('setting-hls-buffer').value = settings.hlsBuffer;
+            document.getElementById('setting-auto-quality').checked = settings.autoQuality;
+            document.getElementById('setting-auto-recover').checked = settings.autoRecover;
+            document.getElementById('setting-dark-mode').checked = settings.darkMode;
+            document.getElementById('setting-show-type').checked = settings.showType;
+            document.getElementById('setting-show-quality').checked = settings.showQuality;
+            document.getElementById('setting-show-logos').checked = settings.showLogos;
+            document.getElementById('setting-pin-favorites').checked = settings.pinFavorites;
+            document.getElementById('setting-remember-categories').checked = settings.rememberCategories;
+            document.getElementById('setting-show-epg').checked = settings.showEpg;
+            document.getElementById('setting-history-limit').value = settings.historyLimit;
+            document.getElementById('setting-verbose-logs').checked = settings.verboseLogs;
+            document.getElementById('setting-max-buffer').value = settings.maxBuffer;
+            document.getElementById('setting-timeout').value = settings.timeout;
+            document.getElementById('setting-retries').value = settings.retries;
+            document.getElementById('setting-hardware-accel').checked = settings.hardwareAcceleration;
+            document.getElementById('setting-low-latency').checked = settings.lowLatencyMode;
+            document.getElementById('setting-buffer-strategy').value = settings.bufferStrategy;
+            document.getElementById('setting-toast-position').value = settings.toastPosition;
+            
+            // Aplica o tema
+            document.body.classList.toggle('dark-mode', settings.darkMode);
+        }
+        function loadDefaultChannels() {
+    // Carrega os canais padrão apenas se não houver canais salvos   
+    
+            // Lista de canais no formato M3U
+const defaultM3UPlaylist = `#EXTM3U
+#EXTINF:-1 tvg-id="" tvg-name="SBT Cidade Verde (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcidadeverde.png" group-title="📺 Canais Locais",SBT Cidade Verde (PI)
+https://stmv1.transmissaodigital.com/cidadeverdenovo/cidadeverdenovo/chunklist_w1366217477.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="SBT Cidade Verde Picos (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcidadeverde.png" group-title="📺 Canais Locais",SBT Cidade Verde Picos (PI)
+https://stmv1.transmissaodigital.com/tvcidadeverde/tvcidadeverde/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Meio (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvmeio.png" group-title="📺 Canais Locais",TV Meio (PI)
+https://br5093.streamingdevideo.com.br/jztykfkpnu/jztykfkpnu/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Antena 10 (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/a10.png" group-title="📺 Canais Locais",TV Antena 10 (PI)
+https://video01.logicahost.com.br/a10maisadap/smil:transcoder.smil/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="RedeTV! O Dia (PI)" tvg-logo="https://upload.wikimedia.org/wikipedia/pt/a/a2/Logotipo_da_O_Dia_TV.png" group-title="📺 Canais Locais",RedeTV! O Dia (PI)
+https://59e4b6c1beddc.streamlock.net/tvodia/tvodia/chunklist_w1610904242.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Gallo Jaicos (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvgallo.png" group-title="📺 Canais Locais",TV Gallo Jaicos (PI)
+https://5c483b9d1019c.streamlock.net/8202/8202/playlist-480p.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TVL News (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvlnews.png" group-title="📺 Canais Locais",TVL News (PI)
+https://cdn-luzilandi-10589.ciclano.io:1443/luzilandi-10589/luzilandi-10589/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Capital (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcapital.png" group-title="📺 Canais Locais",TV Capital (PI)
+https://stmv2.samcast.com.br/tvcapitalteresina/tvcapitalteresina/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="SBT Interior (SP)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/sbt.png" group-title="🌎 Variedades",SBT Interior (SP)
+https://cdn.jmvstream.com/w/LVW-10801/LVW10801_Xvg4R0u57n/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="SBT (BA)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/sbt.png" group-title="🌎 Variedades",SBT (BA)
+https://cdn.jmvstream.com/w/LVW-8379/LVW8379_rIq6ZYiIiA/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Record TV MT" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/recordtv.png" group-title="🌎 Variedades",Record TV MT
+https://cdn.jmvstream.com/w/LVW-10842/LVW10842_513N26MDBL/chunklist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Band (RBA TV)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/band.png" group-title="🌎 Variedades",Band (RBA TV)
+https://aovivo.doozytv.com.br/31025556/10161894/chunks.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Band (PA) 2" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/band.png" group-title="🌎 Variedades",Band (PA) 2
+https://5cf4a2c2512a2.streamlock.net/rbatv/rbatv/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="RedeTV! (PR)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redetv.png" group-title="🌎 Variedades",RedeTV! (PR)
+https://tv01.zas.media:1936/redetvparana/redetvparana/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="RedeTV!" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redetv.png" group-title="🌎 Variedades",RedeTV!
+https://tv01.zas.media:1936/redetvparana/redetvparana/chunklist_w1074634538.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Cultura" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tv-cultura-logo.png" group-title="🌎 Variedades",TV Cultura
+https://5b33b873179a2.streamlock.net:1443/live/livestream/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Catve Cultura (PR)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tv-cultura-logo.png" group-title="🌎 Variedades",Catve Cultura (PR)
+https://5b33b873179a2.streamlock.net:1443/live/livestream/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Gazeta (PA)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/gazeta.png" group-title="🌎 Variedades",TV Gazeta (PA)
+https://video01.kshost.com.br:4443/moises3834/moises3834/chunklist_w1625878121.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Canal Rural" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/canalrural.png" group-title="🌎 Variedades",Canal Rural
+https://607d2a1a47b1f.streamlock.net/crur/smil:canalrural.smil/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Cariri TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcariri.png" group-title="🌎 Variedades",Cariri TV
+https://video05.logicahost.com.br/cariritv/cariritv/chunklist_w1172451183.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Padre Cicero" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvpadrecicero.png" group-title="🌎 Variedades",TV Padre Cicero
+https://video01.logicahost.com.br/tvpadrecicero/tvpadrecicero/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Rede UTV Brasil" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/utvbrasil.png" group-title="🌎 Variedades",Rede UTV Brasil
+https://utvsoultv.acessaradios.com.br/utvsoultv/utvsoultv.stream/chunklist_w955987097.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TVE Bahia" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tve.png" group-title="🌎 Variedades",TVE Bahia
+http://streaming.procergs.com.br:1935/tve/stve/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Camera" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcamara.png" group-title="🌎 Variedades",TV Camera
+https://stream3.camara.gov.br/tv1/manifest.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Canal gov" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/gov.png" group-title="🌎 Variedades",Canal gov
+https://canalgov-stream.ebc.com.br/index.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Play TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/playtv.png" group-title="🌎 Variedades",Play TV
+https://isaocorp.cloudecast.com/playtv/tracks-v1a1/mono.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Sonata" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvsoneta.png" group-title="🌎 Variedades",TV Sonata
+https://video04.logicahost.com.br/isonata/isonata/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Astraltv" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/astraltv.png" group-title="🌎 Variedades",Astraltv
+https://isaocorp.cloudecast.com/astraltv/tracks-v1a1/mono.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="GLN TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/gln%20tv.png" group-title="🌎 Variedades",GLN TV
+https://stmv1.paineltv.net/glnfilmes/glnfilmes/chunklist_w1336076318.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Destak" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvdestak.png" group-title="🌎 Variedades",TV Destak
+https://video03.logicahost.com.br/pascoal/pascoal/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Bons Tempos TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/bonstempos.png" group-title="🌎 Variedades",Bons Tempos TV
+https://stmv1.srvif.com/canal29/canal29/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="CNN Portugal" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cnnpt.png" group-title="📰 Notícias",CNN Portugal
+https://raw.githubusercontent.com/ipstreet312/freeiptv/master/ressources/tvipt/sh/cnnpt.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Record News (ES)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/recordnews.png" group-title="📰 Notícias",Record News (ES)
+https://5cf4a2c2512a2.streamlock.net/8016/8016/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Record News" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/recordnews.png" group-title="📰 Notícias",Record News
+https://rnw-rn-soultv.otteravision.com/rnw/rn/rnw_rn.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Evangelizar" tvg-logo="https://i.imgur.com/wVPZqXa.png" group-title="🙏 Religioso",TV Evangelizar
+https://tvevangelizar.brasilstream.com.br/hls/tvevangelizar/index.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Rede Vida" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redevida.png" group-title="🙏 Religioso",Rede Vida
+https://d12e4o88jd8gex.cloudfront.net/out/v1/cea3de0b76ac4e82ab8ee0fd3f17ce12/index_1.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Aparecida" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvaparecida.png" group-title="🙏 Religioso",TV Aparecida
+https://cdn.jmvstream.com/w/LVW-9716/LVW9716_HbtQtezcaw/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Rede Seculo 21" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/rs21.png" group-title="🙏 Religioso",Rede Seculo 21
+https://cdn.jmvstream.com/w/LVW-10024/ngrp:LVW10024_H3QLdAY6kx_all/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Novo Tempo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/novotempo.png" group-title="🙏 Religioso",Novo Tempo
+https://stream.live.novotempo.com/tv/smil:tvnovotempo.smil/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Rede Gospel" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redegospel.png" group-title="🙏 Religioso",Rede Gospel
+https://cdn.jmvstream.com/w/LVW-8719/LVW8719_AcLVAxWy5J/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Pai Eterno" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/paieterno.png" group-title="🙏 Religioso",TV Pai Eterno
+https://video09.logicahost.com.br/paieterno/paieterno/chunklist_w1610240856.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="RIT TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/rittv.png" group-title="🙏 Religioso",RIT TV
+https://acesso.ecast.site:3648/live/ritlive.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Caze TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cazetv.png" group-title="⚽️ Esportes",Caze TV
+https://cc-panvcqnzkgrdl.akamaized.net/Caze/Caze_TV_BR/Caze_TV.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Red Bull TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/rbtv.png" group-title="⚽️ Esportes",Red Bull TV
+https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Os Jetsons" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/Jetsons.png" group-title="🎈 Infantil",Os Jetsons
+https://stmv1.srvif.com/jetsontv/jetsontv/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Gospel Cartoon" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/gospelcartoon.png" group-title="🎈 Infantil",Gospel Cartoon
+https://stmv1.srvif.com/gospelcartoon/gospelcartoon/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV KIDMAIS" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvkidmais.png" group-title="🎈 Infantil",TV KIDMAIS
+https://video03.logicahost.com.br/novafamilia01/novafamilia01/chunklist_w1857365534.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Channel 1" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/channel1.png" group-title="🎬 Filmes e Séries",Channel 1
+https://stmv1.srvif.com/movies1/movies1/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="DarkFlix" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/darkflix.png" group-title="🎬 Filmes e Séries",DarkFlix
+https://video01.soultv.com.br/darkflix/darkflix/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Classique TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/classiquetv.png" group-title="🎬 Filmes e Séries",Classique TV
+https://stmv1.srvif.com/classique/classique/chunklist_w1919154997.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Viva Web TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/vivawebtv.png" group-title="🎬 Filmes e Séries",Viva Web TV
+https://video01.kshost.com.br:4443/cypriano46326/cypriano46326/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="XTreme" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/xtreme.png" group-title="🎬 Filmes e Séries",XTreme
+https://alanza.iptv2022.com/Xtreme_TV/index.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="kuriakos Cine" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/kuriakoscine.png" group-title="🎬 Filmes e Séries",kuriakos Cine
+https://w2.manasat.com/kcine/smil:kcine.smil/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Soul Cine Clube" tvg-logo="https://i.imgur.com/QapVmCb.png" group-title="🎬 Filmes e Séries",Soul Cine Clube
+https://video01.soultv.com.br/soulcine/soulcine/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Cine Monde" tvg-logo="https://i.imgur.com/dpat1CH.png" group-title="🎬 Filmes e Séries",Cine Monde
+https://video01.soultv.com.br/cinemonde/cinemonde/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Series Classic" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/seriesclassic.png" group-title="🎬 Filmes e Séries",Series Classic
+https://srv6.zcast.com.br/adriano8425/adriano8425/chunklist_w384479859.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="RunTime" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime
+https://stream.ads.ottera.tv/playlist.m3u8?network_id=2153
+#EXTINF:-1 tvg-id="" tvg-name="RunTime Ação" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime Ação
+https://stream.ads.ottera.tv/playlist.m3u8?network_id=2552
+#EXTINF:-1 tvg-id="" tvg-name="RunTime Comédia" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime Comédia
+https://stream.ads.ottera.tv/playlist.m3u8?network_id=2553
+#EXTINF:-1 tvg-id="" tvg-name="RunTime Romance" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime Romance
+https://stream.ads.ottera.tv/playlist.m3u8?network_id=4866
+#EXTINF:-1 tvg-id="" tvg-name="RunTime CinEspanto" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime CinEspanto
+https://stream.ads.ottera.tv/playlist.m3u8?network_id=4865
+#EXTINF:-1 tvg-id="" tvg-name="RunTime Crime" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime Crime
+https://stream.ads.ottera.tv/playlist.m3u8?network_id=4864
+#EXTINF:-1 tvg-id="" tvg-name="Geekdot" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/geekdot.png" group-title="🎎 Animes",Geekdot
+https://stream.ichibantv.com:3764/hybrid/play.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Loading" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/loading.png" group-title="🎎 Animes",Loading
+https://stmv1.srvif.com/loadingtv/loadingtv/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="clouding" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/clouding.png" group-title="🎎 Animes",clouding
+https://stmv1.paineltv.net/redeclonetv/redeclonetv/chunklist_w739638910.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="KroneHIT" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/kronehit.png" group-title="🎶 Música",KroneHIT
+https://bitcdn-kronehit.bitmovin.com/v2/hls/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="KpopTV Play" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/kpoptv.png" group-title="🎶 Música",KpopTV Play
+https://alanza.iptv2022.com/Kpo_TV_Play/index.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Radio Cidade Verde 93.5 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cidadeverde.png" group-title="📻 Rádios",Radio Cidade Verde 93.5 FM
+https://ssl1.transmissaodigital.com:20010/;
+#EXTINF:-1 tvg-id="" tvg-name="Radio Cidade Modelo 95.3 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cidademodelofm.png" group-title="📻 Rádios",Radio Cidade Modelo 95.3 FM
+https://ssl1.transmissaodigital.com:20114/stream
+#EXTINF:-1 tvg-id="" tvg-name="Radio Meio Norte 99.9 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/meionorte.png" group-title="📻 Rádios",Radio Meio Norte 99.9 FM
+https://webradio.amsolution.com.br/radio/8280/meionorte
+#EXTINF:-1 tvg-id="" tvg-name="Radio Cultura 104.3 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/culturafm.png" group-title="📻 Rádios",Radio Cultura 104.3 FM
+https://str02.kfmidia.com.br:6672/stream
+#EXTINF:-1 tvg-id="" tvg-name="Radio Tropical 105.9 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tropical.png" group-title="📻 Rádios",Radio Tropical 105.9 FM
+http://stm2.matutos.com.br:10136/stream
+#EXTINF:-1 tvg-id="" tvg-name="Radio Esperança 850 AM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/esperancaam.png" group-title="📻 Rádios",Radio Esperança 850 AM
+https://stm3.srvif.com:7360/stream
+#EXTINF:-1 tvg-id="" tvg-name="Radio Difusora 920 AM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/difusoraam.png" group-title="📻 Rádios",Radio Difusora 920 AM
+http://stm20.srvaudio.com.br:11190/stream
+#EXTINF:-1 tvg-id="" tvg-name="000_Abertura" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="🎥 Looney Tunes",000_Abertura
+https://raw.githubusercontent.com/mariosanthos/arquivos/main/Abertura%20A%20Hora%20Warner.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP001-Adoro_receber_ordens_de_voce" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="🎥 Looney Tunes",EP001-Adoro_receber_ordens_de_voce
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP001-Adoro_receber_ordens_de_voce.mkv
+#EXTINF:-1 tvg-id="" tvg-name="Semana 01" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="🎥 Espaconave Terra",Semana 01
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2001%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Viagem na Eletricidade Parte 1" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/viagemnaeletricidade.png" group-title="🎥 Viagem na Eletricidade",Viagem na Eletricidade Parte 1
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/viagemnaletricidade.parte1.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep01" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="🎥 Assim que Funciona",Assim que funciona ep01
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona01.mp4`;
+            
+    if (channels.length === 0) {
+        channels = parsePlaylist(defaultM3UPlaylist);
+        
+        // Adiciona informações adicionais que podem faltar no M3U
+        channels.forEach(channel => {
+            channel.type = channel.type || detectStreamType(channel.url);
+            channel.quality = channel.quality || detectStreamQuality(channel.name);
+        });
+    }
+    renderChannels();
+    updateCategoryFilter();
+}
+
+        function setupEventListeners() {
+            // Controles do Player
+            playBtn.addEventListener('click', playVideo);
+            pauseBtn.addEventListener('click', pauseVideo);
+            stopBtn.addEventListener('click', stopVideo);
+            fullscreenBtn.addEventListener('click', toggleFullscreen);
+            infoBtn.addEventListener('click', () => showModal(infoModal));
+            settingsBtn.addEventListener('click', () => showModal(settingsModal));
+            videoPlayer.addEventListener('playing', updatePlayerUI);
+            videoPlayer.addEventListener('waiting', () => {
+                progressText.textContent = "Buffering...";
+            });
+            videoPlayer.addEventListener('error', handlePlayerError);
+
+            // Playlist
+            searchChannel.addEventListener('input', debounce(filterChannels, 300));
+            categoryFilter.addEventListener('change', filterChannels);
+            typeFilter.addEventListener('change', filterChannels);
+            importPlaylistBtn.addEventListener('click', () => showModal(importModal));
+            addChannelBtn.addEventListener('click', () => showModal(channelModal));
+            refreshBtn.addEventListener('click', refreshPlaylist);
+            checkChannelsBtn.addEventListener('click', startChannelVerification);
+            exportPlaylistBtn.addEventListener('click', exportWorkingChannelsToM3U);
+
+            // Presets rápidos
+            quickPresets.addEventListener('click', (e) => {
+                if (e.target.classList.contains('preset-btn') || e.target.closest('.preset-btn')) {
+                    const preset = e.target.closest('.preset-btn').dataset.preset;
+                    loadQuickPreset(preset);
+                }
+            });
+
+            // Modais
+            closeModals.forEach(btn => btn.addEventListener('click', (e) => {
+                e.target.closest('.modal').style.display = 'none';
+            }));
+            
+            document.getElementById('load-url-btn').addEventListener('click', loadPlaylistFromUrl);
+            document.getElementById('load-file-btn').addEventListener('click', loadPlaylistFromFile);
+            document.getElementById('load-m3uplus-btn').addEventListener('click', loadM3UPlusPlaylist);
+            document.getElementById('load-xtream-btn').addEventListener('click', loadXtreamPlaylist);
+            document.getElementById('save-channel-btn').addEventListener('click', saveChannel);
+            document.getElementById('save-settings-btn').addEventListener('click', saveSettings);
+            document.getElementById('reset-settings-btn').addEventListener('click', resetSettings);
+            document.getElementById('clear-data-btn').addEventListener('click', clearAllData);
+            shortcutsHelp.addEventListener('click', () => showModal(shortcutsModal));
+            document.getElementById('add-playlist-btn').addEventListener('click', () => {
+    // Mostra o modal de importação com uma flag para adicionar em vez de substituir
+    showModal(importModal);
+    document.getElementById('import-modal').dataset.mode = 'append';
+});
+
+            // Configurações de atualização automática
+            document.getElementById('auto-update').addEventListener('change', function() {
+                document.getElementById('update-interval-container').style.display = this.checked ? 'block' : 'none';
+            });
+            document.getElementById('m3uplus-auto-update').addEventListener('change', function() {
+                document.getElementById('m3uplus-update-interval-container').style.display = this.checked ? 'block' : 'none';
+            });
+            document.getElementById('xtream-auto-update').addEventListener('change', function() {
+                document.getElementById('xtream-update-interval-container').style.display = this.checked ? 'block' : 'none';
+            });
+
+            // Tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(tab.dataset.tab).classList.add('active');
+                });
+            });
+
+            // Fechar modal ao clicar fora
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+
+            // Context Menu
+            document.addEventListener('contextmenu', (e) => {
+                const channelElement = e.target.closest('.channel');
+                if (channelElement) {
+                    e.preventDefault();
+                    contextMenuChannel = channels.find(c => 
+                        c.name === channelElement.querySelector('.channel-name').textContent
+                    );
+                    
+                    if (contextMenuChannel) {
+                        // Atualiza o menu de contexto
+                        const isFavorite = favorites.some(fav => fav.url === contextMenuChannel.url);
+                        ctxAddFav.style.display = isFavorite ? 'none' : 'flex';
+                        ctxRemoveFav.style.display = isFavorite ? 'flex' : 'none';
+                        
+                        // Posiciona o menu
+                        contextMenu.style.display = 'block';
+                        contextMenu.style.left = `${Math.min(e.clientX, window.innerWidth - 200)}px`;
+                        contextMenu.style.top = `${Math.min(e.clientY, window.innerHeight - 200)}px`;
+                    }
+                }
+            });
+            
+            // Fechar menu de contexto
+            document.addEventListener('click', () => {
+                contextMenu.style.display = 'none';
+            });
+            
+            // Ações do menu de contexto
+            ctxPlay.addEventListener('click', () => {
+                if (contextMenuChannel) {
+                    selectChannel(contextMenuChannel);
+                    playVideo();
+                    contextMenu.style.display = 'none';
+                }
+            });
+            
+            ctxAddFav.addEventListener('click', () => {
+                if (contextMenuChannel) {
+                    toggleFavorite(contextMenuChannel.name);
+                    contextMenu.style.display = 'none';
+                }
+            });
+            
+            ctxRemoveFav.addEventListener('click', () => {
+                if (contextMenuChannel) {
+                    toggleFavorite(contextMenuChannel.name);
+                    contextMenu.style.display = 'none';
+                }
+            });
+            
+            ctxCopyUrl.addEventListener('click', () => {
+                if (contextMenuChannel) {
+                    navigator.clipboard.writeText(contextMenuChannel.url);
+                    showToast('URL copiada para a área de transferência', 'success');
+                    contextMenu.style.display = 'none';
+                }
+            });
+            
+            ctxChannelInfo.addEventListener('click', () => {
+                if (contextMenuChannel) {
+                    selectChannel(contextMenuChannel);
+                    showModal(infoModal);
+                    contextMenu.style.display = 'none';
+                }
+            });
+
+            // Atalhos de teclado
+            document.addEventListener('keydown', (e) => {
+                // Espaço para play/pause
+                if (e.code === 'Space' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+                    e.preventDefault();
+                    if (videoPlayer.paused) {
+                        playVideo();
+                    } else {
+                        pauseVideo();
+                    }
+                }
+                
+                // F para tela cheia
+                if (e.code === 'KeyF') {
+                    toggleFullscreen();
+                }
+                
+                // Seta para cima/baixo para aumentar/diminuir volume
+                if (e.code === 'ArrowUp') {
+                    e.preventDefault();
+                    videoPlayer.volume = Math.min(1, videoPlayer.volume + 0.1);
+                }
+                if (e.code === 'ArrowDown') {
+                    e.preventDefault();
+                    videoPlayer.volume = Math.max(0, videoPlayer.volume - 0.1);
+                }
+                
+                // Seta para esquerda/direita para retroceder/avançar
+                if (e.code === 'ArrowLeft') {
+                    e.preventDefault();
+                    seekBy(-10);
+                }
+                if (e.code === 'ArrowRight') {
+                    e.preventDefault();
+                    seekBy(10);
+                }
+                
+                // I para informações
+                if (e.code === 'KeyI') {
+                    showModal(infoModal);
+                }
+                
+                // M para mutar
+                if (e.code === 'KeyM') {
+                    videoPlayer.muted = !videoPlayer.muted;
+                    showToast(videoPlayer.muted ? 'Som mutado' : 'Som ativado', 'info');
+                }
+            });
+        }
+
+        function setupChannelEvents() {
+            // Eventos de clique nos canais
+            document.querySelectorAll('.channel').forEach(channelElement => {
+                channelElement.addEventListener('click', function(e) {
+                    // Não disparar se clicou em um botão de ação
+                    if (e.target.classList.contains('channel-btn')) return;
+                    
+                    const channelName = this.querySelector('.channel-name').textContent;
+                    const channel = channels.find(c => c.name === channelName);
+                    if (channel) {
+                        selectChannel(channel);
+                        if (settings.autoplay) {
+                            playVideo();
+                        }
+                    }
+                });
+            });
+
+            // Eventos de clique nas categorias (para expandir/recolher)
+            if (settings.rememberCategories) {
+                document.querySelectorAll('.category').forEach(categoryElement => {
+                    categoryElement.addEventListener('click', function() {
+                        const categoryName = this.textContent.replace(/[📺🌟]/g, '').replace(/\[\+\]|\[\-\]/g, '').trim();
+                        const content = this.nextElementSibling;
+                        
+                        // Alternar estado
+                        collapsedCategories[categoryName] = !collapsedCategories[categoryName];
+                        localStorage.setItem('iptv-collapsed-categories', JSON.stringify(collapsedCategories));
+                        
+                        if (collapsedCategories[categoryName]) {
+                            content.classList.add('collapsed');
+                            this.querySelector('.toggle').textContent = '[+]';
+                        } else {
+                            content.classList.remove('collapsed');
+                            this.querySelector('.toggle').textContent = '[-]';
+                        }
+                    });
+                });
+            }
+
+            // Eventos dos botões de ação dos canais
+            document.querySelectorAll('.fav-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const channelName = this.closest('.channel').querySelector('.channel-name').textContent;
+                    toggleFavorite(channelName);
+                });
+            });
+        }
+
+        // ====== FUNÇÕES DO PLAYER ======
+        function playVideo() {
+            if (!currentChannel) return;
+            
+            try {
+                // Força a decodificação por hardware
+                if (settings.hardwareAcceleration) {
+                    videoPlayer.setAttribute('autoplay', '');
+                    videoPlayer.setAttribute('muted', '');
+                }
+                
+                videoPlayer.play().catch(e => {
+                    showStatus("Erro ao reproduzir: " + e.message, 'error');
+                    if (settings.autoRecover) {
+                        setTimeout(() => {
+                            if (retryCount < settings.retries) {
+                                retryCount++;
+                                showStatus(`Tentando novamente (${retryCount}/${settings.retries})...`, 'warning');
+                                playVideo();
+                            } else {
+                                retryCount = 0;
+                            }
+                        }, 2000);
+                    }
+                });
+            } catch (error) {
+                showStatus("Erro ao reproduzir: " + error.message, 'error');
+            }
+        }
+
+        function pauseVideo() {
+            videoPlayer.pause();
+        }
+
+        function stopVideo() {
+            videoPlayer.pause();
+            videoPlayer.currentTime = 0;
+            if (hls) hls.destroy();
+            if (dashPlayer) dashPlayer.reset();
+            if (flvPlayer) flvPlayer.destroy();
+            progressBar.style.width = "0%";
+            progressText.textContent = "0% carregado";
+            clearStatsInterval();
+        }
+
+        function toggleFullscreen() {
+            if (videoPlayer.requestFullscreen) {
+                if (!document.fullscreenElement) {
+                    videoPlayer.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            } else if (videoPlayer.webkitRequestFullscreen) {
+                if (!document.webkitFullscreenElement) {
+                    videoPlayer.webkitRequestFullscreen();
+                } else {
+                    document.webkitExitFullscreen();
+                }
+            } else if (videoPlayer.msRequestFullscreen) {
+                if (!document.msFullscreenElement) {
+                    videoPlayer.msRequestFullscreen();
+                } else {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        function updatePlayerUI() {
+            progressText.textContent = "Reproduzindo: " + (currentChannel?.name || "");
+            startStatsInterval();
+        }
+
+        function handlePlayerError() {
+            const error = videoPlayer.error;
+            let errorMsg = "Erro desconhecido no player";
+            
+            if (error) {
+                switch(error.code) {
+                    case MediaError.MEDIA_ERR_ABORTED:
+                        errorMsg = "Reprodução abortada pelo usuário";
+                        break;
+                    case MediaError.MEDIA_ERR_NETWORK:
+                        errorMsg = "Erro de rede - verifique sua conexão";
+                        break;
+                    case MediaError.MEDIA_ERR_DECODE:
+                        errorMsg = "Erro ao decodificar o vídeo";
+                        break;
+                    case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                        errorMsg = "Formato de vídeo não suportado";
+                        break;
+                }
+            }
+            
+            showStatus(errorMsg, 'error');
+            
+            if (settings.autoRecover && retryCount < settings.retries) {
+                retryCount++;
+                showStatus(`Tentando reconectar (${retryCount}/${settings.retries})...`, 'warning');
+                setTimeout(() => {
+                    selectChannel(currentChannel);
+                    playVideo();
+                }, 2000);
+            } else {
+                retryCount = 0;
+            }
+        }
+
+        function showChannelInfo() {
+            if (!currentChannel) return;
+            
+            const infoContent = document.getElementById('channel-info-content');
+            const qualitySelector = document.getElementById('quality-selector');
+            const streamStats = document.getElementById('stream-stats');
+            
+            let infoHTML = `
+                <h3>${currentChannel.name}</h3>
+                <p><strong>Tipo:</strong> ${currentChannel.type.toUpperCase()}</p>
+                <p><strong>Categoria:</strong> ${currentChannel.category.replace(/[📺🌟]/g, '')}</p>
+                ${currentChannel.quality ? `<p><strong>Qualidade:</strong> ${currentChannel.quality}</p>` : ''}
+                ${currentChannel.tvgLogo ? `<img src="${currentChannel.tvgLogo}" alt="Logo" style="max-width: 100px; max-height: 60px; margin: 10px 0;">` : ''}
+                <p><strong>URL:</strong> <small>${currentChannel.url}</small></p>
+            `;
+            
+            infoContent.innerHTML = infoHTML;
+            
+            // Se for HLS e tiver múltiplas qualidades
+            if (hls && hls.levels && hls.levels.length > 1) {
+                qualitySelector.innerHTML = '';
+                hls.levels.forEach((level, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quality-btn';
+                    if (index === hls.currentLevel) btn.classList.add('active');
+                    btn.textContent = level.height ? `${level.height}p` : `${Math.round(level.bitrate/1000)}kbps`;
+                    btn.addEventListener('click', () => {
+                        hls.currentLevel = index;
+                        document.querySelectorAll('.quality-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                    });
+                    qualitySelector.appendChild(btn);
+                });
+                qualitySelector.style.display = 'flex';
+            } else {
+                qualitySelector.style.display = 'none';
+            }
+            
+            // Mostrar estatísticas se disponíveis
+            streamStats.style.display = 'block';
+            updateStatsDisplay();
+            
+            showModal(infoModal);
+        }
+
+        function startStatsInterval() {
+            clearStatsInterval();
+            
+            statsInterval = setInterval(() => {
+                updateStatsDisplay();
+            }, 1000);
+        }
+        
+        function updateStatsDisplay() {
+            if (hls) {
+                const stats = hls.stats;
+                const bufferLength = stats.bufferEnd - stats.bufferStart;
+                document.getElementById('stat-buffer').textContent = `${bufferLength.toFixed(2)}s`;
+                document.getElementById('stat-bitrate').textContent = `${Math.round(stats.bwEstimate/1000)}kbps`;
+                document.getElementById('stat-resolution').textContent = `${videoPlayer.videoWidth}x${videoPlayer.videoHeight}`;
+                document.getElementById('stat-fps').textContent = `${performanceMonitor.fps}`;
+            } else {
+                const bufferLength = videoPlayer.buffered.length > 0 ? 
+                    videoPlayer.buffered.end(videoPlayer.buffered.length - 1) - videoPlayer.currentTime : 0;
+                document.getElementById('stat-buffer').textContent = `${bufferLength.toFixed(2)}s`;
+                document.getElementById('stat-bitrate').textContent = "N/A";
+                document.getElementById('stat-resolution').textContent = `${videoPlayer.videoWidth}x${videoPlayer.videoHeight}`;
+                document.getElementById('stat-fps').textContent = "N/A";
+            }
+            
+            document.getElementById('stat-latency').textContent = `${performance.now() - videoPlayer.currentTime * 1000}ms`;
+        }
+
+        function clearStatsInterval() {
+            if (statsInterval) {
+                clearInterval(statsInterval);
+                statsInterval = null;
+            }
+        }
+        
+        const originalSelectChannel = selectChannel;
+    selectChannel = function(channel) {
+        originalSelectChannel(channel);
+        playbackQueue.addToQueue(channel, true);
+        preloadNextChannels(channel);
+        
+        if (hls || dashPlayer) {
+            qualityManager = new AdaptiveQualityManager(videoPlayer);
+            if (hls && hls.levels) {
+                qualityManager.qualityLevels = hls.levels.map((level, index) => ({
+                    index,
+                    label: level.height ? `${level.height}p` : `${Math.round(level.bitrate/1000)}kbps`
+                }));
+            }
+        }
+    };
+    
+        // Adicionar controles de fila de reprodução
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'PageDown') {
+            const next = playbackQueue.getNext();
+            if (next) selectChannel(next);
+        }
+        if (e.code === 'PageUp') {
+            const prev = playbackQueue.getPrevious();
+            if (prev) selectChannel(prev);
+        }
+    });
+    
+        // Substituir a renderização de canais pela lista virtual
+    const channelListContainer = document.getElementById('channel-list');
+    const virtualList = new ChannelVirtualList(
+        channelListContainer,
+        channels,
+        (channel) => {
+            const element = document.createElement('div');
+            element.className = 'channel';
+            // ... mesmo conteúdo de renderização dos canais ...
+            return element;
+        }
+    );
+
+        function selectChannel(channel) {
+            try {
+                currentChannel = channel;
+                
+                // Atualiza a UI
+                document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
+                const channelElement = [...document.querySelectorAll('.channel')].find(
+                    el => el.querySelector('.channel-name').textContent === channel.name
+                );
+                if (channelElement) channelElement.classList.add('active');
+
+                stopVideo();
+                progressText.textContent = `Carregando: ${channel.name}...`;
+                progressBar.style.width = "0%";
+
+                const streamType = channel.type || detectStreamType(channel.url);
+                
+                switch (streamType) {
+                    case 'hls': loadHlsStream(channel.url); break;
+                    case 'dash': loadDashStream(channel.url); break;
+                    case 'flv': loadFlvStream(channel.url); break;
+                    case 'rtmp': loadRtmpStream(channel.url); break;
+                    default: loadDirectStream(channel.url);
+                }
+
+                addToHistory(channel);
+                updateEpgInfo(channel);
+            } catch (error) {
+                console.error("Erro ao carregar canal:", error);
+                progressText.textContent = `Erro ao carregar ${channel.name}`;
+                showStatus(`Erro ao carregar canal: ${error.message}`, 'error');
+            }
+        }
+
+        function detectStreamType(url) {
+            if (!url) return 'mp4';
+            
+            // Verificar por extensão
+            if (url.match(/\.m3u8($|\?)/i)) return 'hls';
+            if (url.match(/\.mpd($|\?)/i)) return 'dash';
+            if (url.match(/\.flv($|\?)/i)) return 'flv';
+            if (url.match(/rtmp:\/\//i)) return 'rtmp';
+            if (url.match(/\.mp4($|\?)/i) || url.match(/\.mkv($|\?)/i) || url.match(/\.avi($|\?)/i)) return 'mp4';
+            
+            // Verificar por padrões na URL
+            if (url.includes('m3u8')) return 'hls';
+            if (url.includes('mpd')) return 'dash';
+            if (url.includes('flv')) return 'flv';
+            if (url.includes('rtmp')) return 'rtmp';
+            
+            // Padrão para links diretos
+            return 'mp4';
+        }
+
+        function loadHlsStream(url) {
+            if (Hls.isSupported()) {
+                // Configurações otimizadas para HLS com aceleração de hardware
+                hls = new Hls({
+                    enableWorker: true,
+                    enableSoftwareAES: true,
+                    lowLatencyMode: settings.lowLatencyMode,
+                    backBufferLength: 30,
+                    maxBufferLength: settings.hlsBuffer,
+                    maxMaxBufferLength: settings.maxBuffer,
+                    maxBufferSize: 60 * 1000 * 1000,
+                    maxBufferHole: 0.5,
+                    maxFragLookUpTolerance: 0.25,
+                    abrEwmaDefaultEstimate: 500000,
+                    abrBandWidthFactor: 0.95,
+                    abrBandWidthUpFactor: 0.7,
+                    abrEwmaSlowVoD: 50000,
+                    abrEwmaFastVoD: 5000,
+                    abrEwmaSlowLive: 50000,
+                    abrEwmaFastLive: 5000,
+                    fragLoadingTimeOut: 10000,
+                    manifestLoadingTimeOut: 10000,
+                    levelLoadingTimeOut: 10000,
+                    startLevel: -1,
+                    fpsDroppedMonitoringThreshold: 0.2,
+                    fpsDroppedMonitoringPeriod: 1000,
+                    capLevelOnFPSDrop: true,
+                    capLevelToPlayerSize: true
+                });
+                
+                hls.loadSource(url);
+                hls.attachMedia(videoPlayer);
+                
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    if (settings.autoQuality && hls.levels && hls.levels.length > 1) {
+                        hls.currentLevel = -1; // Auto quality
+                    }
+                    
+                    videoPlayer.play().catch(e => {
+                        progressText.textContent = "Pronto! Toque em Play para iniciar.";
+                    });
+                });
+                
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    if (data.fatal) {
+                        progressText.textContent = "Erro no stream HLS";
+                        showStatus(`Erro HLS: ${data.details}`, 'error');
+                        
+                        if (settings.autoRecover) {
+                            switch(data.type) {
+                                case Hls.ErrorTypes.NETWORK_ERROR:
+                                    hls.startLoad();
+                                    break;
+                                case Hls.ErrorTypes.MEDIA_ERROR:
+                                    hls.recoverMediaError();
+                                    break;
+                                default:
+                                    hls.destroy();
+                                    break;
+                            }
+                        }
+                    }
+                });
+                
+                hls.on(Hls.Events.FRAG_LOADING, (event, data) => {
+                    const progress = Math.round((data.frag.loaded / data.frag.total) * 100);
+                    progressBar.style.width = `${progress}%`;
+                    progressText.textContent = `${progress}% carregado`;
+                });
+            } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                // Suporte nativo para HLS (Safari)
+                videoPlayer.src = url;
+                videoPlayer.addEventListener('loadedmetadata', () => {
+                    videoPlayer.play().catch(e => {
+                        progressText.textContent = "Pronto! Toque em Play para iniciar.";
+                    });
+                });
+            } else {
+                progressText.textContent = "Seu navegador não suporta HLS.";
+                showStatus("Seu navegador não suporta HLS.", 'error');
+            }
+        }
+
+        function loadDashStream(url) {
+            if (typeof dashjs !== 'undefined') {
+                dashPlayer = dashjs.MediaPlayer().create();
+                dashPlayer.updateSettings({
+                    streaming: {
+                        buffer: {
+                            bufferTimeAtTopQuality: settings.maxBuffer,
+                            bufferTimeAtTopQualityLongForm: settings.maxBuffer,
+                            bufferAheadToKeep: settings.maxBuffer,
+                            bufferBehindToKeep: 0,
+                            fastSwitchEnabled: true,
+                            jumpGaps: true,
+                            smallGapLimit: 1.5,
+                            stallThreshold: 0.5,
+                            reuseBuffers: true
+                        },
+                        abr: {
+                            limitBitrateByPortal: true,
+                            usePixelRatioInLimitBitrate: true
+                        },
+                        scheduleWhilePaused: true,
+                        fastSwitchEnabled: true,
+                        jumpLargeGaps: true,
+                        smallGapLimit: 1.5
+                    }
+                });
+                dashPlayer.initialize(videoPlayer, url, true);
+                dashPlayer.on('downloadStart', () => {
+                    progressText.textContent = "Carregando stream DASH...";
+                });
+                dashPlayer.on('playbackPlaying', () => {
+                    progressText.textContent = "Reproduzindo DASH";
+                });
+                dashPlayer.on('error', (e) => {
+                    showStatus(`Erro DASH: ${e.message}`, 'error');
+                });
+            } else {
+                progressText.textContent = "Biblioteca DASH.js não carregada.";
+                showStatus("Biblioteca DASH.js não carregada.", 'error');
+            }
+        }
+
+        function loadFlvStream(url) {
+            if (flvjs.isSupported()) {
+                flvPlayer = flvjs.createPlayer({
+                    type: 'flv',
+                    url: url,
+                    isLive: true,
+                    hasAudio: true,
+                    hasVideo: true
+                });
+                flvPlayer.attachMediaElement(videoPlayer);
+                flvPlayer.load();
+                flvPlayer.play().catch(e => {
+                    progressText.textContent = "Toque em Play para iniciar.";
+                });
+                flvPlayer.on('error', (err) => {
+                    showStatus(`Erro FLV: ${err}`, 'error');
+                });
+            } else {
+                progressText.textContent = "Seu navegador não suporta FLV.";
+                showStatus("Seu navegador não suporta FLV.", 'error');
+            }
+        }
+
+        function loadRtmpStream(url) {
+            showStatus("RTMP requer um servidor intermediário (como NGINX ou Wowza) que converta para HLS.", 'info');
+        }
+
+        function loadDirectStream(url) {
+            // Limpar estado anterior
+            videoPlayer.src = '';
+            videoPlayer.load();
+            progressBar.style.width = '0%';
+
+            if (url.endsWith('.m3u8')) {
+                // HLS
+                if (Hls.isSupported()) {
+                    const hls = new Hls();
+                    hls.loadSource(url);
+                    hls.attachMedia(videoPlayer);
+                    showStatus("HLS carregado com sucesso.");
+                } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                    videoPlayer.src = url;
+                    videoPlayer.play();
+                } else {
+                    showStatus("Seu navegador não suporta HLS.", 'error');
+                    return;
+                }
+            } else if (url.endsWith('.mpd')) {
+                // DASH
+                const player = dashjs.MediaPlayer().create();
+                player.initialize(videoPlayer, url, true);
+                showStatus("DASH carregado com sucesso.");
+            } else if (url.endsWith('.mp4')) {
+                // MP4 direto
+                videoPlayer.src = url;
+                videoPlayer.play();
+                showStatus("MP4 carregado com sucesso.");
+            } else if (url.startsWith('rtmp://')) {
+                loadRtmpStream(url);
+                return;
+            } else {
+                showStatus("Formato não suportado.", 'error');
+                return;
+            }
+
+            videoPlayer.addEventListener('progress', () => {
+                if (videoPlayer.buffered.length > 0) {
+                    const bufferedEnd = videoPlayer.buffered.end(videoPlayer.buffered.length - 1);
+                    const duration = videoPlayer.duration;
+                    if (duration > 0) {
+                        const progress = Math.round((bufferedEnd / duration) * 100);
+                        progressBar.style.width = `${progress}%`;
+                        progressText.textContent = `${progress}% carregado`;
+                    }
+                }
+            });
+
+            videoPlayer.addEventListener('error', () => {
+                showStatus(`Erro ao carregar o vídeo: ${videoPlayer.error?.message || 'Erro desconhecido'}`, 'error');
+            });
+
+            videoPlayer.play().catch(() => {
+                progressText.textContent = "Toque em Play para iniciar.";
+            });
+        }
+
+        async function updateEpgInfo(channel) {
+            if (!settings.showEpg || !channel.tvgId) {
+                epgInfo.style.display = 'none';
+                return;
+            }
+
+            epgInfo.style.display = 'block';
+            epgCurrent.innerHTML = '<i class="fas fa-sync fa-spin"></i> Carregando programação...';
+            epgNext.innerHTML = '';
+
+            const epg = await fetchEpgData(channel.tvgId);
+
+            if (epg.now) {
+                epgCurrent.innerHTML = `<i class="fas fa-tv"></i> <strong>Agora:</strong> ${sanitize(epg.now.title)} (${formatTime(epg.now.start)} - ${formatTime(epg.now.end)})`;
+            } else {
+                epgCurrent.innerHTML = `<i class="fas fa-tv"></i> <strong>Agora:</strong> Informação indisponível`;
+            }
+
+            if (epg.next) {
+                epgNext.innerHTML = `<i class="fas fa-clock"></i> <strong>Próximo:</strong> ${sanitize(epg.next.title)} (${formatTime(epg.next.start)} - ${formatTime(epg.next.end)})`;
+            } else {
+                epgNext.innerHTML = `<i class="fas fa-clock"></i> <strong>Próximo:</strong> Informação indisponível`;
+            }
+        }
+
+        function formatTime(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function sanitize(text) {
+            const div = document.createElement('div');
+            div.textContent = text || '';
+            return div.innerHTML;
+        }
+
+        // ====== FUNÇÕES DA INTERFACE ======
+        function renderChannels() {
+            channelList.innerHTML = '';
+            
+            // Agrupa por categoria
+            const categories = {};
+            channels.forEach(channel => {
+                let category = channel.category || 'Geral';
+                
+                // Se for favorito e a configuração estiver ativada, adiciona emoji
+                if (settings.pinFavorites && favorites.some(fav => fav.url === channel.url)) {
+                    if (!category.includes('🌟')) {
+                        category = '🌟 ' + category;
+                    }
+                }
+                
+                if (!categories[category]) {
+                    categories[category] = [];
+                }
+                categories[category].push(channel);
+            });
+            
+            // Ordena categorias
+            const sortedCategories = Object.keys(categories).sort((a, b) => {
+                // Favoritos primeiro
+                if (a.includes('🌟') && !b.includes('🌟')) return -1;
+                if (!a.includes('🌟') && b.includes('🌟')) return 1;
+                return a.localeCompare(b);
+            });
+            
+            // Renderiza
+            for (const category of sortedCategories) {
+                const categoryKey = category.replace(/[📺🌟]/g, '').trim();
+                const isCollapsed = settings.rememberCategories && collapsedCategories[categoryKey];
+                
+                const categoryElement = document.createElement('div');
+                categoryElement.className = 'category';
+                categoryElement.innerHTML = `
+                    ${category}
+                    <span class="toggle">${isCollapsed ? '[+]' : '[-]'}</span>
+                `;
+                channelList.appendChild(categoryElement);
+                
+                const categoryContent = document.createElement('div');
+                categoryContent.className = `category-content ${isCollapsed ? 'collapsed' : ''}`;
+                
+                // Ordena canais por nome
+                categories[category].sort((a, b) => a.name.localeCompare(b.name));
+                
+                categories[category].forEach(channel => {
+                    const isFavorite = favorites.some(fav => fav.url === channel.url);
+                    const isActive = currentChannel && channel.name === currentChannel.name;
+                    const channelElement = document.createElement('div');
+                    channelElement.className = `channel ${isActive ? 'active' : ''}`;
+                    
+                    const logoHtml = settings.showLogos && channel.tvgLogo ? 
+                        `<img src="${channel.tvgLogo}" class="channel-logo" alt="Logo" onerror="this.src='https://via.placeholder.com/24'">` : 
+                        '';
+                    
+                    const typeHtml = settings.showType ? 
+                        `<span class="channel-type">${channel.type.toUpperCase()}</span>` : 
+                        '';
+                    
+                    const qualityHtml = settings.showQuality && channel.quality ? 
+                        `<span class="channel-quality">${channel.quality}</span>` : 
+                        '';
+                    
+                    channelElement.innerHTML = `
+                        <div class="channel-info">
+                            ${logoHtml}
+                            <span class="channel-name">${channel.name}</span>
+                            ${typeHtml}
+                            ${qualityHtml}
+                        </div>
+                        <div class="channel-actions">
+                            <button class="channel-btn fav-btn" title="${isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}">
+                                ${isFavorite ? '★' : '☆'}
+                            </button>
+                        </div>
+                    `;
+                    channelElement.dataset.url = channel.url;
+                    channelElement.dataset.type = channel.type;
+                    categoryContent.appendChild(channelElement);
+                });
+                
+                channelList.appendChild(categoryContent);
+            }
+            
+            // Configura eventos de clique nos novos canais
+            setupChannelEvents();
+        }
+
+        function updateCategoryFilter() {
+            // Obtém todas as categorias únicas
+            const categories = [...new Set(channels.map(c => c.category.replace(/[📺🌟]/g, '').trim()))];
+            
+            // Ordena alfabeticamente
+            categories.sort((a, b) => a.localeCompare(b));
+            
+            // Atualiza o dropdown
+            categoryFilter.innerHTML = '<option value="">Todas as categorias</option>';
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = cat;
+                categoryFilter.appendChild(option);
+            });
+        }
+
+        function filterChannels() {
+            const searchTerm = searchChannel.value.toLowerCase();
+            const categoryFilterValue = categoryFilter.value.toLowerCase();
+            const typeFilterValue = typeFilter.value.toLowerCase();
+            
+            const channelElements = document.querySelectorAll('.channel');
+            
+            channelElements.forEach(el => {
+                const channelName = el.querySelector('.channel-name').textContent.toLowerCase();
+                const channelType = el.dataset.type.toLowerCase();
+                const channelCategory = el.closest('.category-content').previousElementSibling.textContent
+                    .replace(/[📺🌟]/g, '').replace(/\[\+\]|\[\-\]/g, '').trim().toLowerCase();
+                
+                const nameMatch = channelName.includes(searchTerm);
+                const categoryMatch = !categoryFilterValue || channelCategory.includes(categoryFilterValue);
+                const typeMatch = !typeFilterValue || channelType.includes(typeFilterValue);
+                
+                if (nameMatch && categoryMatch && typeMatch) {
+                    el.style.display = 'flex';
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+            
+            // Esconde categorias vazias
+            document.querySelectorAll('.category').forEach(category => {
+                const categoryName = category.textContent.replace(/[📺🌟]/g, '').replace(/\[\+\]|\[\-\]/g, '').trim();
+                const content = category.nextElementSibling;
+                const visibleChannels = content.querySelectorAll('.channel[style="display: flex;"]').length;
+                
+                if (visibleChannels === 0 && !collapsedCategories[categoryName]) {
+                    content.classList.add('collapsed');
+                    category.querySelector('.toggle').textContent = '[+]';
+                    if (settings.rememberCategories) {
+                        collapsedCategories[categoryName] = true;
+                        localStorage.setItem('iptv-collapsed-categories', JSON.stringify(collapsedCategories));
+                    }
+                } else if (visibleChannels > 0 && collapsedCategories[categoryName]) {
+                    content.classList.remove('collapsed');
+                    category.querySelector('.toggle').textContent = '[-]';
+                    if (settings.rememberCategories) {
+                        collapsedCategories[categoryName] = false;
+                        localStorage.setItem('iptv-collapsed-categories', JSON.stringify(collapsedCategories));
+                    }
+                }
+            });
+        }
+
+        function toggleFavorite(channelName) {
+            const channel = channels.find(c => c.name === channelName);
+            if (!channel) return;
+            
+            const favIndex = favorites.findIndex(fav => fav.url === channel.url);
+            
+            if (favIndex === -1) {
+                // Adicionar aos favoritos
+                favorites.push(channel);
+                // Atualizar categoria para incluir em Favoritos
+                if (settings.pinFavorites && !channel.category.includes('🌟')) {
+                    channel.category = '🌟 ' + channel.category;
+                }
+                showToast(`Adicionado aos favoritos: ${channel.name}`, 'success');
+            } else {
+                // Remover dos favoritos
+                favorites.splice(favIndex, 1);
+                // Remover emoji de favorito da categoria
+                if (settings.pinFavorites) {
+                    channel.category = channel.category.replace('🌟 ', '');
+                }
+                showToast(`Removido dos favoritos: ${channel.name}`, 'info');
+            }
+            
+            localStorage.setItem('iptv-favorites', JSON.stringify(favorites));
+            renderChannels();
+            updateCategoryFilter();
+        }
+
+        function showStatus(message, type = 'info') {
+            statusMessage.textContent = message;
+            statusMessage.className = 'status ' + type;
+            statusMessage.style.display = 'flex';
+            
+            if (settings.verboseLogogs) {
+                console.log(`[IPTV Player] ${type.toUpperCase()}: ${message}`);
+            }
+            
+            if (type !== 'error') {
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function showToast(message, type = 'info', duration = 3000) {
+            const container = document.querySelector(`.toast-container.${settings.toastPosition}`);
+            if (!container) {
+                const newContainer = document.createElement('div');
+                newContainer.className = `toast-container ${settings.toastPosition}`;
+                document.body.appendChild(newContainer);
+            }
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fas fa-${getToastIcon(type)}"></i> ${message}`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 500);
+            }, duration);
+        }
+
+        function getToastIcon(type) {
+            switch(type) {
+                case 'success': return 'check-circle';
+                case 'error': return 'times-circle';
+                case 'warning': return 'exclamation-triangle';
+                default: return 'info-circle';
+            }
+        }
+
+        // ====== IMPORTAR LISTA ======
+function loadPlaylistFromUrl() {
+    const url = document.getElementById('playlist-url').value.trim();
+    const autoUpdate = document.getElementById('auto-update').checked;
+    const updateInterval = document.getElementById('update-interval').value;
+    const statusElement = document.getElementById('load-status');
+    const appendMode = importModal.dataset.mode === 'append';
+    
+    if (!url) {
+        statusElement.textContent = "Por favor, insira uma URL válida.";
+        statusElement.style.color = "var(--error-color)";
+        return;
+    }
+    
+    statusElement.innerHTML = '<div class="loader"></div> Carregando lista...';
+    statusElement.style.color = "var(--text-color)";
+    
+    const playlistSource = {
+        type: 'url',
+        url: url,
+        autoUpdate: autoUpdate,
+        updateInterval: updateInterval
+    };
+    
+    fetchWithTimeout(url, { timeout: settings.timeout * 1000 })
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.text();
+        })
+        .then(content => {
+            if (!content.startsWith('#EXTM3U')) {
+                throw new Error('O arquivo não parece ser uma lista M3U válida');
+            }
+            return parsePlaylist(content);
+        })
+        .then(newChannels => {
+            if (appendMode) {
+                // Adiciona os novos canais sem substituir os existentes
+                channels = [...channels, ...newChannels];
+                statusElement.innerHTML = `<i class="fas fa-check-circle"></i> ${newChannels.length} canais adicionados! Total: ${channels.length}`;
+            } else {
+                // Substitui os canais existentes (comportamento original)
+                channels = [...newChannels];
+                statusElement.innerHTML = `<i class="fas fa-check-circle"></i> ${newChannels.length} canais carregados!`;
+            }
+            
+            renderChannels();
+            updateCategoryFilter();
+            statusElement.style.color = "var(--success-color)";
+            
+            // Salva a fonte da playlist apenas se não for modo append
+            if (!appendMode) {
+                currentPlaylistSource = playlistSource;
+                localStorage.setItem('iptv-current-source', JSON.stringify(playlistSource));
+            }
+            
+            // Configura atualização automática se necessário
+            if (autoUpdate && !appendMode) {
+                setupAutoUpdate(playlistSource);
+            }
+            
+            setTimeout(() => {
+                importModal.style.display = 'none';
+                delete importModal.dataset.mode;
+            }, 1500);
+            
+            showStatus(`Lista carregada com ${newChannels.length} canais`, 'success');
+        })
+        .catch(error => {
+            console.error('Erro ao carregar lista:', error);
+            statusElement.innerHTML = `<i class="fas fa-times-circle"></i> Erro ao carregar: ${error.message}`;
+            statusElement.style.color = "var(--error-color)";
+            showStatus(`Erro ao carregar lista: ${error.message}`, 'error');
+        });
+}
+
+        function loadPlaylistFromFile() {
+            const fileInput = document.getElementById('playlist-file');
+            const statusElement = document.getElementById('load-status');
+            
+            if (!fileInput.files.length) {
+                statusElement.textContent = "Por favor, selecione um arquivo.";
+                statusElement.style.color = "var(--error-color)";
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            statusElement.innerHTML = '<div class="loader"></div> Lendo arquivo...';
+            statusElement.style.color = "var(--text-color)";
+            
+            reader.onload = function(e) {
+                try {
+                    const content = e.target.result;
+                    // Verifica se é uma lista M3U válida
+                    if (!content.startsWith('#EXTM3U')) {
+                        throw new Error('O arquivo não parece ser uma lista M3U válida');
+                    }
+                    
+                    const newChannels = parsePlaylist(content);
+                    channels = [...newChannels];
+                    renderChannels();
+                    updateCategoryFilter();
+                    statusElement.innerHTML = `<i class="fas fa-check-circle"></i> ${newChannels.length} canais carregados!`;
+                    statusElement.style.color = "var(--success-color)";
+                    
+                    // Limpa a fonte da playlist atual (arquivos não são salvos)
+                    currentPlaylistSource = null;
+                    localStorage.removeItem('iptv-current-source');
+                    
+                    setTimeout(() => importModal.style.display = 'none', 1500);
+                    showStatus(`Lista carregada com ${newChannels.length} canais`, 'success');
+                } catch (error) {
+                    console.error('Erro ao analisar lista:', error);
+                    statusElement.innerHTML = `<i class="fas fa-times-circle"></i> Erro ao analisar: ${error.message}`;
+                    statusElement.style.color = "var(--error-color)";
+                    showStatus(`Erro ao analisar lista: ${error.message}`, 'error');
+                }
+            };
+            
+            reader.onerror = function() {
+                statusElement.innerHTML = `<i class="fas fa-times-circle"></i> Erro ao ler o arquivo.`;
+                statusElement.style.color = "var(--error-color)";
+                showStatus("Erro ao ler o arquivo", 'error');
+            };
+            
+            reader.readAsText(file);
+        }
+
+        function loadM3UPlusPlaylist() {
+            const baseUrl = document.getElementById('m3uplus-url').value.trim();
+            const username = document.getElementById('m3uplus-username').value.trim();
+            const password = document.getElementById('m3uplus-password').value.trim();
+            const autoUpdate = document.getElementById('m3uplus-auto-update').checked;
+            const updateInterval = document.getElementById('m3uplus-update-interval').value;
+            const statusElement = document.getElementById('load-status');
+            
+            if (!baseUrl || !username || !password) {
+                statusElement.textContent = "Por favor, preencha todos os campos.";
+                statusElement.style.color = "var(--error-color)";
+                return;
+            }
+            
+            const url = `${baseUrl}?username=${username}&password=${password}&type=m3u_plus&output=mpegts`;
+            statusElement.innerHTML = '<div class="loader"></div> Carregando lista M3U Plus...';
+            statusElement.style.color = "var(--text-color)";
+            
+            const playlistSource = {
+                type: 'm3uplus',
+                baseUrl: baseUrl,
+                username: username,
+                password: password,
+                autoUpdate: autoUpdate,
+                updateInterval: updateInterval
+            };
+            
+            fetchWithTimeout(url, { timeout: settings.timeout * 1000 })
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return response.text();
+                })
+                .then(content => {
+                    // Verifica se é uma lista M3U válida
+                    if (!content.startsWith('#EXTM3U')) {
+                        throw new Error('A resposta não parece ser uma lista M3U válida');
+                    }
+                    return parsePlaylist(content);
+                })
+                .then(newChannels => {
+                    channels = [...newChannels];
+                    renderChannels();
+                    updateCategoryFilter();
+                    statusElement.innerHTML = `<i class="fas fa-check-circle"></i> ${newChannels.length} canais carregados!`;
+                    statusElement.style.color = "var(--success-color)";
+                    
+                    // Salva a fonte da playlist
+                    currentPlaylistSource = playlistSource;
+                    localStorage.setItem('iptv-current-source', JSON.stringify(playlistSource));
+                    
+                    // Configura atualização automática se necessário
+                    if (autoUpdate) {
+                        setupAutoUpdate(playlistSource);
+                    }
+                    
+                    setTimeout(() => importModal.style.display = 'none', 1500);
+                    showStatus(`Lista M3U Plus carregada com ${newChannels.length} canais`, 'success');
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar lista M3U Plus:', error);
+                    statusElement.innerHTML = `<i class="fas fa-times-circle"></i> Erro ao carregar: ${error.message}`;
+                    statusElement.style.color = "var(--error-color)";
+                    showStatus(`Erro ao carregar lista M3U Plus: ${error.message}`, 'error');
+                });
+        }
+
+        function loadXtreamPlaylist() {
+            const serverUrl = document.getElementById('xtream-url').value.trim();
+            const username = document.getElementById('xtream-username').value.trim();
+            const password = document.getElementById('xtream-password').value.trim();
+            const autoUpdate = document.getElementById('xtream-auto-update').checked;
+            const updateInterval = document.getElementById('xtream-update-interval').value;
+            const statusElement = document.getElementById('load-status');
+            
+            if (!serverUrl || !username || !password) {
+                statusElement.textContent = "Por favor, preencha todos os campos.";
+                statusElement.style.color = "var(--error-color)";
+                return;
+            }
+            
+            // Remove trailing slash if present
+            const cleanServerUrl = serverUrl.replace(/\/$/, '');
+            const url = `${cleanServerUrl}/player_api.php?username=${username}&password=${password}&action=get_live_streams`;
+            
+            statusElement.innerHTML = '<div class="loader"></div> Carregando lista Xtream Codes...';
+            statusElement.style.color = "var(--text-color)";
+            
+            const playlistSource = {
+                type: 'xtream',
+                serverUrl: cleanServerUrl,
+                username: username,
+                password: password,
+                autoUpdate: autoUpdate,
+                updateInterval: updateInterval
+            };
+            
+            fetchWithTimeout(url, { timeout: settings.timeout * 1000 })
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data || !Array.isArray(data)) {
+                        throw new Error('Resposta inválida do servidor Xtream Codes');
+                    }
+                    
+                    const newChannels = data.map(stream => ({
+                        name: stream.name,
+                        url: `${cleanServerUrl}/live/${username}/${password}/${stream.stream_id}.ts`,
+                        type: 'hls',
+                        category: stream.category_name || 'Geral',
+                        tvgId: stream.epg_channel_id || '',
+                        tvgName: stream.name,
+                        tvgLogo: stream.stream_icon || '',
+                        groupTitle: stream.category_name || 'Geral',
+                        quality: detectStreamQuality(stream.name)
+                    }));
+                    
+                    channels = [...newChannels];
+                    renderChannels();
+                    updateCategoryFilter();
+                    statusElement.innerHTML = `<i class="fas fa-check-circle"></i> ${newChannels.length} canais carregados!`;
+                    statusElement.style.color = "var(--success-color)";
+                    
+                    // Salva a fonte da playlist
+                    currentPlaylistSource = playlistSource;
+                    localStorage.setItem('iptv-current-source', JSON.stringify(playlistSource));
+                    
+                    // Configura atualização automática se necessário
+                    if (autoUpdate) {
+                        setupAutoUpdate(playlistSource);
+                    }
+                    
+                    setTimeout(() => importModal.style.display = 'none', 1500);
+                    showStatus(`Lista Xtream Codes carregada com ${newChannels.length} canais`, 'success');
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar lista Xtream Codes:', error);
+                    statusElement.innerHTML = `<i class="fas fa-times-circle"></i> Erro ao carregar: ${error.message}`;
+                    statusElement.style.color = "var(--error-color)";
+                    showStatus(`Erro ao carregar lista Xtream Codes: ${error.message}`, 'error');
+                });
+        }
+
+        function loadQuickPreset(preset) {
+            switch(preset) {
+                case 'teambr':
+                    document.getElementById('m3uplus-tab').click();
+                    document.getElementById('load-m3uplus-btn').click();
+                    break;
+                case 'xtream':
+                    document.getElementById('xtream-tab').click();
+                    showModal(importModal);
+                    break;
+                case 'm3u':
+                    document.getElementById('url-tab').click();
+                    showModal(importModal);
+                    break;
+            }
+        }
+
+        function loadPlaylistFromSource(source) {
+            switch (source.type) {
+                case 'url':
+                    document.getElementById('playlist-url').value = source.url;
+                    document.getElementById('auto-update').checked = source.autoUpdate || false;
+                    document.getElementById('update-interval').value = source.updateInterval || 12;
+                    document.getElementById('update-interval-container').style.display = source.autoUpdate ? 'block' : 'none';
+                    document.getElementById('url-tab').click();
+                    document.getElementById('load-url-btn').click();
+                    break;
+                    
+                case 'm3uplus':
+                    document.getElementById('m3uplus-url').value = source.baseUrl;
+                    document.getElementById('m3uplus-username').value = source.username;
+                    document.getElementById('m3uplus-password').value = source.password;
+                    document.getElementById('m3uplus-auto-update').checked = source.autoUpdate || false;
+                    document.getElementById('m3uplus-update-interval').value = source.updateInterval || 12;
+                    document.getElementById('m3uplus-update-interval-container').style.display = source.autoUpdate ? 'block' : 'none';
+                    document.getElementById('m3uplus-tab').click();
+                    document.getElementById('load-m3uplus-btn').click();
+                    break;
+                    
+                case 'xtream':
+                    document.getElementById('xtream-url').value = source.serverUrl;
+                    document.getElementById('xtream-username').value = source.username;
+                    document.getElementById('xtream-password').value = source.password;
+                    document.getElementById('xtream-auto-update').checked = source.autoUpdate || false;
+                    document.getElementById('xtream-update-interval').value = source.updateInterval || 12;
+                    document.getElementById('xtream-update-interval-container').style.display = source.autoUpdate ? 'block' : 'none';
+                    document.getElementById('xtream-tab').click();
+                    document.getElementById('load-xtream-btn').click();
+                    break;
+            }
+        }
+
+        function setupAutoUpdate(source) {
+            // Remove qualquer intervalo existente para esta fonte
+            if (autoUpdateIntervals[source.type]) {
+                clearInterval(autoUpdateIntervals[source.type]);
+            }
+            
+            const intervalHours = source.updateInterval || 12;
+            const intervalMs = intervalHours * 60 * 60 * 1000;
+            
+            // Configura o novo intervalo
+            autoUpdateIntervals[source.type] = setInterval(() => {
+                showStatus(`Atualizando lista automaticamente...`, 'warning');
+                loadPlaylistFromSource(source);
+            }, intervalMs);
+            
+            showStatus(`Atualização automática configurada para cada ${intervalHours} horas`, 'success');
+        }
+
+        function refreshPlaylist() {
+            if (currentPlaylistSource) {
+                showStatus("Recarregando lista...", 'warning');
+                loadPlaylistFromSource(currentPlaylistSource);
+            } else {
+                showStatus("Nenhuma lista carregada para recarregar", 'error');
+            }
+        }
+        
+        // Adicionar após as funções de otimização de memória
+class AdaptiveQualityManager {
+    constructor(videoElement) {
+        this.video = videoElement;
+        this.qualityLevels = [];
+        this.currentQuality = 0;
+        this.networkMonitorInterval = null;
+        this.lastBitrate = 0;
+        this.stableCount = 0;
+        
+        this.init();
+    }
+    
+    init() {
+        // Monitorar eventos de buffer
+        this.video.addEventListener('waiting', this.handleBuffering.bind(this));
+        this.video.addEventListener('playing', this.handlePlaying.bind(this));
+        
+        // Monitorar rede periodicamente
+        this.networkMonitorInterval = setInterval(
+            this.monitorNetwork.bind(this), 
+            5000
+        );
+    }
+    
+    handleBuffering() {
+        // Reduzir qualidade quando ocorre buffering
+        if (this.currentQuality > 0) {
+            this.setQuality(this.currentQuality - 1);
+        }
+    }
+    
+    handlePlaying() {
+        // Tentar aumentar qualidade quando está estável
+        if (this.stableCount > 3 && this.currentQuality < this.qualityLevels.length - 1) {
+            this.setQuality(this.currentQuality + 1);
+        }
+    }
+    
+    monitorNetwork() {
+        if (this.video.buffered.length === 0) return;
+        
+        const bufferedEnd = this.video.buffered.end(this.video.buffered.length - 1);
+        const bufferedStart = this.video.buffered.start(this.video.buffered.length - 1);
+        const bufferLength = bufferedEnd - bufferedStart;
+        
+        // Calcular bitrate aproximado
+        const bitrate = (this.video.videoBytesDecoded || 0) / (bufferLength || 1);
+        
+        // Verificar estabilidade
+        if (Math.abs(bitrate - this.lastBitrate) < (bitrate * 0.1)) {
+            this.stableCount++;
+        } else {
+            this.stableCount = 0;
+        }
+        
+        this.lastBitrate = bitrate;
+        
+        // Ajustar qualidade com base no buffer
+        if (bufferLength < 5 && this.currentQuality > 0) {
+            this.setQuality(this.currentQuality - 1);
+        } else if (bufferLength > 15 && this.stableCount > 2 && 
+                  this.currentQuality < this.qualityLevels.length - 1) {
+            this.setQuality(this.currentQuality + 1);
+        }
+    }
+    
+    setQuality(level) {
+        if (level >= 0 && level < this.qualityLevels.length && level !== this.currentQuality) {
+            this.currentQuality = level;
+            this.stableCount = 0;
+            
+            // Implementar mudança de qualidade conforme o player usado (HLS, DASH, etc.)
+            if (hls && hls.levels) {
+                hls.currentLevel = level;
+            } else if (dashPlayer) {
+                dashPlayer.setQualityFor('video', level);
+            }
+            
+            showToast(`Qualidade alterada para: ${this.qualityLevels[level].label}`, 'info');
+        }
+    }
+    
+    destroy() {
+        clearInterval(this.networkMonitorInterval);
+        this.video.removeEventListener('waiting', this.handleBuffering);
+        this.video.removeEventListener('playing', this.handlePlaying);
+    }
+}
+
+// Adicionar após as funções de gerenciamento de qualidade
+class PlaybackQueue {
+    constructor() {
+        this.queue = [];
+        this.history = [];
+        this.currentIndex = -1;
+        this.maxHistory = 50;
+    }
+    
+    addToQueue(channel, playNow = false) {
+        if (playNow) {
+            this.queue.unshift(channel);
+            this.currentIndex = 0;
+        } else {
+            this.queue.push(channel);
+            if (this.currentIndex === -1) this.currentIndex = 0;
+        }
+        
+        this.saveQueue();
+    }
+    
+    getNext() {
+        if (this.queue.length === 0) return null;
+        
+        this.currentIndex++;
+        if (this.currentIndex >= this.queue.length) {
+            this.currentIndex = 0; // Volta ao início da fila
+        }
+        
+        const nextChannel = this.queue[this.currentIndex];
+        this.addToHistory(nextChannel);
+        this.saveQueue();
+        
+        return nextChannel;
+    }
+    
+    getPrevious() {
+        if (this.history.length < 2) return null;
+        
+        // Remove o atual do histórico
+        this.history.pop();
+        
+        // Pega o anterior
+        const prevChannel = this.history[this.history.length - 1];
+        
+        // Encontra na fila
+        this.currentIndex = this.queue.findIndex(c => c.url === prevChannel.url);
+        if (this.currentIndex === -1) {
+            this.queue.unshift(prevChannel);
+            this.currentIndex = 0;
+        }
+        
+        this.saveQueue();
+        return prevChannel;
+    }
+    
+    addToHistory(channel) {
+        this.history = this.history.filter(c => c.url !== channel.url);
+        this.history.push(channel);
+        
+        if (this.history.length > this.maxHistory) {
+            this.history.shift();
+        }
+        
+        localStorage.setItem('playbackHistory', JSON.stringify(this.history));
+    }
+    
+    saveQueue() {
+        localStorage.setItem('playbackQueue', JSON.stringify({
+            queue: this.queue,
+            currentIndex: this.currentIndex
+        }));
+    }
+    
+    loadQueue() {
+        const savedQueue = localStorage.getItem('playbackQueue');
+        if (savedQueue) {
+            const { queue, currentIndex } = JSON.parse(savedQueue);
+            this.queue = queue;
+            this.currentIndex = currentIndex;
+        }
+        
+        const savedHistory = localStorage.getItem('playbackHistory');
+        if (savedHistory) {
+            this.history = JSON.parse(savedHistory);
+        }
+    }
+    
+    clear() {
+        this.queue = [];
+        this.currentIndex = -1;
+        localStorage.removeItem('playbackQueue');
+    }
+}
+
+        // ====== FUNÇÕES PARA DETECÇÃO DE QUALIDADE ======
+        function detectStreamQuality(name) {
+            const qualityPatterns = [
+                { pattern: /(4k|uhd|2160p)/i, quality: "4K" },
+                { pattern: /(1080|fullhd|fhd)/i, quality: "1080p" },
+                { pattern: /(720|hd)/i, quality: "720p" },
+                { pattern: /(480|sd)/i, quality: "480p" },
+                { pattern: /(360|lq)/i, quality: "360p" },
+                { pattern: /(240|mobile)/i, quality: "240p" }
+            ];
+            
+            for (const { pattern, quality } of qualityPatterns) {
+                if (pattern.test(name)) {
+                    return quality;
+                }
+            }
+            
+            return "Desconhecida";
+        }
+
+        // ====== FUNÇÕES PARA HISTÓRICO ======
+        function addToHistory(channel) {
+            history = history.filter(c => c.url !== channel.url);
+            history.unshift({
+                name: channel.name,
+                url: channel.url,
+                timestamp: new Date().toISOString()
+            });
+            if (history.length > settings.historyLimit) history.pop();
+            localStorage.setItem('iptv-history', JSON.stringify(history));
+        }
+
+        // ====== PARSE DE PLAYLIST ======
+function parsePlaylist(content) {
+    const lines = content.split('\n');
+    const newChannels = [];
+    let currentChannel = null;
+    let lineCount = 0;
+    
+    for (let line of lines) {
+        lineCount++;
+        line = line.trim();
+        
+        if (line.startsWith('#EXTINF:')) {
+            const parts = line.split(',');
+            const info = parts[0].substring(8);
+            let name = parts.slice(1).join(',').trim();
+            
+            // Extrair atributos
+            const attrs = {};
+            const attrMatches = info.match(/([a-zA-Z_-]+)="([^"]*)"/g);
+            if (attrMatches) {
+                attrMatches.forEach(attr => {
+                    const [key, value] = attr.split('=');
+                    attrs[key.toLowerCase()] = value.replace(/"/g, '');
+                });
+            }
+            
+            // Se o nome estiver vazio, usar tvg-name ou criar um nome genérico
+            if (!name && attrs['tvg-name']) {
+                name = attrs['tvg-name'];
+            } else if (!name) {
+                name = `Canal ${lineCount}`;
+            }
+            
+            currentChannel = {
+                name: name,
+                url: '',
+                type: null,
+                category: attrs['group-title'] || 'Geral',
+                tvgId: attrs['tvg-id'] || '',
+                tvgName: attrs['tvg-name'] || name,
+                tvgLogo: attrs['tvg-logo'] || '',
+                groupTitle: attrs['group-title'] || 'Geral',
+                quality: detectStreamQuality(name + ' ' + (attrs['tvg-name'] || ''))
+            };
+            
+            // Processa o group-title com emojis
+            if (currentChannel.groupTitle) {
+                currentChannel.groupTitle = currentChannel.groupTitle.replace(/^##/, '').trim();
+                currentChannel.category = currentChannel.groupTitle;
+            }
+        } else if (line && !line.startsWith('#') && currentChannel) {
+            currentChannel.url = line;
+            currentChannel.type = detectStreamType(line);
+            newChannels.push(currentChannel);
+            currentChannel = null;
+        }
+    }
+    
+    return newChannels;
+}
+
+function getPlaylistMetadata(content) {
+    const lines = content.split('\n');
+    const metadata = {
+        header: '',
+        editor: '',
+        updateDate: '',
+        comments: []
+    };
+    
+    for (const line of lines) {
+        if (line.startsWith('## 📺')) {
+            metadata.header = line.replace('## ', '');
+        } else if (line.startsWith('## 👨🏻‍💻')) {
+            metadata.editor = line.replace('## ', '');
+        } else if (line.startsWith('## 🆕')) {
+            metadata.updateDate = line.replace('## ', '');
+        } else if (line.startsWith('##') && !line.startsWith('#EXT')) {
+            metadata.comments.push(line.replace('## ', ''));
+        }
+    }
+    
+    return metadata;
+}
+        // ====== ADICIONAR CANAL MANUALMENTE ======
+        function saveChannel() {
+            const name = document.getElementById('channel-name').value.trim();
+            const url = document.getElementById('channel-url').value.trim();
+            const type = document.getElementById('channel-type').value;
+            const category = document.getElementById('channel-category').value.trim() || 'Geral';
+            const logo = document.getElementById('channel-logo').value.trim();
+            
+            if (!name || !url) {
+                showToast("Por favor, preencha pelo menos o nome e a URL.", 'error');
+                return;
+            }
+            
+            const newChannel = {
+                name,
+                url,
+                type: type === 'auto' ? detectStreamType(url) : type,
+                category,
+                tvgId: "",
+                tvgName: name,
+                tvgLogo: logo,
+                groupTitle: category,
+                quality: detectStreamQuality(name)
+            };
+            
+            channels.push(newChannel);
+            renderChannels();
+            updateCategoryFilter();
+            
+            // Limpa o formulário
+            document.getElementById('channel-name').value = '';
+            document.getElementById('channel-url').value = '';
+            document.getElementById('channel-category').value = '';
+            document.getElementById('channel-logo').value = '';
+            
+            // Fecha o modal
+            channelModal.style.display = 'none';
+            
+            showToast(`Canal "${name}" adicionado com sucesso`, 'success');
+        }
+        
+        // ====== CONFIGURAÇÕES ======
+        function saveSettings() {
+            settings = {
+                autoplay: document.getElementById('setting-autoplay').checked,
+                hlsBuffer: parseInt(document.getElementById('setting-hls-buffer').value) || 30,
+                autoQuality: document.getElementById('setting-auto-quality').checked,
+                autoRecover: document.getElementById('setting-auto-recover').checked,
+                darkMode: document.getElementById('setting-dark-mode').checked,
+                showType: document.getElementById('setting-show-type').checked,
+                showQuality: document.getElementById('setting-show-quality').checked,
+                showLogos: document.getElementById('setting-show-logos').checked,
+                pinFavorites: document.getElementById('setting-pin-favorites').checked,
+                rememberCategories: document.getElementById('setting-remember-categories').checked,
+                showEpg: document.getElementById('setting-show-epg').checked,
+                historyLimit: parseInt(document.getElementById('setting-history-limit').value) || 50,
+                verboseLogs: document.getElementById('setting-verbose-logs').checked,
+                maxBuffer: parseInt(document.getElementById('setting-max-buffer').value) || 60,
+                timeout: parseInt(document.getElementById('setting-timeout').value) || 15,
+                retries: parseInt(document.getElementById('setting-retries').value) || 3,
+                hardwareAcceleration: document.getElementById('setting-hardware-accel').checked,
+                lowLatencyMode: document.getElementById('setting-low-latency').checked,
+                bufferStrategy: document.getElementById('setting-buffer-strategy').value,
+                toastPosition: document.getElementById('setting-toast-position').value
+            };
+            
+            localStorage.setItem('iptv-settings', JSON.stringify(settings));
+            
+            // Aplica as configurações imediatamente
+            document.body.classList.toggle('dark-mode', settings.darkMode);
+            configureVideoElement();
+            
+            // Recarrega os canais para aplicar as mudanças
+            renderChannels();
+            
+            // Fecha o modal
+            settingsModal.style.display = 'none';
+            
+            showToast("Configurações salvas com sucesso", 'success');
+        }
+
+        function resetSettings() {
+            if (confirm("Tem certeza que deseja restaurar as configurações padrão?")) {
+                settings = {
+                    autoplay: true,
+                    hlsBuffer: 30,
+                    autoQuality: true,
+                    autoRecover: true,
+                    darkMode: true,
+                    showType: true,
+                    showQuality: true,
+                    showLogos: true,
+                    pinFavorites: true,
+                    rememberCategories: true,
+                    showEpg: true,
+                    historyLimit: 50,
+                    verboseLogs: false,
+                    maxBuffer: 60,
+                    timeout: 15,
+                    retries: 3,
+                    hardwareAcceleration: true,
+                    lowLatencyMode: false,
+                    bufferStrategy: 'aggressive',
+                    toastPosition: 'bottom-right'
+                };
+                
+                localStorage.setItem('iptv-settings', JSON.stringify(settings));
+                loadSettings();
+                renderChannels();
+                
+                showToast("Configurações restauradas para os padrões", 'success');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm("Tem certeza que deseja limpar TODOS os dados? Isso inclui listas, favoritos e configurações.")) {
+                localStorage.clear();
+                channels = [];
+                favorites = [];
+                history = [];
+                collapsedCategories = {};
+                settings = {
+                    autoplay: true,
+                    hlsBuffer: 30,
+                    autoQuality: true,
+                    autoRecover: true,
+                    darkMode: true,
+                    showType: true,
+                    showQuality: true,
+                    showLogos: true,
+                    pinFavorites: true,
+                    rememberCategories: true,
+                    showEpg: true,
+                    historyLimit: 50,
+                    verboseLogs: false,
+                    maxBuffer: 60,
+                    timeout: 15,
+                    retries: 3,
+                    hardwareAcceleration: true,
+                    lowLatencyMode: false,
+                    bufferStrategy: 'aggressive',
+                    toastPosition: 'bottom-right'
+                };
+                currentPlaylistSource = null;
+                
+                loadDefaultChannels();
+                loadSettings();
+                
+                showToast("Todos os dados foram limpos", 'success');
+            }
+        }
+
+        // ====== UTILITÁRIOS ======
+        function showModal(modal) {
+            modal.style.display = 'flex';
+            
+            // Se for o modal de informações, atualiza os dados
+            if (modal === infoModal) {
+                showChannelInfo();
+            }
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function() {
+                const context = this, args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), wait);
+            };
+        }
+
+        function fetchWithTimeout(url, options = {}) {
+            const { timeout = 10000 } = options;
+            
+            const controller = new AbortController();
+            const signal = controller.signal;
+            
+            const fetchPromise = fetch(url, { ...options, signal });
+            
+            const timeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => {
+                    controller.abort();
+                    reject(new Error(`Timeout após ${timeout}ms`));
+                }, timeout)
+            );
+            
+            return Promise.race([fetchPromise, timeoutPromise]);
+        }
+
+        function seekBy(seconds) {
+            if (!isNaN(seconds)) {
+                videoPlayer.currentTime += seconds;
+            }
+        }
+        
+        // Função mock para buscar dados EPG (substitua por uma implementação real)
+        async function fetchEpgData(channelId) {
+            // Em uma implementação real, você faria uma requisição para um serviço EPG
+            return {
+                now: {
+                    title: "Programa Atual",
+                    start: new Date(),
+                    end: new Date(Date.now() + 3600000) // 1 hora depois
+                },
+                next: {
+                    title: "Próximo Programa",
+                    start: new Date(Date.now() + 3600000),
+                    end: new Date(Date.now() + 7200000) // 2 horas depois
+                }
+            };
+        }
+        
+            // Atualizar sempre que os canais mudarem
+    window.updateChannelList = function(newChannels) {
+        virtualList.updateChannels(newChannels);
+        
+    };
+    
+    </script>
+</body>
+</html>
