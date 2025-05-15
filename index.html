@@ -1235,11 +1235,161 @@ input:checked + .settings-slider:before {
 .action-btn.append-mode:hover {
     background-color: var(--primary-dark);
 }
+
+/* Container principal - layout flexível */
+.main-content {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+/* Seção do player - ocupa 2/3 do espaço */
+.player-section {
+    flex: 2;
+    min-width: 0;
+}
+
+/* Container da lista de canais - ocupa 1/3 do espaço */
+.playlist-section {
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    height: calc(100vh - 200px);
+    position: sticky;
+    top: 20px;
+}
+
+/* Esconde a lista de canais em telas menores */
+@media (max-width: 991px) {
+    .playlist-section {
+        display: none;
+    }
+}
+
+/* Esconde a lista de canais no modo tela cheia */
+:fullscreen .playlist-section,
+:-webkit-full-screen .playlist-section,
+:-moz-full-screen .playlist-section,
+:-ms-fullscreen .playlist-section {
+    display: none;
+}
+
+/* Ajusta o player para ocupar toda a largura em tela cheia */
+:fullscreen .player-section,
+:-webkit-full-screen .player-section,
+:-moz-full-screen .player-section,
+:-ms-fullscreen .player-section {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Estilo para a lista de canais */
+.channel-list {
+    height: calc(100% - 60px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) var(--gray-800);
+}
+
+.channel-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.channel-list::-webkit-scrollbar-track {
+    background: var(--gray-800);
+    border-radius: var(--border-radius-md);
+}
+
+.channel-list::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: var(--border-radius-md);
+}
+
+/* Aumenta a altura máxima da seção de playlist */
+.playlist-section {
+    height: calc(100vh - 120px); /* Aumenta a altura subtraindo menos pixels */
+    max-height: none; /* Remove qualquer limitação máxima */
+}
+
+/* Aumenta a altura da lista de canais */
+.channel-list {
+    height: calc(100% - 50px); /* Ajusta para usar mais espaço vertical */
+    max-height: none; /* Remove limitação máxima */
+}
+
+/* Ajusta os itens de canal para mostrar mais conteúdo */
+.channel {
+    padding: 12px 16px; /* Reduz o padding para caber mais itens */
+    margin: 4px 0; /* Reduz a margem entre os itens */
+}
+
+/* Compacta um pouco o cabeçalho */
+.section-header {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+/* Ajusta o tamanho dos logos (opcional) */
+.channel-logo {
+    width: 24px;
+    height: 24px;
+}
+
+/* Reduz o tamanho da fonte dos nomes dos canais */
+.channel-name {
+    font-size: 0.9rem;
+}
+
+/* Ajusta elementos de tipo/qualidade */
+.channel-type, .channel-quality {
+    font-size: 0.7rem;
+    padding: 1px 6px;
+}
+
+/* Remove bordas desnecessárias */
+.category {
+    padding: 8px 12px;
+    margin-top: 8px;
+}
+
+/* Ajusta a barra de busca */
+.search-box {
+    padding: 8px 12px;
+    margin-bottom: 8px;
+}
+
+/* Versão ultra compacta */
+.playlist-section {
+    height: calc(100vh - 80px);
+}
+
+.channel-list {
+    height: calc(100% - 10px);
+}
+
+.channel {
+    padding: 8px 12px;
+    margin: 2px 0;
+}
+
+.channel-name {
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+.channel-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+}
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
+   
             <span class="version-badge">OTRIXTECH IPTV</span>
         <div class="main-content">
             <!-- Player Section -->
@@ -1275,8 +1425,8 @@ input:checked + .settings-slider:before {
                     </div>
                 </div>
                 
-                        <p>Player avançado para transmissão de conteúdo IPTV</p>
-        </header>
+                        
+        
 
                 <!-- EPG Info -->
                 <div id="epg-info" class="epg-info" style="display: none;">
@@ -1290,13 +1440,13 @@ input:checked + .settings-slider:before {
                 <!-- Quick Presets -->
                 <div class="presets-container" id="quick-presets">
                     <button class="preset-btn" data-preset="teambr" title="Carregar lista TeamBR">
-                        <i class="fas fa-bolt"></i> TeamBR Live
+                        <i class="fas fa-bolt"></i>
                     </button>
                     <button class="preset-btn" data-preset="xtream" title="Carregar lista Xtream Codes">
-                        <i class="fas fa-server"></i> Xtream Codes
+                        <i class="fas fa-server"></i>
                     </button>
                     <button class="preset-btn" data-preset="m3u" title="Carregar lista M3U padrão">
-                        <i class="fas fa-list"></i> M3U Padrão
+                        <i class="fas fa-list"></i>
                     </button>
                 </div>
             </div>
@@ -1322,7 +1472,7 @@ input:checked + .settings-slider:before {
                             <i class="fas fa-file-export"></i> Exportar
                         </button>
                         <button id="add-playlist-btn" class="action-btn" title="Adicionar playlist (não substitui)">
-    <i class="fas fa-plus-circle"></i> Add
+    <i class="fas fa-plus-circle"></i> Adiciona listas novas sem remover as antigas
 </button>
                     </div>
                 </div>
@@ -1536,14 +1686,16 @@ input:checked + .settings-slider:before {
 
             <div class="input-group">
                 <label class="input-label">Tipo de Stream:</label>
-                <select id="channel-type" class="select-field">
-                    <option value="auto">Detectar automaticamente</option>
-                    <option value="hls">HLS (.m3u8)</option>
-                    <option value="mp4">MP4/Directo</option>
-                    <option value="dash">MPEG-DASH</option>
-                    <option value="flv">FLV</option>
-                    <option value="rtmp">RTMP</option>
-                </select>
+<!-- Adicionei o type para MKV no select de tipos de stream -->
+<select id="channel-type" class="select-field">
+    <option value="auto">Detectar automaticamente</option>
+    <option value="hls">HLS (.m3u8)</option>
+    <option value="mp4">MP4/Directo</option>
+    <option value="dash">MPEG-DASH</option>
+    <option value="flv">FLV</option>
+    <option value="rtmp">RTMP</option>
+    <option value="mkv">MKV (Matroska)</option>
+</select>
             </div>
 
             <div class="input-group">
@@ -2176,10 +2328,27 @@ function displayPlaylistMetadata() {
     document.getElementById('playlist-meta').textContent = metaText;
 }
 
-
+// Adicionei esta função para verificar suporte a codecs
+function checkMkvSupport() {
+    const mkvTest = document.createElement('video');
+    const mkvWithH264 = mkvTest.canPlayType('video/x-matroska; codecs="avc1.42E01E"');
+    const mkvWithVP9 = mkvTest.canPlayType('video/x-matroska; codecs="vp9"');
+    
+    return {
+        h264: mkvWithH264 === "probably" || mkvWithH264 === "maybe",
+        vp9: mkvWithVP9 === "probably" || mkvWithVP9 === "maybe"
+    };
+}
 
         // ====== INICIALIZAÇÃO ======
         document.addEventListener('DOMContentLoaded', () => {
+          
+          const mkvSupport = checkMkvSupport();
+    if (!mkvSupport.h264 && !mkvSupport.vp9) {
+        showStatus("Aviso: Suporte limitado para arquivos MKV neste navegador", 'warning');
+    }
+          
+          
             checkDependencies();
             loadSettings();
             loadDefaultChannels();
@@ -2655,165 +2824,664 @@ function displayPlaylistMetadata() {
     // Carrega os canais padrão apenas se não houver canais salvos   
     
             // Lista de canais no formato M3U
-const defaultM3UPlaylist = `#EXTM3U
-#EXTINF:-1 tvg-id="" tvg-name="SBT Cidade Verde (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcidadeverde.png" group-title="📺 Canais Locais",SBT Cidade Verde (PI)
+        const defaultM3UPlaylist = `#EXTM3U
+#EXTINF:-1 tvg-id="" tvg-name="SBT Cidade Verde (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcidadeverde.png" group-title="📺Canais locais",SBT Cidade Verde (PI)
 https://stmv1.transmissaodigital.com/cidadeverdenovo/cidadeverdenovo/chunklist_w1366217477.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="SBT Cidade Verde Picos (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcidadeverde.png" group-title="📺 Canais Locais",SBT Cidade Verde Picos (PI)
+#EXTINF:-1 tvg-id="" tvg-name="SBT Cidade Verde Picos (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcidadeverde.png" group-title="📺Canais locais",SBT Cidade Verde Picos (PI)
 https://stmv1.transmissaodigital.com/tvcidadeverde/tvcidadeverde/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Meio (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvmeio.png" group-title="📺 Canais Locais",TV Meio (PI)
+#EXTINF:-1 tvg-id="" tvg-name="TV Meio (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvmeio.png" group-title="📺Canais locais",TV Meio (PI)
 https://br5093.streamingdevideo.com.br/jztykfkpnu/jztykfkpnu/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Antena 10 (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/a10.png" group-title="📺 Canais Locais",TV Antena 10 (PI)
+#EXTINF:-1 tvg-id="" tvg-name="TV Antena 10 (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/a10.png" group-title="📺Canais locais",TV Antena 10 (PI)
 https://video01.logicahost.com.br/a10maisadap/smil:transcoder.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="RedeTV! O Dia (PI)" tvg-logo="https://upload.wikimedia.org/wikipedia/pt/a/a2/Logotipo_da_O_Dia_TV.png" group-title="📺 Canais Locais",RedeTV! O Dia (PI)
+#EXTINF:-1 tvg-id="" tvg-name="RedeTV! O Dia (PI)" tvg-logo="https://upload.wikimedia.org/wikipedia/pt/a/a2/Logotipo_da_O_Dia_TV.png" group-title="📺Canais locais",RedeTV! O Dia (PI)
 https://59e4b6c1beddc.streamlock.net/tvodia/tvodia/chunklist_w1610904242.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Gallo Jaicos (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvgallo.png" group-title="📺 Canais Locais",TV Gallo Jaicos (PI)
+#EXTINF:-1 tvg-id="" tvg-name="TV Gallo Jaicos (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvgallo.png" group-title="📺Canais locais",TV Gallo Jaicos (PI)
 https://5c483b9d1019c.streamlock.net/8202/8202/playlist-480p.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TVL News (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvlnews.png" group-title="📺 Canais Locais",TVL News (PI)
+#EXTINF:-1 tvg-id="" tvg-name="TVL News (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvlnews.png" group-title="📺Canais locais",TVL News (PI)
 https://cdn-luzilandi-10589.ciclano.io:1443/luzilandi-10589/luzilandi-10589/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Capital (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcapital.png" group-title="📺 Canais Locais",TV Capital (PI)
+#EXTINF:-1 tvg-id="" tvg-name="TV Capital (PI)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcapital.png" group-title="📺Canais locais",TV Capital (PI)
 https://stmv2.samcast.com.br/tvcapitalteresina/tvcapitalteresina/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="SBT Interior (SP)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/sbt.png" group-title="🌎 Variedades",SBT Interior (SP)
+#EXTINF:-1 tvg-id="" tvg-name="SBT Interior (SP)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/sbt.png" group-title="🌎Variedades",SBT Interior (SP)
 https://cdn.jmvstream.com/w/LVW-10801/LVW10801_Xvg4R0u57n/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="SBT (BA)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/sbt.png" group-title="🌎 Variedades",SBT (BA)
+#EXTINF:-1 tvg-id="" tvg-name="SBT (BA)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/sbt.png" group-title="🌎Variedades",SBT (BA)
 https://cdn.jmvstream.com/w/LVW-8379/LVW8379_rIq6ZYiIiA/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Record TV MT" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/recordtv.png" group-title="🌎 Variedades",Record TV MT
+#EXTINF:-1 tvg-id="" tvg-name="Record TV MT" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/recordtv.png" group-title="🌎Variedades",Record TV MT
 https://cdn.jmvstream.com/w/LVW-10842/LVW10842_513N26MDBL/chunklist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Band (RBA TV)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/band.png" group-title="🌎 Variedades",Band (RBA TV)
+#EXTINF:-1 tvg-id="" tvg-name="Band (RBA TV)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/band.png" group-title="🌎Variedades",Band (RBA TV)
 https://aovivo.doozytv.com.br/31025556/10161894/chunks.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Band (PA) 2" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/band.png" group-title="🌎 Variedades",Band (PA) 2
+#EXTINF:-1 tvg-id="" tvg-name="Band (PA) 2" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/band.png" group-title="🌎Variedades",Band (PA) 2
 https://5cf4a2c2512a2.streamlock.net/rbatv/rbatv/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="RedeTV! (PR)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redetv.png" group-title="🌎 Variedades",RedeTV! (PR)
+#EXTINF:-1 tvg-id="" tvg-name="RedeTV! (PR)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redetv.png" group-title="🌎Variedades",RedeTV! (PR)
 https://tv01.zas.media:1936/redetvparana/redetvparana/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="RedeTV!" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redetv.png" group-title="🌎 Variedades",RedeTV!
+#EXTINF:-1 tvg-id="" tvg-name="RedeTV!" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redetv.png" group-title="🌎Variedades",RedeTV!
 https://tv01.zas.media:1936/redetvparana/redetvparana/chunklist_w1074634538.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Cultura" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tv-cultura-logo.png" group-title="🌎 Variedades",TV Cultura
+#EXTINF:-1 tvg-id="" tvg-name="TV Cultura" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tv-cultura-logo.png" group-title="🌎Variedades",TV Cultura
 https://5b33b873179a2.streamlock.net:1443/live/livestream/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Catve Cultura (PR)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tv-cultura-logo.png" group-title="🌎 Variedades",Catve Cultura (PR)
+#EXTINF:-1 tvg-id="" tvg-name="Catve Cultura (PR)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tv-cultura-logo.png" group-title="🌎Variedades",Catve Cultura (PR)
 https://5b33b873179a2.streamlock.net:1443/live/livestream/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Gazeta (PA)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/gazeta.png" group-title="🌎 Variedades",TV Gazeta (PA)
-https://video01.kshost.com.br:4443/moises3834/moises3834/chunklist_w1625878121.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Canal Rural" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/canalrural.png" group-title="🌎 Variedades",Canal Rural
+#EXTINF:-1 tvg-id="" tvg-name="Canal Rural" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/canalrural.png" group-title="🌎Variedades",Canal Rural
 https://607d2a1a47b1f.streamlock.net/crur/smil:canalrural.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Cariri TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcariri.png" group-title="🌎 Variedades",Cariri TV
+#EXTINF:-1 tvg-id="" tvg-name="Cariri TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcariri.png" group-title="🌎Variedades",Cariri TV
 https://video05.logicahost.com.br/cariritv/cariritv/chunklist_w1172451183.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Padre Cicero" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvpadrecicero.png" group-title="🌎 Variedades",TV Padre Cicero
+#EXTINF:-1 tvg-id="" tvg-name="TV Padre Cicero" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvpadrecicero.png" group-title="🌎Variedades",TV Padre Cicero
 https://video01.logicahost.com.br/tvpadrecicero/tvpadrecicero/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Rede UTV Brasil" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/utvbrasil.png" group-title="🌎 Variedades",Rede UTV Brasil
+#EXTINF:-1 tvg-id="" tvg-name="Rede UTV Brasil" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/utvbrasil.png" group-title="🌎Variedades",Rede UTV Brasil
 https://utvsoultv.acessaradios.com.br/utvsoultv/utvsoultv.stream/chunklist_w955987097.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TVE Bahia" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tve.png" group-title="🌎 Variedades",TVE Bahia
+#EXTINF:-1 tvg-id="" tvg-name="TVE Bahia" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tve.png" group-title="🌎Variedades",TVE Bahia
 http://streaming.procergs.com.br:1935/tve/stve/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Camera" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcamara.png" group-title="🌎 Variedades",TV Camera
+#EXTINF:-1 tvg-id="" tvg-name="TV Camera" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvcamara.png" group-title="🌎Variedades",TV Camera
 https://stream3.camara.gov.br/tv1/manifest.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Canal gov" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/gov.png" group-title="🌎 Variedades",Canal gov
+#EXTINF:-1 tvg-id="" tvg-name="Canal gov" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/gov.png" group-title="🌎Variedades",Canal gov
 https://canalgov-stream.ebc.com.br/index.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Play TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/playtv.png" group-title="🌎 Variedades",Play TV
+#EXTINF:-1 tvg-id="" tvg-name="Play TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/playtv.png" group-title="🌎Variedades",Play TV
 https://isaocorp.cloudecast.com/playtv/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Sonata" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvsoneta.png" group-title="🌎 Variedades",TV Sonata
+#EXTINF:-1 tvg-id="" tvg-name="TV Sonata" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvsoneta.png" group-title="🌎Variedades",TV Sonata
 https://video04.logicahost.com.br/isonata/isonata/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Astraltv" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/astraltv.png" group-title="🌎 Variedades",Astraltv
+#EXTINF:-1 tvg-id="" tvg-name="Astraltv" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/astraltv.png" group-title="🌎Variedades",Astraltv
 https://isaocorp.cloudecast.com/astraltv/tracks-v1a1/mono.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="GLN TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/gln%20tv.png" group-title="🌎 Variedades",GLN TV
-https://stmv1.paineltv.net/glnfilmes/glnfilmes/chunklist_w1336076318.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Destak" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvdestak.png" group-title="🌎 Variedades",TV Destak
-https://video03.logicahost.com.br/pascoal/pascoal/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Bons Tempos TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/bonstempos.png" group-title="🌎 Variedades",Bons Tempos TV
-https://stmv1.srvif.com/canal29/canal29/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="CNN Portugal" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cnnpt.png" group-title="📰 Notícias",CNN Portugal
+#EXTINF:-1 tvg-id="" tvg-name="CNN Portugal" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cnnpt.png" group-title="📰Noticias",CNN Portugal
 https://raw.githubusercontent.com/ipstreet312/freeiptv/master/ressources/tvipt/sh/cnnpt.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Record News (ES)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/recordnews.png" group-title="📰 Notícias",Record News (ES)
+#EXTINF:-1 tvg-id="" tvg-name="Record News (ES)" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/recordnews.png" group-title="📰Noticias",Record News (ES)
 https://5cf4a2c2512a2.streamlock.net/8016/8016/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Record News" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/recordnews.png" group-title="📰 Notícias",Record News
+#EXTINF:-1 tvg-id="" tvg-name="Record News" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/recordnews.png" group-title="📰Noticias",Record News
 https://rnw-rn-soultv.otteravision.com/rnw/rn/rnw_rn.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Evangelizar" tvg-logo="https://i.imgur.com/wVPZqXa.png" group-title="🙏 Religioso",TV Evangelizar
+#EXTINF:-1 tvg-id="" tvg-name="TV Evangelizar" tvg-logo="https://i.imgur.com/wVPZqXa.png" group-title="🙏Religioso",TV Evangelizar
 https://tvevangelizar.brasilstream.com.br/hls/tvevangelizar/index.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Rede Vida" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redevida.png" group-title="🙏 Religioso",Rede Vida
+#EXTINF:-1 tvg-id="" tvg-name="Rede Vida" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redevida.png" group-title="🙏Religioso",Rede Vida
 https://d12e4o88jd8gex.cloudfront.net/out/v1/cea3de0b76ac4e82ab8ee0fd3f17ce12/index_1.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Aparecida" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvaparecida.png" group-title="🙏 Religioso",TV Aparecida
+#EXTINF:-1 tvg-id="" tvg-name="TV Aparecida" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvaparecida.png" group-title="🙏Religioso",TV Aparecida
 https://cdn.jmvstream.com/w/LVW-9716/LVW9716_HbtQtezcaw/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Rede Seculo 21" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/rs21.png" group-title="🙏 Religioso",Rede Seculo 21
+#EXTINF:-1 tvg-id="" tvg-name="Rede Seculo 21" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/rs21.png" group-title="🙏Religioso",Rede Seculo 21
 https://cdn.jmvstream.com/w/LVW-10024/ngrp:LVW10024_H3QLdAY6kx_all/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Novo Tempo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/novotempo.png" group-title="🙏 Religioso",Novo Tempo
+#EXTINF:-1 tvg-id="" tvg-name="Novo Tempo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/novotempo.png" group-title="🙏Religioso",Novo Tempo
 https://stream.live.novotempo.com/tv/smil:tvnovotempo.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Rede Gospel" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redegospel.png" group-title="🙏 Religioso",Rede Gospel
+#EXTINF:-1 tvg-id="" tvg-name="Rede Gospel" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/redegospel.png" group-title="🙏Religioso",Rede Gospel
 https://cdn.jmvstream.com/w/LVW-8719/LVW8719_AcLVAxWy5J/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV Pai Eterno" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/paieterno.png" group-title="🙏 Religioso",TV Pai Eterno
+#EXTINF:-1 tvg-id="" tvg-name="TV Pai Eterno" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/paieterno.png" group-title="🙏Religioso",TV Pai Eterno
 https://video09.logicahost.com.br/paieterno/paieterno/chunklist_w1610240856.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="RIT TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/rittv.png" group-title="🙏 Religioso",RIT TV
+#EXTINF:-1 tvg-id="" tvg-name="RIT TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/rittv.png" group-title="🙏Religioso",RIT TV
 https://acesso.ecast.site:3648/live/ritlive.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Caze TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cazetv.png" group-title="⚽️ Esportes",Caze TV
+#EXTINF:-1 tvg-id="" tvg-name="Caze TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cazetv.png" group-title="⚽️Esportes",Caze TV
 https://cc-panvcqnzkgrdl.akamaized.net/Caze/Caze_TV_BR/Caze_TV.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Red Bull TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/rbtv.png" group-title="⚽️ Esportes",Red Bull TV
+#EXTINF:-1 tvg-id="" tvg-name="Red Bull TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/rbtv.png" group-title="⚽️Esportes",Red Bull TV
 https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Os Jetsons" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/Jetsons.png" group-title="🎈 Infantil",Os Jetsons
+#EXTINF:-1 tvg-id="" tvg-name="GLN TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/gln%20tv.png" group-title="🌎Variedades",GLN TV
+https://stmv1.paineltv.net/glnfilmes/glnfilmes/chunklist_w1336076318.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="TV Destak" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvdestak.png" group-title="🌎Variedades",TV Destak
+https://video03.logicahost.com.br/pascoal/pascoal/playlist.m3u8
+#EXTINF:-1 tvg-id="" tvg-name="Os Jetsons" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/Jetsons.png" group-title="🎈Infantil",Os Jetsons
 https://stmv1.srvif.com/jetsontv/jetsontv/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Gospel Cartoon" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/gospelcartoon.png" group-title="🎈 Infantil",Gospel Cartoon
+#EXTINF:-1 tvg-id="" tvg-name="Gospel Cartoon" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/gospelcartoon.png" group-title="🎈Infantil",Gospel Cartoon
 https://stmv1.srvif.com/gospelcartoon/gospelcartoon/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="TV KIDMAIS" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvkidmais.png" group-title="🎈 Infantil",TV KIDMAIS
+#EXTINF:-1 tvg-id="" tvg-name="TV KIDMAIS" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tvkidmais.png" group-title="🎈Infantil",TV KIDMAIS
 https://video03.logicahost.com.br/novafamilia01/novafamilia01/chunklist_w1857365534.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Channel 1" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/channel1.png" group-title="🎬 Filmes e Séries",Channel 1
+#EXTINF:-1 tvg-id="" tvg-name="Channel 1" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/channel1.png" group-title="🎬Filmes e Series",Channel 1
 https://stmv1.srvif.com/movies1/movies1/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="DarkFlix" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/darkflix.png" group-title="🎬 Filmes e Séries",DarkFlix
+#EXTINF:-1 tvg-id="" tvg-name="DarkFlix" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/darkflix.png" group-title="🎬Filmes e Series",DarkFlix
 https://video01.soultv.com.br/darkflix/darkflix/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Classique TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/classiquetv.png" group-title="🎬 Filmes e Séries",Classique TV
+#EXTINF:-1 tvg-id="" tvg-name="Classique TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/classiquetv.png" group-title="🎬Filmes e Series",Classique TV
 https://stmv1.srvif.com/classique/classique/chunklist_w1919154997.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Viva Web TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/vivawebtv.png" group-title="🎬 Filmes e Séries",Viva Web TV
+#EXTINF:-1 tvg-id="" tvg-name="Viva Web TV" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/vivawebtv.png" group-title="🎬Filmes e Series",Viva Web TV
 https://video01.kshost.com.br:4443/cypriano46326/cypriano46326/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="XTreme" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/xtreme.png" group-title="🎬 Filmes e Séries",XTreme
+#EXTINF:-1 tvg-id="" tvg-name="XTreme" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/xtreme.png" group-title="🎬Filmes e Series",XTreme
 https://alanza.iptv2022.com/Xtreme_TV/index.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="kuriakos Cine" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/kuriakoscine.png" group-title="🎬 Filmes e Séries",kuriakos Cine
-https://w2.manasat.com/kcine/smil:kcine.smil/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Soul Cine Clube" tvg-logo="https://i.imgur.com/QapVmCb.png" group-title="🎬 Filmes e Séries",Soul Cine Clube
+#EXTINF:-1 tvg-id="" tvg-name="Soul Cine Clube" tvg-logo="https://i.imgur.com/QapVmCb.png" group-title="🎬Filmes e Series",Soul Cine Clube
 https://video01.soultv.com.br/soulcine/soulcine/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Cine Monde" tvg-logo="https://i.imgur.com/dpat1CH.png" group-title="🎬 Filmes e Séries",Cine Monde
+#EXTINF:-1 tvg-id="" tvg-name="Cine Monde" tvg-logo="https://i.imgur.com/dpat1CH.png" group-title="🎬Filmes e Series",Cine Monde
 https://video01.soultv.com.br/cinemonde/cinemonde/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Series Classic" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/seriesclassic.png" group-title="🎬 Filmes e Séries",Series Classic
+#EXTINF:-1 tvg-id="" tvg-name="Series Classic" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/seriesclassic.png" group-title="🎬Filmes e Series",Series Classic
 https://srv6.zcast.com.br/adriano8425/adriano8425/chunklist_w384479859.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="RunTime" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime
+#EXTINF:-1 tvg-id="" tvg-name="RunTime" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬Filmes e Series",RunTime
 https://stream.ads.ottera.tv/playlist.m3u8?network_id=2153
-#EXTINF:-1 tvg-id="" tvg-name="RunTime Ação" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime Ação
+#EXTINF:-1 tvg-id="" tvg-name="RunTime Ação" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬Filmes e Series",RunTime Ação
 https://stream.ads.ottera.tv/playlist.m3u8?network_id=2552
-#EXTINF:-1 tvg-id="" tvg-name="RunTime Comédia" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime Comédia
+#EXTINF:-1 tvg-id="" tvg-name="RunTime Comédia" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬Filmes e Series",RunTime Comédia
 https://stream.ads.ottera.tv/playlist.m3u8?network_id=2553
-#EXTINF:-1 tvg-id="" tvg-name="RunTime Romance" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime Romance
+#EXTINF:-1 tvg-id="" tvg-name="RunTime Romance" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬Filmes e Series",RunTime Romance
 https://stream.ads.ottera.tv/playlist.m3u8?network_id=4866
-#EXTINF:-1 tvg-id="" tvg-name="RunTime CinEspanto" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime CinEspanto
+#EXTINF:-1 tvg-id="" tvg-name="RunTime CinEspanto" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬Filmes e Series",RunTime CinEspanto
 https://stream.ads.ottera.tv/playlist.m3u8?network_id=4865
-#EXTINF:-1 tvg-id="" tvg-name="RunTime Crime" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬 Filmes e Séries",RunTime Crime
+#EXTINF:-1 tvg-id="" tvg-name="RunTime Crime" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/runtime.png" group-title="🎬Filmes e Series",RunTime Crime
 https://stream.ads.ottera.tv/playlist.m3u8?network_id=4864
-#EXTINF:-1 tvg-id="" tvg-name="Geekdot" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/geekdot.png" group-title="🎎 Animes",Geekdot
+#EXTINF:-1 tvg-id="" tvg-name="Geekdot" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/geekdot.png" group-title="🎎Animes",Geekdot
 https://stream.ichibantv.com:3764/hybrid/play.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Loading" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/loading.png" group-title="🎎 Animes",Loading
+#EXTINF:-1 tvg-id="" tvg-name="Loading" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/loading.png" group-title="🎎Animes",Loading
 https://stmv1.srvif.com/loadingtv/loadingtv/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="clouding" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/clouding.png" group-title="🎎 Animes",clouding
+#EXTINF:-1 tvg-id="" tvg-name="clouding" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/clouding.png" group-title="🎎Animes",clouding
 https://stmv1.paineltv.net/redeclonetv/redeclonetv/chunklist_w739638910.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="KroneHIT" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/kronehit.png" group-title="🎶 Música",KroneHIT
+#EXTINF:-1 tvg-id="" tvg-name="KroneHIT" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/kronehit.png" group-title="🎶Música",KroneHIT
 https://bitcdn-kronehit.bitmovin.com/v2/hls/playlist.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="KpopTV Play" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/kpoptv.png" group-title="🎶 Música",KpopTV Play
+#EXTINF:-1 tvg-id="" tvg-name="KpopTV Play" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/kpoptv.png" group-title="🎶Música",KpopTV Play
 https://alanza.iptv2022.com/Kpo_TV_Play/index.m3u8
-#EXTINF:-1 tvg-id="" tvg-name="Radio Cidade Verde 93.5 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cidadeverde.png" group-title="📻 Rádios",Radio Cidade Verde 93.5 FM
+#EXTINF:-1 tvg-id="" tvg-name="Radio Cidade Verde 93.5 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cidadeverde.png" group-title="📻Radio",Radio Cidade Verde 93.5 FM
 https://ssl1.transmissaodigital.com:20010/;
-#EXTINF:-1 tvg-id="" tvg-name="Radio Cidade Modelo 95.3 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cidademodelofm.png" group-title="📻 Rádios",Radio Cidade Modelo 95.3 FM
+#EXTINF:-1 tvg-id="" tvg-name="Radio Cidade Modelo 95.3 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/cidademodelofm.png" group-title="📻Radio",Radio Cidade Modelo 95.3 FM
 https://ssl1.transmissaodigital.com:20114/stream
-#EXTINF:-1 tvg-id="" tvg-name="Radio Meio Norte 99.9 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/meionorte.png" group-title="📻 Rádios",Radio Meio Norte 99.9 FM
+#EXTINF:-1 tvg-id="" tvg-name="Radio Meio Norte 99.9 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/meionorte.png" group-title="📻Radio",Radio Meio Norte 99.9 FM
 https://webradio.amsolution.com.br/radio/8280/meionorte
-#EXTINF:-1 tvg-id="" tvg-name="Radio Cultura 104.3 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/culturafm.png" group-title="📻 Rádios",Radio Cultura 104.3 FM
+#EXTINF:-1 tvg-id="" tvg-name="Radio Cultura 104.3 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/culturafm.png" group-title="📻Radio",Radio Cultura 104.3 FM
 https://str02.kfmidia.com.br:6672/stream
-#EXTINF:-1 tvg-id="" tvg-name="Radio Tropical 105.9 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tropical.png" group-title="📻 Rádios",Radio Tropical 105.9 FM
+#EXTINF:-1 tvg-id="" tvg-name="Radio Tropical 105.9 FM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/tropical.png" group-title="📻Radio",Radio Tropical 105.9 FM
 http://stm2.matutos.com.br:10136/stream
-#EXTINF:-1 tvg-id="" tvg-name="Radio Esperança 850 AM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/esperancaam.png" group-title="📻 Rádios",Radio Esperança 850 AM
+#EXTINF:-1 tvg-id="" tvg-name="Radio Esperança 850 AM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/esperancaam.png" group-title="📻Radio",Radio Esperança 850 AM
 https://stm3.srvif.com:7360/stream
-#EXTINF:-1 tvg-id="" tvg-name="Radio Difusora 920 AM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/difusoraam.png" group-title="📻 Rádios",Radio Difusora 920 AM
+#EXTINF:-1 tvg-id="" tvg-name="Radio Difusora 920 AM" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/difusoraam.png" group-title="📻Radio",Radio Difusora 920 AM
 http://stm20.srvaudio.com.br:11190/stream
-#EXTINF:-1 tvg-id="" tvg-name="000_Abertura" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="🎥 Looney Tunes",000_Abertura
+#EXTINF:-1 tvg-id="" tvg-name="000_Abertura" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",000_Abertura
 https://raw.githubusercontent.com/mariosanthos/arquivos/main/Abertura%20A%20Hora%20Warner.mkv
-#EXTINF:-1 tvg-id="" tvg-name="EP001-Adoro_receber_ordens_de_voce" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="🎥 Looney Tunes",EP001-Adoro_receber_ordens_de_voce
-https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP001-Adoro_receber_ordens_de_voce.mkv
-#EXTINF:-1 tvg-id="" tvg-name="Semana 01" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="🎥 Espaconave Terra",Semana 01
+#EXTINF:-1 tvg-id="" tvg-name="EP002-Agua_por_todos_os_lados" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP002-Agua_por_todos_os_lados
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP002-Agua_por_todos_os_lados.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP003-Alimentando_a_cria" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP003-Alimentando_a_cria
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP003-Alimentando_a_cria.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP004-Alucinacao_coletiva" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP004-Alucinacao_coletiva
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP004-Alucinacao_coletiva.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP005-Amigos_amigos_ratos_a_parte" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP005-Amigos_amigos_ratos_a_parte
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP005-Amigos_amigos_ratos_a_parte.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP006-Amor_e_pragas" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP006-Amor_e_pragas
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP006-Amor_e_pragas.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP007-As_aparencias_enganam" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP007-As_aparencias_enganam
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP007-As_aparencias_enganam.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP008-As_peripecias_de_patolino" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP008-As_peripecias_de_patolino
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP008-As_peripecias_de_patolino.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP009-As_suas_ordens_madame" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP009-As_suas_ordens_madame
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP009-As_suas_ordens_madame.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP010-Ataque_aereo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP010-Ataque_aereo
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP010-Ataque_aereo.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP011-Ataque_ao_forte_do_patolino" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP011-Ataque_ao_forte_do_patolino
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP011-Ataque_ao_forte_do_patolino.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP012-Atras_do_papa_leguas" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP012-Atras_do_papa_leguas
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP012-Atras_do_papa_leguas.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP014-Azar_de_coiote" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP014-Azar_de_coiote
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP014-Azar_de_coiote.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP015-A_eterna_cacada" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP015-A_eterna_cacada
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP015-A_eterna_cacada.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP016-A_infancia_do_pernalonga" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP016-A_infancia_do_pernalonga
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP016-A_infancia_do_pernalonga.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP017-A_ingenuidade_de_frangolino" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP017-A_ingenuidade_de_frangolino
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP017-A_ingenuidade_de_frangolino.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP019-A_parada_dos_pinguins" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP019-A_parada_dos_pinguins
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP019-A_parada_dos_pinguins.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP021-A_vida_atras_das_grades" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP021-A_vida_atras_das_grades
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP021-A_vida_atras_das_grades.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP022-Baba_por_um_dia" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP022-Baba_por_um_dia
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP022-Baba_por_um_dia.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP023-Bancando_a_isca" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP023-Bancando_a_isca
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP023-Bancando_a_isca.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP024-Banho_de_coelho" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP024-Banho_de_coelho
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP024-Banho_de_coelho.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP025-Bruxa_shakesperiana" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP025-Bruxa_shakesperiana
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP025-Bruxa_shakesperiana.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP026-Cacando_o_rato" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP026-Cacando_o_rato
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP026-Cacando_o_rato.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP027-Camundongos_travessos" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP027-Camundongos_travessos
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP027-Camundongos_travessos.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP028-Cancando_de_apanhar" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP028-Cancando_de_apanhar
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP028-Cancando_de_apanhar.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP029-Cangooro_e_frajola_em_papai_sabe_tudo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP029-Cangooro_e_frajola_em_papai_sabe_tudo
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP029-Cangooro_e_frajola_em_papai_sabe_tudo.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP030-Canguroo_em_um_rato_no_farol" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP030-Canguroo_em_um_rato_no_farol
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP030-Canguroo_em_um_rato_no_farol.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP031-Carrinho_valente" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP031-Carrinho_valente
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP031-Carrinho_valente.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP032-Cavaleiro_pernalonga" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP032-Cavaleiro_pernalonga
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP032-Cavaleiro_pernalonga.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP033-Centro_de_rosquinhas_que_buraco" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP033-Centro_de_rosquinhas_que_buraco
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP033-Centro_de_rosquinhas_que_buraco.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP035-Coelho_18_quilates" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP035-Coelho_18_quilates
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP035-Coelho_18_quilates.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP036-Coelho_cacado" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP036-Coelho_cacado
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP036-Coelho_cacado.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP037-Coelho_feat" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP037-Coelho_feat
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP037-Coelho_feat.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP038-Coelho_heroico" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP038-Coelho_heroico
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP038-Coelho_heroico.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP039-Coelho_para_cima" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP039-Coelho_para_cima
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP039-Coelho_para_cima.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP040-Coelho_selvagem" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP040-Coelho_selvagem
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP040-Coelho_selvagem.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP041-Coelho_selvagem_do_velho_oeste" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP041-Coelho_selvagem_do_velho_oeste
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP041-Coelho_selvagem_do_velho_oeste.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP042-Coelho_sem_lar" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP042-Coelho_sem_lar
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP042-Coelho_sem_lar.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP043-Coiote_em_usando_novos_invento" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP043-Coiote_em_usando_novos_invento
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP043-Coiote_em_usando_novos_invento.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP044-Colegio_catnip" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP044-Colegio_catnip
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP044-Colegio_catnip.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP045-Como_reconhecer_uma_galinha" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP045-Como_reconhecer_uma_galinha
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP045-Como_reconhecer_uma_galinha.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP046-Como_se_casar_com_um_galo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP046-Como_se_casar_com_um_galo
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP046-Como_se_casar_com_um_galo.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP047-Complexo_de_Napoleao" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP047-Complexo_de_Napoleao
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP047-Complexo_de_Napoleao.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP048-Compre_veja_e_preste_atencao" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP048-Compre_veja_e_preste_atencao
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP048-Compre_veja_e_preste_atencao.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP049-Concerto_sem_do" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP049-Concerto_sem_do
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP049-Concerto_sem_do.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP051-De_cara_na_parede" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP051-De_cara_na_parede
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP051-De_cara_na_parede.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP054-Diversao_na_neve" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP054-Diversao_na_neve
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP054-Diversao_na_neve.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP055-Doce_sioux" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP055-Doce_sioux
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP055-Doce_sioux.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP056-Dois_corvos_e_um_gafanhoto" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP056-Dois_corvos_e_um_gafanhoto
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP056-Dois_corvos_e_um_gafanhoto.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP057-Elmert_o_ingrato" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP057-Elmert_o_ingrato
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP057-Elmert_o_ingrato.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP058-Em_busca_de_um_lar" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP058-Em_busca_de_um_lar
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP058-Em_busca_de_um_lar.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP059-Encrencas_do_pernalonga" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP059-Encrencas_do_pernalonga
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP059-Encrencas_do_pernalonga.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP060-Enganados_por_um_rato" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP060-Enganados_por_um_rato
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP060-Enganados_por_um_rato.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP061-Era_filho_de_um_acrobata" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP061-Era_filho_de_um_acrobata
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP061-Era_filho_de_um_acrobata.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP062-Escalando_o_pico" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP062-Escalando_o_pico
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP062-Escalando_o_pico.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP063-Esporte_dos_campeoes" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP063-Esporte_dos_campeoes
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP063-Esporte_dos_campeoes.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP064-Fabrica_de_bebes" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP064-Fabrica_de_bebes
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP064-Fabrica_de_bebes.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP066-Ferias_aereas" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP066-Ferias_aereas
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP066-Ferias_aereas.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP067-Filho_de_rato_ratinho_e" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP067-Filho_de_rato_ratinho_e
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP067-Filho_de_rato_ratinho_e.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP069-Frajola_o_heroi" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP069-Frajola_o_heroi
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP069-Frajola_o_heroi.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP070-Frangolino_bom_de_briga" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP070-Frangolino_bom_de_briga
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP070-Frangolino_bom_de_briga.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP072-Frangolino_em_aprendendo_a_ser_frango" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP072-Frangolino_em_aprendendo_a_ser_frango
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP072-Frangolino_em_aprendendo_a_ser_frango.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP073-Frangolino_em_raposa_medrosa" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP073-Frangolino_em_raposa_medrosa
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP073-Frangolino_em_raposa_medrosa.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP074-Frangolino_em_sirva-se_fuinha" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP074-Frangolino_em_sirva-se_fuinha
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP074-Frangolino_em_sirva-se_fuinha.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP075-Frangolino_em_uma_fuinha_infernal" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP075-Frangolino_em_uma_fuinha_infernal
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP075-Frangolino_em_uma_fuinha_infernal.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP076-Frangolino_tudo_por_um_calor_galinaceo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP076-Frangolino_tudo_por_um_calor_galinaceo
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP076-Frangolino_tudo_por_um_calor_galinaceo.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP077-Frango_a_moda_sulista" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP077-Frango_a_moda_sulista
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP077-Frango_a_moda_sulista.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP078-Fugindo_do_inferno" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP078-Fugindo_do_inferno
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP078-Fugindo_do_inferno.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP080-Gaguinho_e_Patolino_em_cobertura_total" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP080-Gaguinho_e_Patolino_em_cobertura_total
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP080-Gaguinho_e_Patolino_em_cobertura_total.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP081-Gaguinho_e_patolino_em_descanso_merecido" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP081-Gaguinho_e_patolino_em_descanso_merecido
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP081-Gaguinho_e_patolino_em_descanso_merecido.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP082-Gatos_e_explosivos_nao_se_mistiram" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP082-Gatos_e_explosivos_nao_se_mistiram
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP082-Gatos_e_explosivos_nao_se_mistiram.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP083-Guerra_e_guerra" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP083-Guerra_e_guerra
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP083-Guerra_e_guerra.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP084-Historias_da_mamae_ganso" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP084-Historias_da_mamae_ganso
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP084-Historias_da_mamae_ganso.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP085-Historia_natural" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP085-Historia_natural
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP085-Historia_natural.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP087-Kitty_kornered" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP087-Kitty_kornered
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP087-Kitty_kornered.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP088-Lagarta_de_sorte" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP088-Lagarta_de_sorte
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP088-Lagarta_de_sorte.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP089-Lagrima_de_crocodilos" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP089-Lagrima_de_crocodilos
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP089-Lagrima_de_crocodilos.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP090-Ligeirinho_em_prato_mexicano" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP090-Ligeirinho_em_prato_mexicano
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP090-Ligeirinho_em_prato_mexicano.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP091-Ligeirinho_salva_a_cidade" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP091-Ligeirinho_salva_a_cidade
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP091-Ligeirinho_salva_a_cidade.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP092-Little_red_walking_hood" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP092-Little_red_walking_hood
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP092-Little_red_walking_hood.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP094-Louvre_de_volta_a_mim" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP094-Louvre_de_volta_a_mim
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP094-Louvre_de_volta_a_mim.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP095-Mamae_galo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP095-Mamae_galo
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP095-Mamae_galo.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP096-Manda_bala" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP096-Manda_bala
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP096-Manda_bala.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP097-Marcianos_invadem_a_terra" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP097-Marcianos_invadem_a_terra
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP097-Marcianos_invadem_a_terra.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP098-Meu_pato_favorito" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP098-Meu_pato_favorito
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP098-Meu_pato_favorito.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP099-Moby_duck_ligeirinho_e_patolino" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP099-Moby_duck_ligeirinho_e_patolino
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP099-Moby_duck_ligeirinho_e_patolino.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP100-Mostra_de_caes" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP100-Mostra_de_caes
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP100-Mostra_de_caes.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP101-Mudanca_de_vida" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP101-Mudanca_de_vida
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP101-Mudanca_de_vida.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP102-Mudanca_rapida" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP102-Mudanca_rapida
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP102-Mudanca_rapida.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP106-Nao_abandone_as_ovelhas" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP106-Nao_abandone_as_ovelhas
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP106-Nao_abandone_as_ovelhas.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP108-Nasce_uma_estrela" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP108-Nasce_uma_estrela
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP108-Nasce_uma_estrela.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP109-Na_compania_do_patolino" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP109-Na_compania_do_patolino
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP109-Na_compania_do_patolino.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP111-Oeste_selvagem" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP111-Oeste_selvagem
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP111-Oeste_selvagem.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP112-Operacao_coelho" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP112-Operacao_coelho
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP112-Operacao_coelho.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP114-Ouro_de_coelho" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP114-Ouro_de_coelho
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP114-Ouro_de_coelho.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP115-O_abominavel_coelho_das_neves" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP115-O_abominavel_coelho_das_neves
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP115-O_abominavel_coelho_das_neves.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP116-O_alegre_passeio_mexicano" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP116-O_alegre_passeio_mexicano
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP116-O_alegre_passeio_mexicano.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP118-O_aristogato" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP118-O_aristogato
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP118-O_aristogato.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP119-O_artista_patolino" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP119-O_artista_patolino
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP119-O_artista_patolino.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP120-O_cacador_de_coelhos" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP120-O_cacador_de_coelhos
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP120-O_cacador_de_coelhos.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP121-O_coelho_boxer" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP121-O_coelho_boxer
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP121-O_coelho_boxer.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP122-O_coelho_de_wackiki" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP122-O_coelho_de_wackiki
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP122-O_coelho_de_wackiki.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP124-O_coelho_que_veio_para_jantar" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP124-O_coelho_que_veio_para_jantar
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP124-O_coelho_que_veio_para_jantar.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP125-O_dia_da_marmota" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP125-O_dia_da_marmota
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP125-O_dia_da_marmota.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP126-O_esperto_e_excentrico_pato" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP126-O_esperto_e_excentrico_pato
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP126-O_esperto_e_excentrico_pato.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP127-O_estupido_cupido" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP127-O_estupido_cupido
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP127-O_estupido_cupido.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP129-Cada_macaco_no_seu_galho" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP129-Cada_macaco_no_seu_galho
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP129-Cada_macaco_no_seu_galho.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP131-O_gato_sai_e_os_ratos_fazem_a_festa" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP131-O_gato_sai_e_os_ratos_fazem_a_festa
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP131-O_gato_sai_e_os_ratos_fazem_a_festa.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP132-O_gaviao_exigente" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP132-O_gaviao_exigente
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP132-O_gaviao_exigente.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP133-O_hipinotizador_de_gatos" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP133-O_hipinotizador_de_gatos
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP133-O_hipinotizador_de_gatos.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP134-O_indio_joe" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP134-O_indio_joe
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP134-O_indio_joe.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP135-O_lobo_chocado" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP135-O_lobo_chocado
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP135-O_lobo_chocado.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP139-O_osso" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP139-O_osso
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP139-O_osso.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP140-O_pequeno_cao_orfao" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP140-O_pequeno_cao_orfao
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP140-O_pequeno_cao_orfao.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP141-O_pica_pau_ouconsciencia" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP141-O_pica_pau_ouconsciencia
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP141-O_pica_pau_ouconsciencia.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP142-O_rato_destruidor" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP142-O_rato_destruidor
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP142-O_rato_destruidor.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP143-O_refugio" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP143-O_refugio
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP143-O_refugio.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP144-O_resfriado" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP144-O_resfriado
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP144-O_resfriado.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP148-O_ultimo_gato_faminto" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP148-O_ultimo_gato_faminto
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP148-O_ultimo_gato_faminto.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP149-O_ultimo_moicano" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP149-O_ultimo_moicano
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP149-O_ultimo_moicano.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP150-O_vigia_noturno" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP150-O_vigia_noturno
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP150-O_vigia_noturno.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP152-Paixoes_de_rato" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP152-Paixoes_de_rato
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP152-Paixoes_de_rato.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP153-Panchicho_vanila" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP153-Panchicho_vanila
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP153-Panchicho_vanila.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP154-Parabens_voce_e_pai" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP154-Parabens_voce_e_pai
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP154-Parabens_voce_e_pai.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP157-Patolino_em_hollywood" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP157-Patolino_em_hollywood
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP157-Patolino_em_hollywood.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP158-Patolino_em_nao_me_coma" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP158-Patolino_em_nao_me_coma
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP158-Patolino_em_nao_me_coma.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP159-Patolino_em_o_bebe_da_cegonha" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP159-Patolino_em_o_bebe_da_cegonha
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP159-Patolino_em_o_bebe_da_cegonha.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP160-Patolino_e_seus_truques" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP160-Patolino_e_seus_truques
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP160-Patolino_e_seus_truques.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP161-Patolino_no_velho_oeste" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP161-Patolino_no_velho_oeste
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP161-Patolino_no_velho_oeste.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP162-Pato_pasmo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP162-Pato_pasmo
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP162-Pato_pasmo.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP163-Pato_superior" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP163-Pato_superior
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP163-Pato_superior.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP164-Pepe_le_pew_em_amor_selvagem" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP164-Pepe_le_pew_em_amor_selvagem
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP164-Pepe_le_pew_em_amor_selvagem.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP165-Pepe_le_pew_em_aventura_inesquecivel" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP165-Pepe_le_pew_em_aventura_inesquecivel
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP165-Pepe_le_pew_em_aventura_inesquecivel.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP166-Pepe_le_pew_em_romance_nos_alpes" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP166-Pepe_le_pew_em_romance_nos_alpes
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP166-Pepe_le_pew_em_romance_nos_alpes.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP168-Perdidos_na_ilha" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP168-Perdidos_na_ilha
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP168-Perdidos_na_ilha.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP170-Pernalonga_a_descoberta_da_america" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP170-Pernalonga_a_descoberta_da_america
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP170-Pernalonga_a_descoberta_da_america.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP171-Pernalonga_em_coelho_do_deserto" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP171-Pernalonga_em_coelho_do_deserto
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP171-Pernalonga_em_coelho_do_deserto.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP172-Pernalonga_em_contatos_imediatos" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP172-Pernalonga_em_contatos_imediatos
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP172-Pernalonga_em_contatos_imediatos.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP173-Pernalonga_em_frente_e_marche" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP173-Pernalonga_em_frente_e_marche
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP173-Pernalonga_em_frente_e_marche.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP174-Pernalonga_em_gorila_dos_meus_sonhos" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP174-Pernalonga_em_gorila_dos_meus_sonhos
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP174-Pernalonga_em_gorila_dos_meus_sonhos.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP175-Pernalonga_em_marte" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP175-Pernalonga_em_marte
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP175-Pernalonga_em_marte.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP176-Pernalonga_em_o_coelho_espacial" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP176-Pernalonga_em_o_coelho_espacial
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP176-Pernalonga_em_o_coelho_espacial.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP177-Pernalonga_em_o_ouro_da_cobica" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP177-Pernalonga_em_o_ouro_da_cobica
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP177-Pernalonga_em_o_ouro_da_cobica.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP180-Pernalonga_e_o_lobo_mau" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP180-Pernalonga_e_o_lobo_mau
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP180-Pernalonga_e_o_lobo_mau.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP181-Pernalonga_e_o_marciano" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP181-Pernalonga_e_o_marciano
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP181-Pernalonga_e_o_marciano.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP182-Pernalonga_e_o_pe_de_feijao" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP182-Pernalonga_e_o_pe_de_feijao
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP182-Pernalonga_e_o_pe_de_feijao.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP183-Pesadelo_de_coelho" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP183-Pesadelo_de_coelho
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP183-Pesadelo_de_coelho.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP184-Piu_piu_em_frajola_na_gaiola" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP184-Piu_piu_em_frajola_na_gaiola
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP184-Piu_piu_em_frajola_na_gaiola.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP185-Piu_piu_em_novos_vizinhos" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP185-Piu_piu_em_novos_vizinhos
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP185-Piu_piu_em_novos_vizinhos.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP186-Piu_piu_em_passaro_indigesto" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP186-Piu_piu_em_passaro_indigesto
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP186-Piu_piu_em_passaro_indigesto.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP187-Piu_piu_e_frajola_a_historia_de_piu_piu" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP187-Piu_piu_e_frajola_a_historia_de_piu_piu
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP187-Piu_piu_e_frajola_a_historia_de_piu_piu.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP188-Piu_piu_e_frajola_em_visitando_o_zoologico" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP188-Piu_piu_e_frajola_em_visitando_o_zoologico
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP188-Piu_piu_e_frajola_em_visitando_o_zoologico.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP189-Piu_piu_e_frajola_presos_na_nevasca" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP189-Piu_piu_e_frajola_presos_na_nevasca
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP189-Piu_piu_e_frajola_presos_na_nevasca.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP190-Pocos_do_texa" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP190-Pocos_do_texa
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP190-Pocos_do_texa.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP191-Porcos_e_porcos" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP191-Porcos_e_porcos
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP191-Porcos_e_porcos.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP192-Praga_de_rato" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP192-Praga_de_rato
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP192-Praga_de_rato.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP193-Quem_ri_por_ultimo_ri_melhor" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP193-Quem_ri_por_ultimo_ri_melhor
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP193-Quem_ri_por_ultimo_ri_melhor.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP194-Que_opera_velhinho" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP194-Que_opera_velhinho
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP194-Que_opera_velhinho.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP195-Que_pedrada" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP195-Que_pedrada
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP195-Que_pedrada.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP196-Rapoza_de_prata" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP196-Rapoza_de_prata
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP196-Rapoza_de_prata.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP197-Ratinhos_brincalhoes" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP197-Ratinhos_brincalhoes
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP197-Ratinhos_brincalhoes.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP198-Rato_quinta_coluna" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP198-Rato_quinta_coluna
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP198-Rato_quinta_coluna.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP199-Rato_tamanho_familia" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP199-Rato_tamanho_familia
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP199-Rato_tamanho_familia.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP200-Razoes_sentimentais" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP200-Razoes_sentimentais
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP200-Razoes_sentimentais.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP201-Rhapsody_in_rivets" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP201-Rhapsody_in_rivets
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP201-Rhapsody_in_rivets.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP202-Roedorzinho_vermelho" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP202-Roedorzinho_vermelho
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP202-Roedorzinho_vermelho.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP203-Romance_no_gelo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP203-Romance_no_gelo
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP203-Romance_no_gelo.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP204-Romeu_sentimental" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP204-Romeu_sentimental
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP204-Romeu_sentimental.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP206-Sniffles_takes_a_trip" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP206-Sniffles_takes_a_trip
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP206-Sniffles_takes_a_trip.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP207-Sobrevivencia_na_floresta_com_frangolino" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP207-Sobrevivencia_na_floresta_com_frangolino
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP207-Sobrevivencia_na_floresta_com_frangolino.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP208-Sono_espacial" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP208-Sono_espacial
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP208-Sono_espacial.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP209-Sr_e_sra_e_o_nome" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP209-Sr_e_sra_e_o_nome
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP209-Sr_e_sra_e_o_nome.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP210-Super_coelho" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP210-Super_coelho
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP210-Super_coelho.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP211-Swooner_crooner" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP211-Swooner_crooner
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP211-Swooner_crooner.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP212-Tentando_hibernar" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP212-Tentando_hibernar
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP212-Tentando_hibernar.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP213-Tentando_tudo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP213-Tentando_tudo
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP213-Tentando_tudo.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP214-Toquinho_vai_acampanhar" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP214-Toquinho_vai_acampanhar
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP214-Toquinho_vai_acampanhar.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP215-Uma_cacada_no_cartoon" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP215-Uma_cacada_no_cartoon
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP215-Uma_cacada_no_cartoon.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP216-Uma_festa_em_malibu" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP216-Uma_festa_em_malibu
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP216-Uma_festa_em_malibu.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP217-Uma_noite_com_os_astros" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP217-Uma_noite_com_os_astros
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP217-Uma_noite_com_os_astros.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP218-Um_chapeuzinho_vermelho_diferente" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP218-Um_chapeuzinho_vermelho_diferente
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP218-Um_chapeuzinho_vermelho_diferente.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP219-Um_gato_bem_informado" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP219-Um_gato_bem_informado
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP219-Um_gato_bem_informado.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP220-Um_moco_em_bagda" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP220-Um_moco_em_bagda
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP220-Um_moco_em_bagda.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP221-Uniao_em_perigo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP221-Uniao_em_perigo
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP221-Uniao_em_perigo.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP223-Vamos_tocar" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP223-Vamos_tocar
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP223-Vamos_tocar.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP224-Vida_de_cachorro" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP224-Vida_de_cachorro
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP224-Vida_de_cachorro.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP225-Vida_de_gato_e_fogo" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP225-Vida_de_gato_e_fogo
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP225-Vida_de_gato_e_fogo.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP226-Vida_selvagem" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP226-Vida_selvagem
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP226-Vida_selvagem.mkv
+#EXTINF:-1 tvg-id="" tvg-name="EP227-Visita_indesejada" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/looney-tunes.jpg" group-title="Looney Tunes",EP227-Visita_indesejada
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/EP227-Visita_indesejada.mkv
+#EXTINF:-1 tvg-id="" tvg-name="Semana 01" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 01
 https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2001%20HD(360P).mp4
-#EXTINF:-1 tvg-id="" tvg-name="Viagem na Eletricidade Parte 1" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/viagemnaeletricidade.png" group-title="🎥 Viagem na Eletricidade",Viagem na Eletricidade Parte 1
+#EXTINF:-1 tvg-id="" tvg-name="Semana 02" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 02
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2002%20HD(480P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 03" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 03
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2003%20HQ(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 04" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 04
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2004%20HQ(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 05" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 05
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2005%20HD(480P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 06" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 06
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2006%20HD(480P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 07" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 07
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2007%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 08" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 08
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2008%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 09" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 09
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2009%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 10" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 10
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2010%20HD(480P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 11" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 11
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2011%20HD(480P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 12" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 12
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2012%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 13" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 13
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2013%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 14" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 14
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2014%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 15" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 15
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2015%20HD(480P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 16" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 16
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2016%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 17" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 17
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2017%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 18" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 18
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2018%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 19" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 19
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2019%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 20" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 20
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2020%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 21" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 21
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2021%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 22" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 22
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2022%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 23" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 23
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2023%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 24" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 24
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2024%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 25" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 25
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2025%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 26" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 26
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2026%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 27" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 27
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2027%20HD(480P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 28" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 28
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2028%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 29" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 29
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2029%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 30" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 30
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2030%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 31" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 31
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2031%20HD(480P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 32" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 32
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2032%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 33" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 33
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2033%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 35" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 35
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2035%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 36" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 36
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2036%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 37" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 37
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2037%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 38" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 38
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2038%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 40" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 40
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2040%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 41" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 41
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2041%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 45" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 45
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2045%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 48" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 48
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2048%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 49" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 49
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2049%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 50" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 50
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2050%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Semana 51" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/espaconave-terra.png" group-title="Espaconave Terra",Semana 51
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/Espa%C3%A7onave%20Terra%20(Tous%20Sur%20Orbite)%20-%20Semana%2051%20HD(360P).mp4
+#EXTINF:-1 tvg-id="" tvg-name="Viagem na Eletricidade Parte 1" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/viagemnaeletricidade.png" group-title="Viagem na Eletricidade",Viagem na Eletricidade Parte 1
 https://raw.githubusercontent.com/mariosanthos/arquivo2/main/viagemnaletricidade.parte1.mp4
-#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep01" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="🎥 Assim que Funciona",Assim que funciona ep01
-https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona01.mp4`;
+#EXTINF:-1 tvg-id="" tvg-name="Viagem na Eletricidade Parte 2" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/viagemnaeletricidade.png" group-title="Viagem na Eletricidade",Viagem na Eletricidade Parte 2
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/viagemnaletricidade.parte2.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Viagem na Eletricidade Parte 3" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/viagemnaeletricidade.png" group-title="Viagem na Eletricidade",Viagem na Eletricidade Parte 3
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/viagemnaletricidade.parte3.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Viagem na Eletricidade Parte 4" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/viagemnaeletricidade.png" group-title="Viagem na Eletricidade",Viagem na Eletricidade Parte 4
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/viagemnaletricidade.parte4.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep02" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep02
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona02.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep03" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep03
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona03.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep04" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep04
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona04.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep05" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep05
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona05.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep06" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep06
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona06.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep08" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep08
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona08.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep09" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep09
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona09.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep10" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep10
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona10.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep11" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep11
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona11.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep12" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep12
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona12.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep13" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep13
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona13.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep14" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep14
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona14.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep15" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep15
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona15.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep16" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep16
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona16.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep17" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep17
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona17.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep18" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep18
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona18.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep19" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep19
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona19.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep21" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep21
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona21.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep22" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep22
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona22.mp4
+#EXTINF:-1 tvg-id="" tvg-name="Assim que funciona ep24" tvg-logo="https://raw.githubusercontent.com/mariosanthos/arquivos/main/assimquefunciona.png" group-title="Assim que funciona",Assim que funciona ep24
+https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona24.mp4
+`;
             
     if (channels.length === 0) {
         channels = parsePlaylist(defaultM3UPlaylist);
@@ -3338,25 +4006,94 @@ https://raw.githubusercontent.com/mariosanthos/arquivo2/main/assimquefunciona01.
             }
         }
 
-        function detectStreamType(url) {
-            if (!url) return 'mp4';
-            
-            // Verificar por extensão
-            if (url.match(/\.m3u8($|\?)/i)) return 'hls';
-            if (url.match(/\.mpd($|\?)/i)) return 'dash';
-            if (url.match(/\.flv($|\?)/i)) return 'flv';
-            if (url.match(/rtmp:\/\//i)) return 'rtmp';
-            if (url.match(/\.mp4($|\?)/i) || url.match(/\.mkv($|\?)/i) || url.match(/\.avi($|\?)/i)) return 'mp4';
-            
-            // Verificar por padrões na URL
-            if (url.includes('m3u8')) return 'hls';
-            if (url.includes('mpd')) return 'dash';
-            if (url.includes('flv')) return 'flv';
-            if (url.includes('rtmp')) return 'rtmp';
-            
-            // Padrão para links diretos
-            return 'mp4';
+// Atualizei a função detectStreamType para reconhecer MKV
+function detectStreamType(url) {
+    if (!url) return 'mp4';
+    
+    // Verificar por extensão
+    if (url.match(/\.m3u8($|\?)/i)) return 'hls';
+    if (url.match(/\.mpd($|\?)/i)) return 'dash';
+    if (url.match(/\.flv($|\?)/i)) return 'flv';
+    if (url.match(/rtmp:\/\//i)) return 'rtmp';
+    if (url.match(/\.mp4($|\?)/i)) return 'mp4';
+    if (url.match(/\.mkv($|\?)/i)) return 'mkv';  // Nova linha para MKV
+    if (url.match(/\.avi($|\?)/i)) return 'mp4';  // AVI pode ser tratado como MP4
+    
+    // Verificar por padrões na URL
+    if (url.includes('m3u8')) return 'hls';
+    if (url.includes('mpd')) return 'dash';
+    if (url.includes('flv')) return 'flv';
+    if (url.includes('rtmp')) return 'rtmp';
+    if (url.includes('mkv')) return 'mkv';  // Nova linha para MKV
+    
+    // Padrão para links diretos
+    return 'mp4';
+}
+
+// Adicionei suporte para MKV na função selectChannel
+function selectChannel(channel) {
+    try {
+        currentChannel = channel;
+        
+        // Atualiza a UI
+        document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
+        const channelElement = [...document.querySelectorAll('.channel')].find(
+            el => el.querySelector('.channel-name').textContent === channel.name
+        );
+        if (channelElement) channelElement.classList.add('active');
+
+        stopVideo();
+        progressText.textContent = `Carregando: ${channel.name}...`;
+        progressBar.style.width = "0%";
+
+        const streamType = channel.type || detectStreamType(channel.url);
+        
+        switch (streamType) {
+            case 'hls': loadHlsStream(channel.url); break;
+            case 'dash': loadDashStream(channel.url); break;
+            case 'flv': loadFlvStream(channel.url); break;
+            case 'rtmp': loadRtmpStream(channel.url); break;
+            case 'mkv': loadMkvStream(channel.url); break;  
+            default: loadDirectStream(channel.url);
         }
+
+        addToHistory(channel);
+        updateEpgInfo(channel);
+    } catch (error) {
+        console.error("Erro ao carregar canal:", error);
+        progressText.textContent = `Erro ao carregar ${channel.name}`;
+        showStatus(`Erro ao carregar canal: ${error.message}`, 'error');
+    }
+}
+
+// Nova função para carregar streams MKV
+function loadMkvStream(url) {
+    // MKV pode ser reproduzido diretamente na maioria dos navegadores modernos
+    videoPlayer.src = url;
+    
+    videoPlayer.addEventListener('loadedmetadata', () => {
+        videoPlayer.play().catch(e => {
+            progressText.textContent = "Pronto! Toque em Play para iniciar.";
+        });
+    });
+    
+    videoPlayer.addEventListener('error', () => {
+        showStatus(`Erro ao carregar o vídeo MKV: ${videoPlayer.error?.message || 'Erro desconhecido'}`, 'error');
+    });
+    
+    // Monitorar progresso de carregamento
+    videoPlayer.addEventListener('progress', () => {
+        if (videoPlayer.buffered.length > 0) {
+            const bufferedEnd = videoPlayer.buffered.end(videoPlayer.buffered.length - 1);
+            const duration = videoPlayer.duration;
+            if (duration > 0) {
+                const progress = Math.round((bufferedEnd / duration) * 100);
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${progress}% carregado`;
+            }
+        }
+    });
+}
 
         function loadHlsStream(url) {
             if (Hls.isSupported()) {
